@@ -6,8 +6,8 @@ export default function Sidebar() {
   const location = useLocation();
 
   return (
-    <aside className="flex flex-col justify-center items-center w-10 h-full">
-      <div className="flex flex-col justify-center items-center h-full text-[#929292] text-3xl">
+    <aside className="flex md:flex-col justify-center items-center md:w-10 h-full">
+      <div className="flex md:flex-col justify-center items-center h-full text-[#929292] text-3xl">
         <a
           href="/"
           className={`mb-6 p-3 rounded-xl ${

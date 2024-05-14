@@ -2,7 +2,7 @@ import React from "react";
 
 export default function AIScheduler() {
   return (
-    <div className="mt-20 flex justify-around">
+    <div className="mt-20 flex flex-col md:flex-row items-center md:justify-around">
       <div className="w-[273px] h-[544px]">
         <div className="text-[22px] font-bold leading-[25.2px] text-center">
           Create new task
