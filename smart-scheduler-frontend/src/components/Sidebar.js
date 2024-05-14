@@ -12,7 +12,7 @@ export default function Sidebar() {
           href="/"
           className={`mb-6 p-3 rounded-xl ${
             location.pathname === "/"
-              ? "activeLink bg-[#232E30] text-[#00717F]"
+              ? "activeLink bg-[#232E30] text-primary"
               : ""
           }`}
         >
@@ -24,7 +24,7 @@ export default function Sidebar() {
           href="/ai-scheduler"
           className={`mb-6 p-3 rounded-xl ${
             location.pathname === "/ai-scheduler"
-              ? "activeLink bg-[#232E30] text-[#00717F]"
+              ? "activeLink bg-[#232E30] text-primary"
               : ""
           }`}
         >
@@ -36,7 +36,7 @@ export default function Sidebar() {
           href="/setting"
           className={`mb-6 p-3 rounded-xl ${
             location.pathname === "/setting"
-              ? "activeLink bg-[#232E30] text-[#00717F]"
+              ? "activeLink bg-[#232E30] text-primary"
               : ""
           }`}
         >
