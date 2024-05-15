@@ -8,19 +8,17 @@ import SettingApp from "./route/SettingApp.js";
 function App() {
   return (
     <React.Fragment>
-      <div className="bg-[#262525] text-white min-h-screen">
-        <div className="container mx-auto md:max-w-[1024px]">
-          <div className="flex flex-col md:flex-row md:h-screen">
-            <div className="w-full md:w-2/12 min-w-[100px]">
-              <Sidebar />
-            </div>
-            <div className="w-full md:w-10/12">
-              <Routes>
-                <Route path="/" element={<CalendarPage />} />
-                <Route path="/ai-scheduler" element={<AISchedulerPage />} />
-                <Route path="/setting" element={<SettingApp />} />
-              </Routes>
-            </div>
+      <div className="container mx-auto md:max-w-[1024px]">
+        <div className="flex flex-col md:flex-row md:h-screen">
+          <div className="w-full md:w-2/12 min-w-[100px]">
+            <Sidebar />
+          </div>
+          <div className="w-full md:w-10/12">
+            <Routes>
+              <Route path="/" element={<CalendarPage />} />
+              <Route path="/ai-scheduler" element={<AISchedulerPage />} />
+              <Route path="/setting" element={<SettingApp />} />
+            </Routes>
           </div>
         </div>
       </div>
