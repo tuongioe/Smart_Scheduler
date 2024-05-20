@@ -13,3 +13,10 @@ export function getMonth(month = dayjs().month()) {
   });
   return daysMatrix;
 }
+
+export function getDayOfWeek(dayOfWeek = dayjs()){
+  const firstDayOfWeek = dayOfWeek.startOf('week');
+  const weekDays = Array.from({ length: 7 }, (_, index) => firstDayOfWeek.day(index+1));
+
+  return weekDays;
+}
