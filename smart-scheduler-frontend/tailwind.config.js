@@ -10,6 +10,12 @@ module.exports = {
         "primary-200": "#004B55",
         "small-text": "#929292",
       },
+      maxWidth: {
+        custom: "calc(100% - 32px)",
+      },
+      boxShadow: {
+        custom: "1px -1px 48px 0px rgba(0,0,0,0.75)",
+      },
     },
   },
   plugins: [],
