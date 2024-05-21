@@ -10,9 +10,9 @@ const labelsClasses = [
   "purple",
 ];
 
-export default function EventModal() {
+export default function EventDateModal() {
   const {
-    setShowEventModal,
+    setShowEventAddLabelModelModal,
     daySelected,
     dispatchCalEvent,
     selectedEvent,
@@ -45,7 +45,7 @@ export default function EventModal() {
       dispatchCalEvent({ type: "push", payload: calendarEvent });
     }
 
-    setShowEventModal(false);
+    setShowEventAddLabelModelModal(false);
   }
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
@@ -62,14 +62,14 @@ export default function EventModal() {
                     type: "delete",
                     payload: selectedEvent,
                   });
-                  setShowEventModal(false);
+                  setShowEventAddLabelModelModal(false);
                 }}
                 className="material-icons-outlined text-gray-400 cursor-pointer"
               >
                 delete
               </span>
             )}
-            <button onClick={() => setShowEventModal(false)}>
+            <button onClick={() => setShowEventAddLabelModelModal(false)}>
               <span className="material-icons-outlined text-gray-400">
                 close
               </span>

@@ -4,30 +4,33 @@ import GlobalContext from "../context/GlobalContext";
 import { getMonth } from "../util";
 
 export default function SmallCalendar() {
-  const [currentMonthIdx, setCurrentMonthIdx] = useState(
-    dayjs().month()
-  );
-  const [currentMonth, setCurrentMonth] = useState(getMonth());
-  useEffect(() => {
-    setCurrentMonth(getMonth(currentMonthIdx));
-  }, [currentMonthIdx]);
-
   const {
     monthIndex,
     setSmallCalendarMonth,
     setDaySelected,
     daySelected,
+    currentDayFrame,
+    setCurrentDayFrame
   } = useContext(GlobalContext);
+
+  const [currentMonthIdx, setCurrentMonthIdx] = useState(
+    dayjs().month()
+  );
+  const [currentMonth, setCurrentMonth] = useState(getMonth());
+  useEffect(() => {
+    setCurrentMonth(getMonth(currentDayFrame));
+  }, [currentDayFrame]);
+
 
   useEffect(() => {
     setCurrentMonthIdx(monthIndex);
   }, [monthIndex]);
 
   function handlePrevMonth() {
-    setCurrentMonthIdx(currentMonthIdx - 1);
+    setCurrentDayFrame(currentDayFrame.subtract(1,'month'));
   }
   function handleNextMonth() {
-    setCurrentMonthIdx(currentMonthIdx + 1);
+    setCurrentDayFrame(currentDayFrame.add(1,'month'));
   }
   function getDayClass(day) {
     const format = "DD-MM-YY";
@@ -35,10 +38,8 @@ export default function SmallCalendar() {
     const currDay = day.format(format);
     const slcDay = daySelected && daySelected.format(format);
     if (nowDay === currDay) {
-      return "bg-blue-custom-5 rounded-full text-white";
+      return "bg-primary rounded-full text-red";
     } else if (currDay === slcDay) {
-      console.log("nowDay",nowDay)
-      console.log("currDay",currDay)
       return "bg-blue-100 rounded-full text-blue-600 font-bold";
     } else {
       return "";
@@ -50,24 +51,24 @@ export default function SmallCalendar() {
         <div className="flex justify-between">
           <button onClick={handlePrevMonth}>
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
             <g id="SVGRepo_iconCarrier"> 
-              <path d="M15 6L9 12L15 18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M15 6L9 12L15 18" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
             </g>
           </svg>
           </button>
           <p className="text-white font-bold item-center">
-            {dayjs(new Date(dayjs().year(), currentMonthIdx)).format(
+            {currentDayFrame.format(
                 "MMMM"
             )}
           </p>
           <button onClick={handleNextMonth}>
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier"> 
-                <path d="M9 6L15 12L9 18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
+                <path d="M9 6L15 12L9 18" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> 
               </g>
             </svg>
           </button>
@@ -81,10 +82,10 @@ export default function SmallCalendar() {
           </span>
         ))}
         {currentMonth.map((row, i) => (
-          <React.Fragment key={i}>
+          <React.Fragment key={`small-calendar-fragment-${i}`}>
             {row.map((day, idx) => (
               <button
-                key={idx}
+                key={`small-calendar-button-${idx}`}
                 onClick={() => {
                   setSmallCalendarMonth(currentMonthIdx);
                   setDaySelected(day);

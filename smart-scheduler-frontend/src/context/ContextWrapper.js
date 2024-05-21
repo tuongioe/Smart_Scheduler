@@ -32,7 +32,8 @@ export default function ContextWrapper(props) {
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
   const [smallCalendarMonth, setSmallCalendarMonth] = useState(null);
   const [daySelected, setDaySelected] = useState(dayjs());
-  const [showEventModal, setShowEventModal] = useState(false);
+  const [showEventAddLabelModel, setShowEventAddLabelModelModal] = useState(false);
+  const [showEventAddDateModel, setShowEventAddDateModel] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [labels, setLabels] = useState([]);
   const [savedEvents, dispatchCalEvent] = useReducer(
@@ -80,10 +81,10 @@ export default function ContextWrapper(props) {
   }, [smallCalendarMonth]);
 
   useEffect(() => {
-    if (!showEventModal) {
+    if (!showEventAddLabelModel) {
       setSelectedEvent(null);
     }
-  }, [showEventModal]);
+  }, [showEventAddLabelModel]);
 
   function updateLabel(label) {
     setLabels(
@@ -117,8 +118,10 @@ export default function ContextWrapper(props) {
         setSmallCalendarMonth,
         daySelected,
         setDaySelected,
-        showEventModal,
-        setShowEventModal,
+         showEventAddLabelModel,
+          setShowEventAddLabelModelModal,
+          showEventAddDateModel,
+          setShowEventAddDateModel,
         dispatchCalEvent,
         selectedEvent,
         setSelectedEvent,
@@ -129,11 +132,11 @@ export default function ContextWrapper(props) {
         filteredEvents,
         addEventDate,
         setEventDates,
-          eventDates,
-          frame,
-          setFrame,
-          currentDayFrame,
-          setCurrentDayFrame,
+        eventDates,
+        frame,
+        setFrame,
+        currentDayFrame,
+        setCurrentDayFrame,
       }}
     >
       {props.children}

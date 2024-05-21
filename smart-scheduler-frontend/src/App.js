@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useContext, useEffect, useState } from "react";
 import CalendarHeader from "./components/CalendarHeader.js";
-import EventDateModel from "./components/EventDateModel.js";
+import EventAddLabelModel from "./components/EventAddLabelModel.js";
 import { getMonth } from "./util.js";
 import GlobalContext from "./context/GlobalContext.js";
 import MonthFrame from "./components/MonthFrame.js";
@@ -9,20 +9,21 @@ import WeekFrame from "./components/WeekFrame.js";
 import DayFrame from "./components/DayFrame.js";
 import SmallCalendar from "./components/SmallCalendar";
 import Labels from "./components/Labels";
+import EventDateModal from "./components/EventDateModal";
 
 function App() {
   const [currenMonth, setCurrentMonth] = useState(getMonth());
-  const { currentYear, monthIndex, showEventModal, frame } = useContext(GlobalContext);
+  const { showEventAddDateModel, showEventAddLabelModel, frame, currentDayFrame } = useContext(GlobalContext);
 
   useEffect(() => {
-    setCurrentMonth(getMonth(monthIndex));
-  }, [monthIndex]);
+    setCurrentMonth(getMonth(currentDayFrame));
+  }, [currentDayFrame]);
 
   let content;
 
   switch (frame) {
     case 'month':
-      content = <MonthFrame year={currentYear} month={currenMonth} />
+      content = <MonthFrame month={currenMonth} />
       break;
     case 'week':
       content = <WeekFrame />
@@ -36,12 +37,12 @@ function App() {
 
   return (
     <React.Fragment>
-      {/*{showEventModal && <EventModal />}*/}
-      {showEventModal && <EventDateModel />}
+      {showEventAddDateModel && <EventDateModal />}
+      {showEventAddLabelModel && <EventAddLabelModel />}
       
       <div className={`${frame === "month"? "h-screen":""} flex flex-col bg-dark-color text-white`} >
         <CalendarHeader />
-        <div className="h-screen flex  overflow-y-scroll">
+        <div className="h-screen flex  overflow-y-scroll no-scrollbar">
           <div className="flex flex-col justify-center">
             <button className="p-5 rounded-lg text-white" style={{backgroundColor: "rgb(0, 188, 212, 0.08)"}}>
               <svg width="40" height="40" className="size-10 " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

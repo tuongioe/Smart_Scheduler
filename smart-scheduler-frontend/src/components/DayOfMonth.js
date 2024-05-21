@@ -6,7 +6,7 @@ export default function DayOfMonth({ day, rowIdx }) {
   const [dayEvents, setDayEvents] = useState([]);
   const {
     setDaySelected,
-    setShowEventModal,
+      setShowEventAddDateModel,
     filteredEvents,
     setSelectedEvent,
   } = useContext(GlobalContext);
@@ -21,7 +21,7 @@ export default function DayOfMonth({ day, rowIdx }) {
 
   function getCurrentDayClass() {
     return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
-      ? "bg-blue-custom-5 text-white rounded-full w-7"
+      ? "bg-primary text-white rounded-full w-7"
       : "";
   }
 
@@ -39,11 +39,12 @@ export default function DayOfMonth({ day, rowIdx }) {
           {day.format("DD")}
         </p>
       </header>
+
       <div
         className="flex-1 cursor-pointer"
         onClick={() => {
           setDaySelected(day);
-          setShowEventModal(true);
+            setShowEventAddDateModel(true);
         }}
       >
         {dayEvents.map((evt, idx) => (

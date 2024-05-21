@@ -6,7 +6,7 @@ export default function Day({ day, rowIdx }) {
     const [dayEvents, setDayEvents] = useState([]);
     const {
         setDaySelected,
-        setShowEventModal,
+        setShowEventAddDateModel,
         filteredEvents,
         setSelectedEvent,
     } = useContext(GlobalContext);
@@ -46,7 +46,7 @@ export default function Day({ day, rowIdx }) {
                 className="flex-1 cursor-pointer"
                 onClick={() => {
                     setDaySelected(day);
-                    setShowEventModal(true);
+                    setShowEventAddDateModel(true);
                 }}
             >
                 {dayEvents.map((evt, idx) => (

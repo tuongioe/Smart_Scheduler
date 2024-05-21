@@ -6,15 +6,17 @@ export default function DayOfWeek({ day, rowIdx }) {
     const [dayEvents, setDayEvents] = useState([]);
     const {
         setDaySelected,
-        setShowEventModal,
+        setShowEventAddDateModel,
         filteredEvents,
         setSelectedEvent,
     } = useContext(GlobalContext);
 
     useEffect(() => {
         const events = filteredEvents.filter(
-            (evt) =>
-                dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY")
+            (evt) => {
+                return dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY")
+            }
+
         );
         setDayEvents(events);
     }, [filteredEvents, day]);
@@ -52,7 +54,7 @@ export default function DayOfWeek({ day, rowIdx }) {
                 className="flex-1 cursor-pointer"
                 onClick={() => {
                     setDaySelected(day);
-                    setShowEventModal(true);
+                    setShowEventAddDateModel(true);
                 }}
             >
                 {dayEvents.map((evt, idx) => (

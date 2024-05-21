@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import DayOfWeek from "./DayOfWeek";
 import GlobalContext from "../context/GlobalContext";
 import {getDayOfWeek} from "../util";
@@ -8,6 +8,10 @@ export default function WeekFrame() {
     const { currentDayFrame } = useContext(GlobalContext);
     const [week, setWeek] = useState(getDayOfWeek(currentDayFrame));
     const listTime = Array.from({ length: 23 }, (_, index) => `${(index + 1)%12} ${index > 12? "PM":"AM"}`);
+
+    useEffect(() => {
+        setWeek(getDayOfWeek(currentDayFrame));
+    }, [currentDayFrame]);
 
     return (
         <React.Fragment>

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
 import {Menu, MenuItem } from "@mui/material";
 export default function CreateEventButton() {
-  const { setShowEventModal } = useContext(GlobalContext);
+  const { setShowEventAddLabelModelModal } = useContext(GlobalContext);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -28,7 +28,7 @@ export default function CreateEventButton() {
                         d="M5 12h14m-7 7V5"/>
               </svg>
 
-              <span className="pl-3 pr-7" onClick={() => setShowEventModal(true)}> Create</span>
+              <span className="pl-3 pr-7" onClick={() => setShowEventAddLabelModelModal(true)}> Create</span>
 
               <svg
                   className="w-6 h-6 text-white"

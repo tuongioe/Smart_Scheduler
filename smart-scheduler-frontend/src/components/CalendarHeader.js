@@ -4,14 +4,35 @@ import GlobalContext from "../context/GlobalContext";
 import CreateEventButton from "./CreateEventButton";
 
 export default function CalendarHeader() {
-  const { currentYear, setCurrentYear, monthIndex, setMonthIndex, frame, setFrame } = useContext(GlobalContext);
-  function handlePrevMonth() {
-      console.log(monthIndex)
-    setMonthIndex(monthIndex - 1);
-  }
-  function handleNextMonth() {
-    setMonthIndex(monthIndex + 1);
-  }
+  const { monthIndex, setMonthIndex, frame, setFrame, currentDayFrame, setCurrentDayFrame } = useContext(GlobalContext);
+    function prevCalendar() {
+        switch (frame){
+            case 'week':
+                setCurrentDayFrame(currentDayFrame.subtract(7, 'day'));
+                break
+            case 'day':
+                setCurrentDayFrame(currentDayFrame.subtract(1, 'day'));
+                break
+            default:
+                setCurrentDayFrame(currentDayFrame.subtract(1,'month'))
+                break
+        }
+    }
+    function nextCalendar() {
+        switch (frame) {
+            case 'week':
+                setCurrentDayFrame(currentDayFrame.add(7, 'day'));
+                break
+            case 'day':
+                setCurrentDayFrame(currentDayFrame.add(1, 'day'));
+                break
+            default:
+                setCurrentDayFrame(currentDayFrame.add(1,'month'));
+                break
+        }
+    }
+
+
   function handleReset() {
     setMonthIndex(
       monthIndex === dayjs().month()
@@ -21,6 +42,7 @@ export default function CalendarHeader() {
   }
 
   function changeFrame(frame) {
+      setCurrentDayFrame(dayjs());
       setFrame(frame)
   }
   return (
@@ -59,26 +81,26 @@ export default function CalendarHeader() {
             >
                 Today
             </button>
-            <button onClick={handlePrevMonth}>
+            <button onClick={prevCalendar}>
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                 <g id="SVGRepo_iconCarrier"> 
-                  <path d="M15 6L9 12L15 18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M15 6L9 12L15 18" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                 </g>
             </svg>
             </button>
-          <button onClick={handleNextMonth}>
+          <button onClick={nextCalendar}>
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                 <g id="SVGRepo_iconCarrier"> 
-                  <path d="M9 6L15 12L9 18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
+                  <path d="M9 6L15 12L9 18" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> 
                 </g>
               </svg>
           </button>
           <h2 className="ml-4 text-xl text-white font-bold">
-            {dayjs(new Date(dayjs().year(), monthIndex)).format(
+            {currentDayFrame.format(
               "MMMM YYYY"
             )}
           </h2> 

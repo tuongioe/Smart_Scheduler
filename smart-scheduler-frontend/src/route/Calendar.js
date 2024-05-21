@@ -6,25 +6,21 @@ import CalendarHeader from "../components/CalendarHeader";
 import Sidebar from "../components/Sidebar";
 import MonthFrame from "../components/MonthFrame";
 import GlobalContext from "../context/GlobalContext";
-import EventModal from "../components/EventModal";
-import EventDateModel from "../components/EventDateModel";
+import EventDateModal from "../components/EventDateModal";
+import EventAddLabelModel from "../components/EventAddLabelModel";
 import WeekFrame from "../components/WeekFrame";
 import DayFrame from "../components/DayFrame";
 
 
 export default function Calendar() {
     const [currenMonth, setCurrentMonth] = useState(getMonth());
-    const { currentYear, monthIndex, showEventModal, frame } = useContext(GlobalContext);
-  
-    useEffect(() => {
-      setCurrentMonth(getMonth(monthIndex));
-    }, [monthIndex]);
+    const { currentDayFrame, showEventAddLabelModel, frame } = useContext(GlobalContext);
   
     let content;
   
     switch (frame) {
       case 'month':
-        content = <MonthFrame year={currentYear} month={currenMonth} />
+        content = <MonthFrame month={currentDayFrame.month} />
         break;
       case 'week':
         content = <WeekFrame />
@@ -38,8 +34,8 @@ export default function Calendar() {
   
     return (
       <React.Fragment>
-        {/*{showEventModal && <EventModal />}*/}
-        {showEventModal && <EventDateModel />}
+        {/*{showEventModal && <EventDateModal />}*/}
+        {showEventAddLabelModel && <EventAddLabelModel />}
   
         <div className={`${frame === "month"? "h-screen":""} flex flex-col bg-dark-color text-white`} >
           <CalendarHeader />
