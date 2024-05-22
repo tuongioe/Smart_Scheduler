@@ -5,7 +5,7 @@ import Sidebar from "./components/Sidebar";
 import CalendarPage from "./route/Calendar.js";
 import AISchedulerPage from "./route/AIScheduler.js";
 import SettingApp from "./route/SettingApp.js";
-import RegisterPage fromm "./RegisterPage.js";
+import RegisterPage from "./RegisterPage.js";
 import LoginPage from "./LoginPage.js";
 function App() {
   return (
@@ -20,8 +20,8 @@ function App() {
               <Route path="/" element={<CalendarPage />} />
               <Route path="/ai-scheduler" element={<AISchedulerPage />} />
               <Route path="/setting" element={<SettingApp />} />
-              <Route path"/register" element={<RegisterPage />} />
-              <Route path"/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
             </Routes>
           </div>
         </div>
