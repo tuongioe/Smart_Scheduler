@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
 import {Menu, MenuItem } from "@mui/material";
 export default function CreateEventButton() {
-  const { setShowEventAddLabelModelModal } = useContext(GlobalContext);
+  const { setShowEventAddLabelModelModal, labels } = useContext(GlobalContext);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -28,7 +28,10 @@ export default function CreateEventButton() {
                         d="M5 12h14m-7 7V5"/>
               </svg>
 
-              <span className="pl-3 pr-7" onClick={() => setShowEventAddLabelModelModal(true)}> Create</span>
+              <span className="pl-3 pr-7" onClick={() => {
+                  setShowEventAddLabelModelModal(true)
+                  console.log(labels)
+              }}> Create</span>
 
               <svg
                   className="w-6 h-6 text-white"
@@ -55,9 +58,11 @@ export default function CreateEventButton() {
                       },
                   }}
               >
-                  <MenuItem onClick={handleClose} style={{width: "153px", borderRadius: "5px"}}
-                            sx={{'&:hover': {backgroundColor: '#008494'}}}
-                  >Profile</MenuItem>
+                  {labels.map((el, index)=>(
+                      <MenuItem key={`label-map-${index}`} onClick={handleClose} style={{width: "153px", borderRadius: "5px"}}
+                                sx={{'&:hover': {backgroundColor: '#008494'}}}
+                      >{el.label}</MenuItem>
+                  ))}
               </Menu>
       </React.Fragment>
   );

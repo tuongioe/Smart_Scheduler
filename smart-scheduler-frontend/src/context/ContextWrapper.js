@@ -41,6 +41,26 @@ export default function ContextWrapper(props) {
     [],
     initEvents
   );
+  const [labelClasses, setLabelClasses] = useState([
+      {
+          color: "#fffff"
+      },
+      {
+          color: "#f00"
+      },
+      {
+          color: "#004cff"
+      },
+      {
+          color: "#31ff00"
+      },
+      {
+          color: "#a9a9a9"
+      },
+      {
+          color: "#9300ff"
+      }
+  ])
   const [currentDayFrame, setCurrentDayFrame] = useState(dayjs());
   const [frame, setFrame] = useState("month");
   const [eventDates, setEventDates] = useState([]);
@@ -58,21 +78,21 @@ export default function ContextWrapper(props) {
     localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
   }, [savedEvents]);
 
-  useEffect(() => {
-    setLabels((prevLabels) => {
-      return [...new Set(savedEvents.map((evt) => evt.label))].map(
-        (label) => {
-          const currentLabel = prevLabels.find(
-            (lbl) => lbl.label === label
-          );
-          return {
-            label,
-            checked: currentLabel ? currentLabel.checked : true,
-          };
-        }
-      );
-    });
-  }, [savedEvents]);
+  // useEffect(() => {
+  //   setLabels((prevLabels) => {
+  //     return [...new Set(savedEvents.map((evt) => evt.label))].map(
+  //       (label) => {
+  //         const currentLabel = prevLabels.find(
+  //           (lbl) => lbl.label === label
+  //         );
+  //         return {
+  //           label,
+  //           checked: currentLabel ? currentLabel.checked : true,
+  //         };
+  //       }
+  //     );
+  //   });
+  // }, [savedEvents]);
 
   useEffect(() => {
     if (smallCalendarMonth !== null) {
@@ -109,6 +129,19 @@ export default function ContextWrapper(props) {
       }
   }
 
+  function addLabel(color, label) {
+
+          labels.push({
+              color,
+              label,
+              checked: false
+          });
+
+          setLabels(
+              labels
+          )
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -118,10 +151,10 @@ export default function ContextWrapper(props) {
         setSmallCalendarMonth,
         daySelected,
         setDaySelected,
-         showEventAddLabelModel,
-          setShowEventAddLabelModelModal,
-          showEventAddDateModel,
-          setShowEventAddDateModel,
+        showEventAddLabelModel,
+        setShowEventAddLabelModelModal,
+        showEventAddDateModel,
+        setShowEventAddDateModel,
         dispatchCalEvent,
         selectedEvent,
         setSelectedEvent,
@@ -129,8 +162,11 @@ export default function ContextWrapper(props) {
         setLabels,
         labels,
         updateLabel,
+          labelClasses,
+          setLabelClasses,
         filteredEvents,
         addEventDate,
+          addLabel,
         setEventDates,
         eventDates,
         frame,

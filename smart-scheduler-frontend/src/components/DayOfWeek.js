@@ -9,6 +9,7 @@ export default function DayOfWeek({ day, rowIdx }) {
         setShowEventAddDateModel,
         filteredEvents,
         setSelectedEvent,
+        labels
     } = useContext(GlobalContext);
 
     useEffect(() => {
@@ -51,7 +52,7 @@ export default function DayOfWeek({ day, rowIdx }) {
             </header>
 
             <div
-                className="flex-1 cursor-pointer"
+                className="flex-1 cursor-pointer min-h-10 "
                 onClick={() => {
                     setDaySelected(day);
                     setShowEventAddDateModel(true);
@@ -61,7 +62,9 @@ export default function DayOfWeek({ day, rowIdx }) {
                     <div
                         key={idx}
                         onClick={() => setSelectedEvent(evt)}
-                        className={`bg-${evt.label}-200 p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
+                        className={`p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
+                        style={{backgroundColor: labels.find(el=> el.label === evt.label).color}}
+
                     >
                         {evt.title}
                     </div>
