@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 export function getMonth(day = dayjs()) {
   const month = Math.floor(day.month());
@@ -14,9 +14,10 @@ export function getMonth(day = dayjs()) {
   return daysMatrix;
 }
 
-export function getDayOfWeek(dayOfWeek = dayjs()){
+export function getDayOfWeek(dayOfWeek = dayjs()) {
   const firstDayOfWeek = dayOfWeek.startOf('week');
-  const weekDays = Array.from({ length: 7 }, (_, index) => firstDayOfWeek.day(index+1));
-
+  const weekDays = Array.from({ length: 7 }, (_, index) =>
+    firstDayOfWeek.day(index + 1)
+  );
   return weekDays;
 }

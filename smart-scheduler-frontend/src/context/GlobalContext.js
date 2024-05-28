@@ -1,11 +1,11 @@
-import React from "react";
-import dayjs from "dayjs";
+import React from 'react';
+import dayjs from 'dayjs';
 
 const GlobalContext = React.createContext({
   currentDayFrame: dayjs(),
   setCurrentDayFrame: () => {},
   currentYear: dayjs().year(),
-  setCurrentYear: ()=>{},
+  setCurrentYear: () => {},
   monthIndex: 0,
   setMonthIndex: (index) => {},
   smallCalendarMonth: 0,
@@ -18,7 +18,7 @@ const GlobalContext = React.createContext({
   setShowEventAddDateModel: () => {},
   dispatchCalEvent: ({ type, payload }) => {},
   savedEvents: [],
-  addLabel: ()=>{},
+  addLabel: () => {},
   selectedEvent: null,
   setSelectedEvent: () => {},
   setLabels: () => {},
@@ -31,7 +31,7 @@ const GlobalContext = React.createContext({
   addEventDate: () => {},
   filteredEvents: [],
   setEventDates: () => [],
-  frame: "month",
+  frame: 'month',
   setFrame: () => {},
 });
 
