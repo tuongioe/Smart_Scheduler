@@ -1,0 +1,230 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+input,
+select,
+textarea {
+  background-color: transparent;
+  outline: none;
+}
+button {
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  border: 0;
+}
+body {
+  min-height: 100vh;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+}
+
+
+
+.Register__Block
+{
+    height: 630px;
+    width: 480px;
+    margin-top: 100px;
+    margin-left: 35%;
+    border-radius: 19px;
+    
+}
+
+.Register__Block h1
+{
+    display:flex;
+    flex-direction: column;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: bolder;
+    padding-top: 40px;
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.Register__Input
+{   
+    margin-left: 50px;
+    
+}
+
+.Register__Input label {
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    color: white;
+    
+}
+
+.Register__Input input 
+{
+    padding-left: 15px;
+    padding-top: 3px;
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    height: 50px;
+    width: 380px;
+    border: 1px solid grey;
+    border-radius: 9px;
+}
+
+.Register__Input input::placeholder{
+    color: #8EA9AD;
+}
+.Register__Icon1
+{
+    position: absolute;
+    top: 430px;
+    left: 910px;
+    color:rgb(35, 172, 129);
+}
+.Register__Icon2
+{
+    position: absolute;
+    top: 528px;
+    left: 910px;
+    color:rgb(35, 172, 129);
+}
+
+
+.Register__Button
+{
+    height: 50px;
+    width: 380px;
+    margin-left: 50px;
+    margin-top: 30px;
+    background-color: black;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: white;
+    border-radius: 9px;
+    font-weight: bolder;
+}
+.Register__Button:hover
+{
+    filter:brightness(90%);
+}
+.Login__Button:hover
+{
+    filter:brightness(90%);
+}
+p
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin-left: 75px;
+    margin-top: 30px;
+    color: white
+}
+
+.Login__Block
+{
+    height: 480px;
+    width: 480px;
+    margin-top: 100px;
+    margin-left: 35%;
+    border-radius: 19px;
+    
+}
+
+.Login__Block h1
+{
+    display:flex;
+    flex-direction: column;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: bolder;
+    padding-top: 40px;
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.Login__Input
+{   
+    margin-left: 50px;
+    
+}
+
+.Login__Input label {
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    color: white;
+    
+}
+
+.Login__Input input 
+{
+    padding-left: 15px;
+    padding-top: 3px;
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    height: 50px;
+    width: 380px;
+    border: 1px solid grey;
+    border-radius: 9px;
+}
+
+.Login__Input input::placeholder{
+    color: #8EA9AD;
+}
+.Login__Icon1
+{
+    position: absolute;
+    top: 335px;
+    left: 910px;
+    color:rgb(35, 172, 129);
+}
+
+
+.Login__Button
+{
+    height: 50px;
+    width: 380px;
+    margin-left: 50px;
+    margin-top: 30px;
+    background-color: black;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: white;
+    border-radius: 9px;
+    font-weight: bolder;
+}
+
+.Login__Text
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin-left: 110px;
+    margin-top: 30px;
+    color: white
+}
+
+.Forgot
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    margin-left: 300px;
+    margin-top: 30px;
+    color: white
+}
