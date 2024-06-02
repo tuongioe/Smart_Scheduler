@@ -5,13 +5,13 @@ export default function Labels() {
   const { labels, updateLabel, eventDates, showEventAddLabelModel, setShowEventAddLabelModelModal, labelClasses} = useContext(GlobalContext);
   return (
       <React.Fragment>
-          <div className="flex items-end justify-between ">
-              <p className="text-white font-bold mt-10">My Calendars</p>
-              <div className="items-end flex">
+          <div className="flex items-end justify-around ">
+              <div className="text-white font-bold size-[16px] mt-8" style={{textWrap:"nowrap", width:"70%"}}>My Calendars</div>
+              <div className="items-end">
                   <button className="mr-2"
                     onClick={()=>setShowEventAddLabelModelModal(true)}
                   >
-                      <svg className="w-6 h-6 text-gray-800 dark:text-white items-end" aria-hidden="true"
+                      <svg className="w-[13px] h-[13px] text-gray-800 dark:text-white items-end" aria-hidden="true"
                            xmlns="http://www.w3.org/2000/svg"
                            width="24" height="24" fill="none" viewBox="0 0 24 24">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -19,7 +19,7 @@ export default function Labels() {
                       </svg>
                   </button>
                   <button>
-                      <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                      <svg className="w-[13px] h-[13px] text-gray-800 dark:text-white" aria-hidden="true"
                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                 d="m19 9-7 7-7-7"/>

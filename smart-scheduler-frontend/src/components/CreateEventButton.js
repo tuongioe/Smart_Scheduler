@@ -15,7 +15,7 @@ export default function CreateEventButton() {
   return (
       <React.Fragment>
           <button
-              className="border p-2 flex items-center shadow-md hover:shadow-2xl"
+              className="ml-[883px] border p-2 flex items-center shadow-md hover:shadow-2xl"
               id="basic-button"
               aria-controls="basic-menu"
               aria-haspopup="true"

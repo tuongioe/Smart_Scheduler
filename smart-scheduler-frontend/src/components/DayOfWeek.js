@@ -29,7 +29,7 @@ export default function DayOfWeek({ day, rowIdx }) {
     }
 
     return (
-        <div className="border-r border-b border-gray-200 flex flex-col" >
+        <div className="border-r border-gray-200 " >
             <header className="flex flex-col items-center">
                 {rowIdx === 0? (
                     <React.Fragment>
@@ -44,7 +44,7 @@ export default function DayOfWeek({ day, rowIdx }) {
                     </React.Fragment>
                 ): (
                     <p
-                        className={` p-1 my-1 text-center `}
+                        className={`p-1 my-1 text-center `}
                     >
                     </p>
                 )}
@@ -52,7 +52,7 @@ export default function DayOfWeek({ day, rowIdx }) {
             </header>
 
             <div
-                className="flex-1 cursor-pointer min-h-10 "
+                className="flex-1 cursor-pointer min-h-10 border-b"
                 onClick={() => {
                     setDaySelected(day);
                     setShowEventAddDateModel(true);
@@ -62,8 +62,8 @@ export default function DayOfWeek({ day, rowIdx }) {
                     <div
                         key={idx}
                         onClick={() => setSelectedEvent(evt)}
-                        className={`p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
-                        style={{backgroundColor: labels.find(el=> el.label === evt.label).color}}
+                        className={`text-gray-600 rounded mb-1 truncate`}
+                        style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
 
                     >
                         {evt.title}

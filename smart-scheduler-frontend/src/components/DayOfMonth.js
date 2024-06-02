@@ -28,14 +28,14 @@ export default function DayOfMonth({ day, rowIdx }) {
 
   return (
     <div className="border-r border-b border-gray-200 flex flex-col">
-      <header className="flex flex-col items-center">
+      <header className="flex flex-col">
         {rowIdx === 0 && (
           <p className="text-sm mt-1">
             {day.format("ddd").toUpperCase()}
           </p>
         )}
         <p
-          className={`text-sm p-1 my-1 text-center  ${getCurrentDayClass()}`}
+          className={`text-sm p-1 my-1 ${getCurrentDayClass()}`}
         >
           {day.format("DD")}
         </p>

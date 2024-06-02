@@ -26,7 +26,7 @@ export default function Day({ day, rowIdx }) {
     }
 
     return (
-        <div className="border-t border-b border-gray-200 flex flex-col">
+        <div className="border-t flex flex-col">
             <header className="flex flex-col items-center">
                 {(
                     <React.Fragment>

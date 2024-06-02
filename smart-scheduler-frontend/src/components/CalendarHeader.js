@@ -60,9 +60,9 @@ export default function CalendarHeader() {
           </button>
         </div>
       </div>
-      <div className="px-4 py-2 flex items-center justify-around">
+      <div className="px-4 py-2 flex">
         <div className="ml-10 px-4 py-2 flex items-center">
-          <form className="max-w-md mx-auto mr-6">
+          <form className="max-w-md mx-auto ml-[52px] mr-10">
               <label form="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
               <div className="relative">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

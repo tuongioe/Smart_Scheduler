@@ -9,15 +9,15 @@ export default function DayFrame() {
 
     return (
         <React.Fragment>
-            <div className="text-red">
-                <div className="min-h-11"></div>
+            <div className="mt-[12px]">
                 {
                     listTime.map((time, i) => {
-                        return <div className="border-gray-200">
+                        return <div>
                                 {(
                                     <React.Fragment>
                                         <p
-                                            className={`mt-[42px] text-md `}
+                                            className={`mt-[53px] `}
+                                            style={{fontSize:"12px"}}
                                         >
                                             {time+":"}
                                         </p>
@@ -27,8 +27,8 @@ export default function DayFrame() {
                     })
                 }
             </div>
-            <div className="flex-1 grid-rows-5 text-red">
-                <div className="pt-5 pb-5 flex flex-col">
+            <div className=" grid-rows-4 w-9/12">
+                <div className="pt-[10px]">
                     <header className="flex flex-col items-left text-[#00717F]">
                         {(
                             <React.Fragment>

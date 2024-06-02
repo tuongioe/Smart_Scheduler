@@ -15,14 +15,15 @@ export default function WeekFrame() {
 
     return (
         <React.Fragment>
-            <div className="text-red grid grid-rows-24 text-red mt-[94px]">
+            <div className="mt-[61px]">
                 {
                     listTime.map((time, i) => {
-                        return <div className="border-gray-200 p-1 mb-[25px]" >
+                        return <div className="" >
                             {(
                                 <React.Fragment key={`week-frame-header-${i}`}>
                                     <p
-                                        className={`text-md `}
+                                        className="mt-[44px]"
+                                        style={{fontSize:"12px"}}
                                     >
                                         {time + ":"}
                                     </p>
@@ -33,7 +34,7 @@ export default function WeekFrame() {
                 }
             </div>
 
-            <div className="flex-1 grid grid-cols-7 grid-rows-24 text-red">
+            <div className="grid grid-cols-7 grid-rows-24 w-9/12">
                 {
                     listTime.map((_, i) => (
                         week.map((row, hour) => (

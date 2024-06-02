@@ -40,9 +40,9 @@ export default function Calendar() {
         {showEventAddDateModel && <EventDateModal />}
         {showEventAddLabelModel && <EventAddLabelModel />}
 
-        <div className={`${frame === "month"? "h-screen":""} flex flex-col bg-dark-color text-white`}>
+        <div className={`${frame === "month"? "h-screen":""} flex flex-col bg-dark-color text-white pl-[24px]`}>
           <CalendarHeader />
-          <div className="h-screen flex  overflow-y-scroll no-scrollbar">
+          <div className="h-screen w-screen flex overflow-y-scroll no-scrollbar">
             <div className="flex flex-col justify-center">
               <button className="p-5 rounded-lg text-white" style={{backgroundColor: "rgb(0, 188, 212, 0.08)"}}>
                 <svg width="40" height="40" className="size-10 " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +61,7 @@ export default function Calendar() {
                 </svg>
               </button>
             </div>
-            <aside className="p-5 w-64">
+            <aside className="p-5 w-64 mr-8 ml-8">
               <SmallCalendar />
               <Labels />
             </aside>
