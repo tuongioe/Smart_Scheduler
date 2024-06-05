@@ -46,43 +46,44 @@ export default function CalendarHeader() {
       setFrame(frame)
   }
   return (
-    <header>
-      <div className="flex justify-center">
-        <div className="text-white shadow-[0_5px_50px_5px_rgba(255,255,255,0.2)] rounded-b-full">
-          <button className={`p-5 pl-10  ${frame === "day"? "text-teal-300":""}`} onClick={() => changeFrame("day")}>
+    <header className="mb-[23px]">
+      <div className="flex justify-center ">
+        <div className="pt-[9px] pb-[9px] pl-[41px] pr-[41px] size-[16px] text-white shadow-[0_5px_50px_5px_rgba(255,255,255,0.2)] rounded-b-full w-[273px] h-[45px] flex justify-between">
+          <button className={`${frame === "day"? "text-teal-300":""}`} onClick={() => changeFrame("day")}>
             Day
           </button>
-          <button className={`p-5 ${frame === "week"? "text-teal-300":""}`} onClick={() => changeFrame("week")}>
+          <button className={`${frame === "week"? "text-teal-300":""}`} onClick={() => changeFrame("week")}>
             Week
           </button>
-          <button className={`p-5 pr-10 ${frame === "month"? "text-teal-300":""}`} onClick={() => changeFrame("month")}>
+          <button className={`${frame === "month"? "text-teal-300":""}`} onClick={() => changeFrame("month")}>
             Month
           </button>
         </div>
       </div>
-      <div className="px-4 py-2 flex">
-        <div className="ml-10 px-4 py-2 flex items-center">
-          <form className="max-w-md mx-auto ml-[52px] mr-10">
+
+      <div className="flex">
+        <div className="flex items-center">
+          <form className="ml-[110px] w-[198px] h-[51px] ml-[52px] mr-10 size-[72px]">
               <label form="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
               <div className="relative">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                      <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <svg className="w-[10px] h-[10px] text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                       </svg>
                   </div>
                   <input type="search" id="default-search"
-                         className="rounded-full block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                         className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-3xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                          placeholder="Search here..." required/>
               </div>
           </form>
             <button
                 onClick={handleReset}
-                className="border rounded py-2 px-4 mr-5"
+                className="border border-[1px] border-solid border-primary-400 rounded w-[75px] h-[32px] ml-[50px] mr-[16px]"
             >
                 Today
             </button>
-            <button onClick={prevCalendar}>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+            <button onClick={prevCalendar} className="mr-[16px]">
+              <svg width="16" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                 <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                 <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                 <g id="SVGRepo_iconCarrier"> 
@@ -90,8 +91,8 @@ export default function CalendarHeader() {
                 </g>
             </svg>
             </button>
-          <button onClick={nextCalendar}>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <button onClick={nextCalendar}  className="mr-[32px]">
+              <svg width="16" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                 <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                 <g id="SVGRepo_iconCarrier"> 
@@ -99,7 +100,7 @@ export default function CalendarHeader() {
                 </g>
               </svg>
           </button>
-          <h2 className="ml-4 text-xl text-white font-bold">
+          <h2 className="size-[16px] text-white font-bold text-nowrap">
             {currentDayFrame.format(
               "MMMM YYYY"
             )}

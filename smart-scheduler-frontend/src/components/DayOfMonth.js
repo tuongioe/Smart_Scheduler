@@ -22,23 +22,23 @@ export default function DayOfMonth({ day, rowIdx }) {
 
   function getCurrentDayClass() {
     return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
-      ? "bg-primary text-white rounded-full w-7"
+      ? "bg-primary text-white rounded-full w-7 mx-auto mt-2"
       : "";
   }
 
   return (
-    <div className="border-r border-b border-gray-200 flex flex-col">
-      <header className="flex flex-col">
+    <div className="border-r border-b border-gray flex flex-col w-[101px] h-[126px]">
+      <header className="">
         {rowIdx === 0 && (
-          <p className="text-sm mt-1">
+          <div className="text-sm mt-1 text-center">
             {day.format("ddd").toUpperCase()}
-          </p>
+          </div>
         )}
-        <p
-          className={`text-sm p-1 my-1 ${getCurrentDayClass()}`}
+        <div
+          className={`text-sm p-1 my-1 ${getCurrentDayClass()} text-center`}
         >
           {day.format("DD")}
-        </p>
+        </div>
       </header>
 
       <div

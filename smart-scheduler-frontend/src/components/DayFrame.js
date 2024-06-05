@@ -8,26 +8,23 @@ export default function DayFrame() {
     const listTime = Array.from({ length: 23 }, (_, index) => `${(index + 1)%12} ${index > 12? "PM":"AM"}`);
 
     return (
-        <React.Fragment>
-            <div className="mt-[12px]">
+        <div className="flex w-[688px]">
+            <div className="mt-[12px] flex flex-col ">
                 {
                     listTime.map((time, i) => {
-                        return <div>
-                                {(
-                                    <React.Fragment>
-                                        <p
+                        return <React.Fragment>
+                                        <span
                                             className={`mt-[53px] `}
                                             style={{fontSize:"12px"}}
                                         >
                                             {time+":"}
-                                        </p>
-                                    </React.Fragment>
-                                )}
-                        </div>
+                                        </span>
+                            </React.Fragment>
+
                     })
                 }
             </div>
-            <div className=" grid-rows-4 w-9/12">
+            <div className="w-9/12">
                 <div className="pt-[10px]">
                     <header className="flex flex-col items-left text-[#00717F]">
                         {(
@@ -53,6 +50,6 @@ export default function DayFrame() {
                     })
                 }
             </div>
-        </React.Fragment>
+        </div>
     );
 }

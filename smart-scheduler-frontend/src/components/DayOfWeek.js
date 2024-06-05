@@ -29,30 +29,29 @@ export default function DayOfWeek({ day, rowIdx }) {
     }
 
     return (
-        <div className="border-r border-gray-200 " >
-            <header className="flex flex-col items-center">
+        // <div className="border-r border-gray-200 w-[120px]" >
+        <div className="border-r border-gray-200 w-[120px]" >
                 {rowIdx === 0? (
-                    <React.Fragment>
-                        <p className="text-sm mt-1">
-                            {day.format("ddd").toUpperCase()}
-                        </p>
-                        <p
-                            className={`min-h-11 text-sm mt-1 text-center  ${getCurrentDayClass()}`}
-                        >
-                            {day.format("DD")}
-                        </p>
-                    </React.Fragment>
+                    <header className="flex flex-col items-center">
+                            <React.Fragment>
+                                <p className="text-sm mt-1">
+                                    {day.format("ddd").toUpperCase()}
+                                </p>
+                                <p
+                                    className={`min-h-11 text-sm mt-1 text-center  ${getCurrentDayClass()}`}
+                                >
+                                    {day.format("DD")}
+                                </p>
+                            </React.Fragment>
+
+                    </header>
                 ): (
-                    <p
-                        className={`p-1 my-1 text-center `}
-                    >
-                    </p>
+                    <React.Fragment>
+                    </React.Fragment>
                 )}
 
-            </header>
-
             <div
-                className="flex-1 cursor-pointer min-h-10 border-b"
+                className="flex-1 cursor-pointer min-h-10 border-b h-[33px]"
                 onClick={() => {
                     setDaySelected(day);
                     setShowEventAddDateModel(true);
@@ -62,7 +61,7 @@ export default function DayOfWeek({ day, rowIdx }) {
                     <div
                         key={idx}
                         onClick={() => setSelectedEvent(evt)}
-                        className={`text-gray-600 rounded mb-1 truncate`}
+                        className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
                         style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
 
                     >

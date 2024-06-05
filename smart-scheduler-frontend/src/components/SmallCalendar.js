@@ -46,11 +46,11 @@ export default function SmallCalendar() {
     }
   }
   return (
-    <div className="mt-9">
+    <div className="w-[198px] h-[202px] p-3 border rounded-lg border-[rgba(146,146,146,0.5)] shadow-[0_1px_1px_1px_rgba(255,255,255,0.1)]">
       <header>
         <div className="flex justify-between">
           <button onClick={handlePrevMonth}>
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
             <g id="SVGRepo_iconCarrier"> 
@@ -58,13 +58,13 @@ export default function SmallCalendar() {
             </g>
           </svg>
           </button>
-          <p className="text-white font-bold item-center">
+          <div className="text-white font-bold item-center size-[16px] self-center">
             {currentDayFrame.format(
                 "MMMM"
             )}
-          </p>
+          </div>
           <button onClick={handleNextMonth}>
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
               <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier"> 
