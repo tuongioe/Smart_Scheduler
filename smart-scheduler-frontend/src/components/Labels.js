@@ -1,8 +1,14 @@
-import React, { useContext } from "react";
+import React, {useContext, useState} from "react";
 import GlobalContext from "../context/GlobalContext";
 
 export default function Labels() {
-  const { labels, updateLabel, eventDates, showEventAddLabelModel, setShowEventAddLabelModelModal, labelClasses} = useContext(GlobalContext);
+  const { labels, updateLabel, setShowEventAddLabelModelModal, labelClasses} = useContext(GlobalContext);
+
+  const [isShowLabel, setIsShowLabel] = useState(true);
+  const handleDisplayLabels = () => {
+      setIsShowLabel(!isShowLabel);
+  }
+
   return (
       <React.Fragment>
           <div className="flex items-end justify-around ">
@@ -18,7 +24,9 @@ export default function Labels() {
                                 d="M5 12h14m-7 7V5"/>
                       </svg>
                   </button>
-                  <button>
+
+
+                  <button onClick={()=>handleDisplayLabels()}>
                       <svg className="w-[13px] h-[13px] text-gray-800 dark:text-white" aria-hidden="true"
                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -30,7 +38,7 @@ export default function Labels() {
 
           <div>
               {
-                  labels.map(({label, checked, color}, index) => {
+                  isShowLabel? labels.map(({label, checked, color}, index) => {
                       return <label key={index} className="items-center mt-3 block">
                           <input
                               type="checkbox"
@@ -43,7 +51,7 @@ export default function Labels() {
                           />
                           <span className={`ml-2 capitalize text-red-50`} style={{color: color}}>{label}</span>
                       </label>
-                  })
+                  }):<></>
               }
           </div>
       </React.Fragment>

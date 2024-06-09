@@ -63,7 +63,7 @@ export default function CalendarHeader() {
 
       <div className="flex">
         <div className="flex items-center">
-          <form className="ml-[110px] w-[198px] h-[51px] ml-[52px] mr-10 size-[72px]">
+          <form className="ml-[90px] w-[198px] h-[51px] mr-10 size-[72px]">
               <label form="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
               <div className="relative">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -78,7 +78,7 @@ export default function CalendarHeader() {
           </form>
             <button
                 onClick={handleReset}
-                className="border border-[1px] border-solid border-primary-400 rounded w-[75px] h-[32px] ml-[50px] mr-[16px]"
+                className="border border-[1px] border-solid border-primary-400 rounded w-[75px] h-[32px] mr-[16px]"
             >
                 Today
             </button>

@@ -43,21 +43,27 @@ export default function ContextWrapper(props) {
   );
   const [labelClasses, setLabelClasses] = useState([
       {
-          color: "#fffff"
+          label: "white",
+          color: "#ffffff"
       },
       {
+          label: "red",
           color: "#f00"
       },
       {
+          label: "blue",
           color: "#004cff"
       },
       {
+          label: "green",
           color: "#31ff00"
       },
       {
+          label: "grey",
           color: "#a9a9a9"
       },
       {
+          label: "purple",
           color: "#9300ff"
       }
   ])
@@ -120,7 +126,7 @@ export default function ContextWrapper(props) {
           totalEvent.push({
               color,
               label,
-              checked: false
+              checked: true
           });
 
           setEventDates(
@@ -129,9 +135,10 @@ export default function ContextWrapper(props) {
       }
   }
 
-  function addLabel(color, label) {
+  function addLabel(id, color, label) {
 
           labels.push({
+              id,
               color,
               label,
               checked: false

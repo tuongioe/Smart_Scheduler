@@ -2,42 +2,21 @@ import React, {useContext, useEffect, useRef, useState} from "react";
 import GlobalContext from "../context/GlobalContext";
 import {Checkbox} from "@mui/material";
 
-const labelsClasses = [
-  {
-    label: "indigo",
-    color: "#fffff"
-  },
-  {
-    label: "red",
-    color: "#fffff"
-  },
-  {
-    label: "blue",
-    color: "#fffff"
-  },
-  {
-    label: "green",
-    color: "#fffff"
-  },
-  {
-    label: "gray",
-    color: "#fffff"
-  },
-  {
-    label: "purple",
-    color: "#fffff"
-  }
-];
-
 export default function EventDateModal() {
   const {
+    frame,
     setShowEventAddDateModel,
     daySelected,
     dispatchCalEvent,
     selectedEvent,
       labels,
   } = useContext(GlobalContext);
+  const [nextTime, setNextTime] = useState(daySelected);
   const modalRef = useRef();
+
+  useEffect(() => {
+    setNextTime(daySelected);
+  }, [daySelected]);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -52,6 +31,8 @@ export default function EventDateModal() {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [setShowEventAddDateModel]);
+
+
 
   const [title, setTitle] = useState(
     selectedEvent ? selectedEvent.title : ""
@@ -73,6 +54,7 @@ export default function EventDateModal() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    alert(JSON.stringify(selectedLabel, null, 2));
     const calendarEvent = {
       title,
       description,
@@ -85,7 +67,8 @@ export default function EventDateModal() {
     };
 
     if (selectedEvent) {
-      dispatchCalEvent({ type: "update", payload: calendarEvent });
+      // dispatchCalEvent({ type: "update", payload: calendarEvent });
+      alert('update event');
     } else {
       dispatchCalEvent({ type: "push", payload: calendarEvent });
     }
@@ -118,7 +101,7 @@ export default function EventDateModal() {
                   onChange={(e) => setTitle(e.target.value)}
               />
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex">
               <svg className="mr-7" width="30" height="30" viewBox="0 0 24 24" fill="none"
                    xmlns="http://www.w3.org/2000/svg"
                    stroke="#ffffff">
@@ -132,6 +115,10 @@ export default function EventDateModal() {
               </svg>
               <div className="">
                 <label>{daySelected.format("dddd, MMMM DD")}</label>
+
+                {frame!=="month"? <label className="ml-1"> {daySelected.format('hha')} - {nextTime.format('hha')}</label>:<></>}
+
+                <div></div>
                 <Checkbox
                     sx={{
                       color: '#00717F',
@@ -142,6 +129,13 @@ export default function EventDateModal() {
                 />
 
                 <label htmlFor="#allDay" className="text-[#00717F]">All Day</label>
+
+                <select id="repeat" className="">
+                  <option value="no-repeat">No repeat</option>
+                  <option value="everyday">Every day</option>
+                  <option value="every-thursday">Every thursday</option>
+                  <option value="option">Option</option>
+                </select>
               </div>
             </div>
 

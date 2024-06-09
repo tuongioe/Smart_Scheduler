@@ -5,7 +5,6 @@ const GlobalContext = React.createContext({
   currentDayFrame: dayjs(),
   setCurrentDayFrame: () => {},
   currentYear: dayjs().year(),
-  setCurrentYear: () => {},
   monthIndex: 0,
   setMonthIndex: (index) => {},
   smallCalendarMonth: 0,
@@ -27,10 +26,8 @@ const GlobalContext = React.createContext({
   labels: [],
   updateLabel: () => {},
   eventDates: [],
-  updateEventDate: () => {},
   addEventDate: () => {},
   filteredEvents: [],
-  setEventDates: () => [],
   frame: 'month',
   setFrame: () => {},
 });

@@ -1,14 +1,12 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
+import {axiosClient} from '../utils/util';
 import GlobalContext from "../context/GlobalContext";
 
 export default function EventAddLabelModel() {
     const {
         setShowEventAddLabelModelModal,
-        dispatchCalEvent,
         selectedEvent,
-        addEventDate,
         labelClasses,
-        setLabelClasses,
         addLabel
     } = useContext(GlobalContext);
 
@@ -40,10 +38,20 @@ export default function EventAddLabelModel() {
     function handleSubmit(e) {
         e.preventDefault();
 
-        addLabel(
-            selectedLabel,
-            title
-        )
+        axiosClient.post('/calendar',{
+            title,
+            color: selectedLabel,
+        })
+            .then(result=>{
+                addLabel(
+                    result.data.id,
+                    selectedLabel,
+                    title
+                );
+            })
+            .catch(error=>{
+                alert(error);
+            })
 
         setShowEventAddLabelModelModal(false);
     }
@@ -104,6 +112,7 @@ export default function EventAddLabelModel() {
                                 </span>
                             ))}
 
+                            <input type="color" className="w-6 h-6 rounded-full cursor-pointer border-solid border-red-500 border-2"/>
                             <svg onClick={()=>{
                                 alert('show color picker')
                             }}

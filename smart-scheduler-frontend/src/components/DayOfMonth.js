@@ -22,7 +22,7 @@ export default function DayOfMonth({ day, rowIdx }) {
 
   function getCurrentDayClass() {
     return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
-      ? "bg-primary text-white rounded-full w-7 mx-auto mt-2"
+      ? "bg-primary-400 text-white rounded-full w-7 mx-auto mt-2"
       : "";
   }
 

@@ -6,7 +6,6 @@ import { getMonth } from "../utils/util";
 export default function SmallCalendar() {
   const {
     monthIndex,
-    setSmallCalendarMonth,
     setDaySelected,
     daySelected,
     currentDayFrame,
@@ -38,7 +37,7 @@ export default function SmallCalendar() {
     const currDay = day.format(format);
     const slcDay = daySelected && daySelected.format(format);
     if (nowDay === currDay) {
-      return "bg-primary rounded-full text-red";
+      return "bg-primary-400 rounded-full";
     } else if (currDay === slcDay) {
       return "bg-blue-100 rounded-full text-blue-600 font-bold";
     } else {
@@ -87,8 +86,8 @@ export default function SmallCalendar() {
               <button
                 key={`small-calendar-button-${idx}`}
                 onClick={() => {
-                  setSmallCalendarMonth(currentMonthIdx);
                   setDaySelected(day);
+                  setCurrentDayFrame(day);
                 }}
                 className={`py-1 w-full ${getDayClass(day)}`}
               >

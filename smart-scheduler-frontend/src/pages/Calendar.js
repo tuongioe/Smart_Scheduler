@@ -40,7 +40,7 @@ export default function Calendar() {
         {showEventAddDateModel && <EventDateModal />}
         {showEventAddLabelModel && <EventAddLabelModel />}
 
-        <div className={`${frame === "month"? "h-screen":""} flex flex-col bg-dark-color text-white pl-[24px]`}>
+        <div className={`${frame === "month"? "h-screen":""} flex flex-col bg-dark-color text-white pl-[24px] no-scrollbar`}>
           <CalendarHeader />
           <div className="h-screen w-screen flex overflow-y-scroll no-scrollbar">
             <div className="flex flex-col justify-center">

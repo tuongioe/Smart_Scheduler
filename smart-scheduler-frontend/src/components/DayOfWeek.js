@@ -17,7 +17,6 @@ export default function DayOfWeek({ day, rowIdx }) {
             (evt) => {
                 return dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY")
             }
-
         );
         setDayEvents(events);
     }, [filteredEvents, day]);
@@ -29,7 +28,6 @@ export default function DayOfWeek({ day, rowIdx }) {
     }
 
     return (
-        // <div className="border-r border-gray-200 w-[120px]" >
         <div className="border-r border-gray-200 w-[120px]" >
                 {rowIdx === 0? (
                     <header className="flex flex-col items-center">
@@ -53,7 +51,7 @@ export default function DayOfWeek({ day, rowIdx }) {
             <div
                 className="flex-1 cursor-pointer min-h-10 border-b h-[33px]"
                 onClick={() => {
-                    setDaySelected(day);
+                    setDaySelected(day.set('hour',rowIdx));
                     setShowEventAddDateModel(true);
                 }}
             >
@@ -63,7 +61,6 @@ export default function DayOfWeek({ day, rowIdx }) {
                         onClick={() => setSelectedEvent(evt)}
                         className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
                         style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
-
                     >
                         {evt.title}
                     </div>
