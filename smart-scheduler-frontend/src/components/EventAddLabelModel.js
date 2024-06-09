@@ -35,26 +35,19 @@ export default function EventAddLabelModel() {
         };
     }, [modalRef]);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
 
-        axiosClient.post('/calendar',{
+        const result = await axiosClient.post('/calendar',{
             title,
             color: selectedLabel,
-        })
-            .then(result=>{
-                console.log(JSON.stringify(result, null, 2));
+        });
 
-                addLabel(
-                    result.data.id,
-                    selectedLabel,
-                    title
-                );
-            })
-            .catch(error=>{
-                alert(error);
-            })
-
+        addLabel(
+            result.data.id,
+            selectedLabel,
+            title
+        );
         setShowEventAddLabelModelModal(false);
     }
     return (
