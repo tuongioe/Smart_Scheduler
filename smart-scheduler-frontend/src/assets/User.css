@@ -100,13 +100,15 @@ body {
 }
 
 .error_notification {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   margin: auto;
-  color: #e84e4f;
+  color: #e77e80;
+  line-height: 1.5;
   background-color: #9c2b2e;
   padding: 15px;
   border-radius: 5px;
+  text-align: center;
   border: solid 1px #9c2b2e;
 }
 
@@ -128,14 +130,6 @@ body {
 
 .Login__Button:hover {
   filter: brightness(80%);
-}
-
-p {
-  font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  margin-left: 75px;
-  margin-top: 30px;
-  color: white;
 }
 
 .Login__Block {
@@ -208,6 +202,7 @@ p {
 }
 
 .Login__Text {
+  margin-top: 20px;
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
   text-align: center;
@@ -252,14 +247,6 @@ h1 {
   font-size: 40px;
   font-weight: bolder;
   padding-top: 20px;
-  margin-left: 25px;
-}
-
-p {
-  font-family: 'Poppins', sans-serif;
-  color: white;
-  font-size: 20px;
-  margin-left: 25px;
 }
 
 .Activity__Block {

@@ -11,7 +11,7 @@ const App = () => {
         <div className="flex flex-col md:flex-row md:h-screen">
           <div className="w-full md:w-10/12">
             <Routes>
-              <Route element={<LoginPage />} index="true" />
+              <Route path="/login" element={<LoginPage />} index="true" />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/ai" element={<AIScheduler />} />

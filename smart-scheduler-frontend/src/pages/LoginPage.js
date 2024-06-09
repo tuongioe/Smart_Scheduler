@@ -4,12 +4,18 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import React, { useState } from 'react';
 import axios, { Axios } from 'axios';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState({});
   const [error, setError] = useState();
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
+  const resetError = () => {
+    setError(null);
   };
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -27,9 +33,14 @@ function LoginPage() {
           headers: { 'Content-Type': 'application/json' },
         }
       );
-      const resData = response.data;
+
+      localStorage.setItem('token', response.data.data.token);
     } catch (e) {
-      console.log(e.response.data);
+      setError({
+        msg: e.response.data.message,
+        email: e.response.data.email,
+        password: e.response.data.password,
+      });
     }
   };
   return (
@@ -39,13 +50,20 @@ function LoginPage() {
       style={{ backgroundImage: 'linear-gradient(to right, #146D78, #1F3336)' }}
     >
       <h1>Login</h1>
-      <p className="error_notification">Error</p>
+      {error && (
+        <p className="error_notification">
+          {error.msg && <p>{error.msg}</p>}
+          {error.email && <p>{error.email}</p>}
+          {error.password && <p>{error.password}</p>}
+        </p>
+      )}
       <div className="Login__Input">
         <label htmlFor="email">E-mail</label>
         <input
           type="text"
           id="email"
           placeholder="Enter your E-mail"
+          onChange={resetError}
           style={{
             backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
           }}
@@ -57,6 +75,8 @@ function LoginPage() {
           type={showPassword ? 'text' : 'password'}
           id="password"
           placeholder="Enter your password"
+          autoComplete={false}
+          onChange={resetError}
           style={{
             backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
           }}
