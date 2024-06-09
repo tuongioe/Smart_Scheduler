@@ -1,6 +1,8 @@
 import React from 'react';
 import '../assets/User.css';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function generateTimeOptions() {
   const options = [];
@@ -29,6 +31,16 @@ function generateTimeOptions() {
 }
 
 function SurveyPage() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const verifyAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+      }
+    };
+    verifyAuth();
+  }, []);
   const timeOptions = generateTimeOptions();
 
   return (

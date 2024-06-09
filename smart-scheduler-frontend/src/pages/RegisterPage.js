@@ -80,7 +80,11 @@ function RegisterPage() {
           {error.password && <p>{error.password}</p>}
         </p>
       )}
-      <div className="Register__Input">
+      <div
+        className={`Register__Input ${
+          error && error.email && 'Login__Input__error'
+        }`}
+      >
         <label htmlFor="email">E-mail</label>
         <input
           type="text"
@@ -93,7 +97,11 @@ function RegisterPage() {
           }}
         ></input>
       </div>
-      <div className="Register__Input">
+      <div
+        className={`Register__Input ${
+          error && error.username && 'Login__Input__error'
+        }`}
+      >
         <label htmlFor="username">Username</label>
         <input
           type="text"
@@ -106,7 +114,11 @@ function RegisterPage() {
           }}
         ></input>
       </div>
-      <div className="Register__Input">
+      <div
+        className={`Register__Input ${
+          error && error.password && 'Login__Input__error'
+        }`}
+      >
         <label htmlFor="password">Password</label>
         <input
           type={showPassword ? 'text' : 'password'}

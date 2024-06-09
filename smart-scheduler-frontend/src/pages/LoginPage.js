@@ -67,19 +67,24 @@ function LoginPage() {
           {error.password && <p>{error.password}</p>}
         </p>
       )}
-      <div className="Login__Input">
+      <div
+        className={`Login__Input ${
+          error && error.email && 'Login__Input__error'
+        }`}
+      >
         <label htmlFor="email">E-mail</label>
         <input
           type="text"
           id="email"
           placeholder="Enter your E-mail"
           onChange={resetError}
-          style={{
-            backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
-          }}
         ></input>
       </div>
-      <div className="Login__Input">
+      <div
+        className={`Login__Input ${
+          error && error.password && 'Login__Input__error'
+        }`}
+      >
         <label htmlFor="password">Password</label>
         <input
           type={showPassword ? 'text' : 'password'}
@@ -87,9 +92,6 @@ function LoginPage() {
           placeholder="Enter your password"
           autoComplete="off"
           onChange={resetError}
-          style={{
-            backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
-          }}
         ></input>
         {showPassword ? (
           <FiEye
