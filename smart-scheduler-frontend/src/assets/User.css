@@ -28,6 +28,7 @@ button {
   border: 0;
 }
 body {
+  /* overflow: auto; */
   min-height: 100vh;
   font-weight: 400;
   font-size: 16px;
@@ -35,19 +36,22 @@ body {
 }
 
 .Register__Block {
-  height: 630px;
+  min-height: 630px;
   width: 480px;
-  margin-top: 100px;
+  margin-top: 20px;
+  margin-bottom: 100px;
   margin-left: 35%;
+  padding: 20px;
   border-radius: 19px;
+  padding: 30px;
 }
 
 .Register__Block h1 {
   display: flex;
   flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 30px;
-  font-weight: bolder;
+  font-weight: 500;
   padding-top: 40px;
   text-align: center;
   color: white;
@@ -55,7 +59,8 @@ body {
 }
 
 .Register__Input {
-  margin-left: 50px;
+  width: 100%;
+  position: relative;
 }
 
 .Register__Input label {
@@ -66,53 +71,67 @@ body {
 }
 
 .Register__Input input {
-  padding-left: 15px;
-  padding-top: 3px;
+  padding: 3px 15px;
+  width: 100%;
   border: none;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 18px;
   height: 50px;
-  width: 380px;
   border: 1px solid grey;
   border-radius: 9px;
 }
 
 .Register__Input input::placeholder {
   color: #8ea9ad;
+  font-weight: 300;
+  font-size: 15px;
 }
 .Register__Icon1 {
   position: absolute;
-  top: 430px;
-  left: 910px;
-  color: rgb(35, 172, 129);
+  top: 50%;
+  right: 20px;
+  color: #00717f;
 }
 .Register__Icon2 {
   position: absolute;
-  top: 528px;
-  left: 910px;
-  color: rgb(35, 172, 129);
+  top: 50%;
+  right: 20px;
+  color: #00717f;
+}
+
+.error_notification {
+  font-size: 13px;
+  font-weight: 500;
+  margin: auto;
+  color: #e84e4f;
+  background-color: #9c2b2e;
+  padding: 15px;
+  border-radius: 5px;
+  border: solid 1px #9c2b2e;
 }
 
 .Register__Button {
   height: 50px;
   width: 380px;
-  margin-left: 50px;
+  width: 100%;
   margin-top: 30px;
   background-color: black;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 20px;
   color: white;
   border-radius: 9px;
   font-weight: bolder;
 }
 .Register__Button:hover {
-  filter: brightness(90%);
+  filter: brightness(80%);
 }
+
 .Login__Button:hover {
-  filter: brightness(90%);
+  filter: brightness(80%);
 }
+
 p {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 20px;
   margin-left: 75px;
   margin-top: 30px;
@@ -120,19 +139,20 @@ p {
 }
 
 .Login__Block {
-  height: 480px;
+  min-height: 480px;
   width: 480px;
   margin-top: 100px;
   margin-left: 35%;
   border-radius: 19px;
+  padding: 30px;
 }
 
 .Login__Block h1 {
   display: flex;
   flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 30px;
-  font-weight: bolder;
+  font-weight: 500;
   padding-top: 40px;
   text-align: center;
   color: white;
@@ -140,7 +160,8 @@ p {
 }
 
 .Login__Input {
-  margin-left: 50px;
+  width: 100%;
+  position: relative;
 }
 
 .Login__Input label {
@@ -151,34 +172,35 @@ p {
 }
 
 .Login__Input input {
-  padding-left: 15px;
-  padding-top: 3px;
+  padding: 3px 15px;
   border: none;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 18px;
   height: 50px;
-  width: 380px;
+  width: 100%;
   border: 1px solid grey;
   border-radius: 9px;
 }
 
 .Login__Input input::placeholder {
   color: #8ea9ad;
+  font-weight: 300;
+  font-size: 15px;
 }
 .Login__Icon1 {
   position: absolute;
-  top: 335px;
-  left: 910px;
-  color: rgb(35, 172, 129);
+  top: 50%;
+  right: 20px;
+  color: #00717f;
 }
 
 .Login__Button {
   height: 50px;
   width: 380px;
-  margin-left: 50px;
+  width: 100%;
   margin-top: 30px;
   background-color: black;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 20px;
   color: white;
   border-radius: 9px;
@@ -186,108 +208,99 @@ p {
 }
 
 .Login__Text {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 20px;
-  margin-left: 110px;
-  margin-top: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  text-align: center;
   color: white;
+  font-size: 15px;
+  margin-bottom: 20px;
 }
 
 .Forgot {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 16px;
   margin-left: 300px;
   margin-top: 30px;
   color: white;
 }
-.Survey__Block
-{
-    height: 770px;
-    width: 800px;
-    margin-left: 320px;
-    margin-top: 30px;
-    border-radius: 29px;
+.Survey__Block {
+  height: 770px;
+  width: 800px;
+  margin-left: 320px;
+  margin-top: 30px;
+  border-radius: 29px;
 }
 
-.Survey__Block button
-{
-    height: 50px;
-    width: 200px;
-    margin-left: 540px;
-    font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    border-radius: 9px;
-    color: white;
-    font-weight: bolder;
-    margin-top: 20px;
+.Survey__Block button {
+  height: 50px;
+  width: 200px;
+  margin-left: 540px;
+  font-size: 20px;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 9px;
+  color: white;
+  font-weight: bolder;
+  margin-top: 20px;
 }
-.Survey__Block button:hover
-{
-    filter:brightness(90%);
+.Survey__Block button:hover {
+  filter: brightness(90%);
 }
 
-h1
-{
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-    font-size: 40px;
-    font-weight: bolder;
-    padding-top: 20px;
-    margin-left: 25px;
+h1 {
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  font-size: 40px;
+  font-weight: bolder;
+  padding-top: 20px;
+  margin-left: 25px;
 }
 
-p
-{
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-    font-size: 20px;
-    margin-left: 25px;
+p {
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  font-size: 20px;
+  margin-left: 25px;
 }
 
-.Activity__Block
-{
-    margin-top: 30px;
-    margin-left: 45px;
-    height: 80px;
-    width: 700px;
-    padding: 8px;
-    display: flex;
-    flex-direction: row;
-    row-gap: 30px;
-    border-radius: 19px;
-    border: 1.5px solid black;
+.Activity__Block {
+  margin-top: 30px;
+  margin-left: 45px;
+  height: 80px;
+  width: 700px;
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  row-gap: 30px;
+  border-radius: 19px;
+  border: 1.5px solid black;
 }
 
-.Activity__Name
-{
-    height: 60px;
-    width: 300px;
-    margin-left: 5px;
-    border-radius: 19px;
-    padding-left: 25px;
-    padding-top: 18px;
-    font-family: Arial, Helvetica, sans-serif;
-    color:aqua;
-    font-size: 20px;
-    font-weight: bolder;
+.Activity__Name {
+  height: 60px;
+  width: 300px;
+  margin-left: 5px;
+  border-radius: 19px;
+  padding-left: 25px;
+  padding-top: 18px;
+  font-family: 'Poppins', sans-serif;
+  color: aqua;
+  font-size: 20px;
+  font-weight: bolder;
 }
-.Activity__Start
-{
-    height: 60px;
-    width: 180px;
-    background-color: aqua;
-    margin-left: 300px;
-    border-radius: 19px;
-
+.Activity__Start {
+  height: 60px;
+  width: 180px;
+  background-color: aqua;
+  margin-left: 300px;
+  border-radius: 19px;
 }
-.Activity__Start select
-{
-    border: none;
-    height: 60px;
-    width: 180px;
-    padding : 20px;
-    padding-left: 45px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
-    font-weight: bolder;
+.Activity__Start select {
+  border: none;
+  height: 60px;
+  width: 180px;
+  padding: 20px;
+  padding-left: 45px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: bolder;
 }

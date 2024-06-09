@@ -18,11 +18,12 @@ function RegisterPage() {
   };
 
   return (
-    <div
+    <form
       className="Register__Block"
       style={{ backgroundImage: 'linear-gradient(to right, #146D78, #1F3336)' }}
     >
       <h1>Register</h1>
+      <p className="error_notification">Error</p>
       <div className="Register__Input">
         <label htmlFor="email">E-mail</label>
         <input
@@ -101,7 +102,7 @@ function RegisterPage() {
       >
         Register
       </button>
-      <p>
+      <p className="Login__Text">
         Already have account ?
         <Link
           to="/"
@@ -112,7 +113,7 @@ function RegisterPage() {
         </Link>
         here
       </p>
-    </div>
+    </form>
   );
 }
 
