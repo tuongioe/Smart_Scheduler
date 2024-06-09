@@ -53,7 +53,7 @@ export default function CreateEventButton() {
                   }}
                   PaperProps={{
                       style: {
-                          backgroundColor: 'rgb(0,0,0,0.5)', // Thay đổi màu nền của menu thành màu đen
+                          backgroundColor: 'rgb(0,0,0,0.5)',
                           color: "white"
                       },
                   }}

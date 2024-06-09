@@ -118,12 +118,13 @@ export default function ContextWrapper(props) {
     );
   }
 
-  function addEventDate(color, label) {
+  function addEventDate(id, color, label) {
       const totalEvent = eventDates;
       const eventIndex = totalEvent.findIndex(event => event.label === label)
 
       if(eventIndex === -1){
           totalEvent.push({
+              id,
               color,
               label,
               checked: true

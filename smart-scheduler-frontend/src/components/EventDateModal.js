@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
 import GlobalContext from "../context/GlobalContext";
 import {Checkbox} from "@mui/material";
+import {axiosClient} from "../utils/util";
 
 export default function EventDateModal() {
   const {
@@ -68,9 +69,24 @@ export default function EventDateModal() {
 
     if (selectedEvent) {
       // dispatchCalEvent({ type: "update", payload: calendarEvent });
-      alert('update event');
+      console.log('update event');
     } else {
-      dispatchCalEvent({ type: "push", payload: calendarEvent });
+      const nextTime = daySelected;
+      axiosClient.post('/api', {
+        title,
+        description,
+        calendarId: selectedLabel.id,
+        startTime: daySelected,
+        endTime: nextTime.add('hour', 1),
+        isRecurring: true,
+      })
+          .then(result => {
+            console.log(JSON.stringify(result, null, 2));
+            dispatchCalEvent({ type: "push", payload: calendarEvent });
+          })
+          .catch(error=>{
+            console.log(JSON.stringify(error, null, 2));
+          })
     }
 
     setShowEventAddDateModel(false);
@@ -130,7 +146,7 @@ export default function EventDateModal() {
 
                 <label htmlFor="#allDay" className="text-[#00717F]">All Day</label>
 
-                <select id="repeat" className="">
+                <select id="repeat" className="bg-dark-color">
                   <option value="no-repeat">No repeat</option>
                   <option value="everyday">Every day</option>
                   <option value="every-thursday">Every thursday</option>
@@ -157,7 +173,7 @@ export default function EventDateModal() {
                       onChange={handleChange}
               >
                 {labels.map((el, index)=>(
-                    <option key={`select-option-label-${index}`} value={el.label}>
+                    <option key={`select-option-label-${index}`} value={el.id}>
                       {el.label}
                     </option>
                 ))}

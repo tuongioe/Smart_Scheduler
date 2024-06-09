@@ -43,6 +43,8 @@ export default function EventAddLabelModel() {
             color: selectedLabel,
         })
             .then(result=>{
+                console.log(JSON.stringify(result, null, 2));
+
                 addLabel(
                     result.data.id,
                     selectedLabel,
