@@ -1,5 +1,5 @@
 import '../assets/User.css';
-
+import { useEffect } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import React, { useState } from 'react';
 import axios, { Axios } from 'axios';
@@ -8,6 +8,15 @@ import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const navigate = useNavigate();
+  useEffect(() => {
+    const verifyAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        navigate('/survey');
+      }
+    };
+    verifyAuth();
+  }, []);
   const [showPassword, setShowPassword] = useState({});
   const [error, setError] = useState();
   const togglePasswordVisibility = () => {
@@ -35,6 +44,7 @@ function LoginPage() {
       );
 
       localStorage.setItem('token', response.data.data.token);
+      navigate('/survey');
     } catch (e) {
       setError({
         msg: e.response.data.message,
@@ -75,7 +85,7 @@ function LoginPage() {
           type={showPassword ? 'text' : 'password'}
           id="password"
           placeholder="Enter your password"
-          autoComplete={false}
+          autoComplete="off"
           onChange={resetError}
           style={{
             backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',

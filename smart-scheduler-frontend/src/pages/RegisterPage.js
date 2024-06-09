@@ -1,12 +1,22 @@
 import '../assets/User.css';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function RegisterPage() {
   const navigate = useNavigate();
+  useEffect(() => {
+    const verifyAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        navigate('/survey');
+      }
+    };
+    verifyAuth();
+  }, []);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState();
@@ -103,7 +113,7 @@ function RegisterPage() {
           id="password"
           name="password"
           placeholder="Enter your password"
-          autoComplete={false}
+          autoComplete="off"
           onChange={resetError}
           style={{
             backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
@@ -129,7 +139,7 @@ function RegisterPage() {
           type={showConfirmPassword ? 'text' : 'password'}
           id="confirmpassword"
           placeholder="Enter your password"
-          autoComplete={false}
+          autoComplete="off"
           onChange={resetError}
           style={{
             backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
@@ -161,7 +171,7 @@ function RegisterPage() {
       <p className="Login__Text">
         Already have account ?
         <Link
-          to="/"
+          to="/login"
           style={{ fontWeight: 'bold', color: 'white', textDecoration: 'none' }}
         >
           {' '}
