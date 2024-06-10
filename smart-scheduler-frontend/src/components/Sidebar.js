@@ -7,14 +7,15 @@ export default function Sidebar() {
 
   return (
     <aside className="flex md:flex-col justify-center items-center md:w-10 h-full">
-      <div className="flex md:flex-col justify-center items-center h-full text-[#929292] text-3xl">
+      <div className="flex md:flex-col justify-center items-center h-full text-[#929292] text-2xl">
         <a
-          href="/"
+          href="/calendar"
           className={`mb-6 p-3 rounded-xl ${
-            location.pathname === "/"
+            location.pathname === "/calendar"
               ? "activeLink bg-[#232E30] text-primary"
               : ""
           }`}
+          style={{ transform: "scale(1.3)" }}
         >
           <i>
             <FaCalendar />
@@ -23,10 +24,11 @@ export default function Sidebar() {
         <a
           href="/ai-scheduler"
           className={`mb-6 p-3 rounded-xl ${
-            location.pathname === "/ai-scheduler"
+            location.pathname === "/ai"
               ? "activeLink bg-[#232E30] text-primary"
               : ""
           }`}
+          style={{ transform: "scale(1.3)" }}
         >
           <i>
             <FaWandMagicSparkles />
@@ -39,6 +41,7 @@ export default function Sidebar() {
               ? "activeLink bg-[#232E30] text-primary"
               : ""
           }`}
+          style={{ transform: "scale(1.3)" }}
         >
           <i>
             <FaGear />
