@@ -26,10 +26,26 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <LoginPage />,
+        loader: () => {
+          const token = localStorage.getItem('token');
+          if (token) {
+            return redirect('/dashboard');
+          } else {
+            return null;
+          }
+        },
       },
       {
         path: 'register',
         element: <RegisterPage />,
+        loader: () => {
+          const token = localStorage.getItem('token');
+          if (token) {
+            return redirect('/dashboard');
+          } else {
+            return null;
+          }
+        },
       },
       {
         path: 'survey',
@@ -37,7 +53,7 @@ const router = createBrowserRouter([
         loader: async () => {
           const token = localStorage.getItem('token');
           if (!token) {
-            return redirect('/login');
+            return redirect('/');
           } else {
             try {
               const response = await axios.get(
@@ -67,6 +83,14 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <DashboardLayout />,
+        loader: () => {
+          const token = localStorage.getItem('token');
+          if (!token) {
+            return redirect('/');
+          } else {
+            return null;
+          }
+        },
         children: [
           {
             index: true,

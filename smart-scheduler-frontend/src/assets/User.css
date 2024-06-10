@@ -48,7 +48,8 @@ body {
   width: 480px;
   margin-top: 20px;
   margin-bottom: 100px;
-  margin-left: 35%;
+  margin-left: 50%;
+  translate: -50%;
   padding: 20px;
   border-radius: 19px;
   padding: 30px;
@@ -142,6 +143,7 @@ body {
 
 .Login__Block {
   min-height: 480px;
+  max-height: 480px;
   width: 480px;
   position: absolute;
   top: 0;
@@ -319,51 +321,47 @@ h1 {
   font-weight: bolder;
 }
 @keyframes backgroundChange {
-    0% {
-        background: linear-gradient(to right, rgb(164, 219, 68) , rgb(219, 142, 53));
-        
-    }
-    85% {
-        background: linear-gradient(to right, #8360c3, #2ebf91);
-    }
-    100%
-    {
-        background: linear-gradient(to left, green, blue);
-    }
+  0% {
+    background: linear-gradient(to right, rgb(164, 219, 68), rgb(219, 142, 53));
   }
-  
-  .get-started-page {
-    animation: backgroundChange 3s forwards;
-    height: 100vh; /* Make sure the div covers the full viewport height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
+  85% {
+    background: linear-gradient(to right, #8360c3, #2ebf91);
   }
-  
-  .get-started-page h1 {
-    margin-bottom: 20px;
+  100% {
+    background: linear-gradient(to left, green, blue);
   }
-  
-  .get-started-page button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .welcome__btn
-  {
-    height: 40px;
-    width: 150px;
-    border-radius: 19px;
-    font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-    font-weight: bolder;
-  }
-
-.welcome__btn:hover{
-    filter: brightness(80%);
 }
 
+.get-started-page {
+  animation: backgroundChange 3s forwards;
+  height: 100vh; /* Make sure the div covers the full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.get-started-page h1 {
+  margin-bottom: 20px;
+}
+
+.get-started-page button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.welcome__btn {
+  height: 40px;
+  width: 150px;
+  border-radius: 19px;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  font-weight: bolder;
+}
+
+.welcome__btn:hover {
+  filter: brightness(80%);
+}

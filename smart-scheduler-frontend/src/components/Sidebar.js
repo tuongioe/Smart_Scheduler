@@ -3,9 +3,15 @@ import { NavLink } from 'react-router-dom';
 import { FaCalendar, FaWandMagicSparkles, FaGear } from 'react-icons/fa6';
 import { useLocation } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa6';
+import { CiLogout } from 'react-icons/ci';
 
 export default function Sidebar() {
   const location = useLocation();
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    window.location.reload();
+  };
 
   return (
     <aside className="flex md:flex-col justify-center items-center md:w-10 h-full">
@@ -51,7 +57,11 @@ export default function Sidebar() {
         </NavLink>
       </div>
 
-      <div className="mt-auto mb-10">avatar</div>
+      <button className="mt-auto mb-10 " onClick={logout}>
+        <i className="text-rose-700">
+          <CiLogout className=" w-[30px] h-[30px]" />
+        </i>
+      </button>
     </aside>
   );
 }
