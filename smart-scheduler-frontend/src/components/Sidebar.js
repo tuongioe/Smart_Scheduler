@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaCalendar, FaWandMagicSparkles, FaGear } from 'react-icons/fa6';
 import { useLocation } from 'react-router-dom';
+import { FaUser } from 'react-icons/fa6';
 
 export default function Sidebar() {
   const location = useLocation();
@@ -36,7 +37,7 @@ export default function Sidebar() {
           </i>
         </NavLink>
         <NavLink
-          to="setting"
+          to="profile"
           className={`mb-6 p-3 rounded-xl ${
             location.pathname === '/dashboard/setting'
               ? 'activeLink bg-[#232E30] text-primary'
@@ -45,7 +46,7 @@ export default function Sidebar() {
           style={{ transform: 'scale(1.3)' }}
         >
           <i>
-            <FaGear />
+            <FaUser />
           </i>
         </NavLink>
       </div>

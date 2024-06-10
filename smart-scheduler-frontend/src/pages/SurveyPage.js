@@ -66,7 +66,9 @@ function SurveyPage() {
               },
             }
           );
-          console.log(response);
+          if (response.data.data.surveyTasks.length > 0) {
+            navigate('/dashboard');
+          }
         } catch (e) {
           console.log(e);
         }
