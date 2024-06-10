@@ -16,6 +16,7 @@ export default function Sidebar() {
               ? 'activeLink bg-[#232E30] text-primary'
               : ''
           }`}
+          style={{ transform: 'scale(1.3)' }}
         >
           <i>
             <FaCalendar />
@@ -28,6 +29,7 @@ export default function Sidebar() {
               ? 'activeLink bg-[#232E30] text-primary'
               : ''
           }`}
+          style={{ transform: 'scale(1.3)' }}
         >
           <i>
             <FaWandMagicSparkles />
@@ -40,6 +42,7 @@ export default function Sidebar() {
               ? 'activeLink bg-[#232E30] text-primary'
               : ''
           }`}
+          style={{ transform: 'scale(1.3)' }}
         >
           <i>
             <FaGear />
