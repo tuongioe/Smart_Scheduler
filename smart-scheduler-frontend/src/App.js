@@ -7,7 +7,7 @@ import { AIScheduler, Calendar, LoginPage, RegisterPage } from './pages';
 
 const App = () => {
   return (
-    <React.Fragment>
+       <React.Fragment>
       <div className="container mx-auto md:max-w-[1024px]">
         <div className="flex flex-col md:flex-row md:h-screen">
           <div className="w-full md:w-10/12">
@@ -18,11 +18,11 @@ const App = () => {
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/ai" element={<AIScheduler />} />
             </Routes>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </React.Fragment>
-  );
+      </React.Fragment>
+);
 };
 
 export default App;

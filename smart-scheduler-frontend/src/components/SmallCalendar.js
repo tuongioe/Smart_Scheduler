@@ -1,12 +1,11 @@
 import dayjs from "dayjs";
 import React, { useContext, useEffect, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
-import { getMonth } from "../util";
+import { getMonth } from "../utils/util";
 
 export default function SmallCalendar() {
   const {
     monthIndex,
-    setSmallCalendarMonth,
     setDaySelected,
     daySelected,
     currentDayFrame,
@@ -38,7 +37,7 @@ export default function SmallCalendar() {
     const currDay = day.format(format);
     const slcDay = daySelected && daySelected.format(format);
     if (nowDay === currDay) {
-      return "bg-primary rounded-full text-red";
+      return "bg-primary-400 rounded-full";
     } else if (currDay === slcDay) {
       return "bg-blue-100 rounded-full text-blue-600 font-bold";
     } else {
@@ -46,11 +45,11 @@ export default function SmallCalendar() {
     }
   }
   return (
-    <div className="mt-9">
+    <div className="w-[198px] h-[202px] p-3 border rounded-lg border-[rgba(146,146,146,0.5)] shadow-[0_1px_1px_1px_rgba(255,255,255,0.1)]">
       <header>
         <div className="flex justify-between">
           <button onClick={handlePrevMonth}>
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
             <g id="SVGRepo_iconCarrier"> 
@@ -58,13 +57,13 @@ export default function SmallCalendar() {
             </g>
           </svg>
           </button>
-          <p className="text-white font-bold item-center">
+          <div className="text-white font-bold item-center size-[16px] self-center">
             {currentDayFrame.format(
                 "MMMM"
             )}
-          </p>
+          </div>
           <button onClick={handleNextMonth}>
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
               <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier"> 
@@ -87,8 +86,8 @@ export default function SmallCalendar() {
               <button
                 key={`small-calendar-button-${idx}`}
                 onClick={() => {
-                  setSmallCalendarMonth(currentMonthIdx);
                   setDaySelected(day);
+                  setCurrentDayFrame(day);
                 }}
                 className={`py-1 w-full ${getDayClass(day)}`}
               >

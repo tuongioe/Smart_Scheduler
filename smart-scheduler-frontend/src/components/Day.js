@@ -9,6 +9,7 @@ export default function Day({ day, rowIdx }) {
         setShowEventAddDateModel,
         filteredEvents,
         setSelectedEvent,
+        labels
     } = useContext(GlobalContext);
 
     useEffect(() => {
@@ -26,7 +27,7 @@ export default function Day({ day, rowIdx }) {
     }
 
     return (
-        <div className="border-t border-b border-gray-200 flex flex-col">
+        <div className="border-t flex flex-col">
             <header className="flex flex-col items-center">
                 {(
                     <React.Fragment>
@@ -53,7 +54,8 @@ export default function Day({ day, rowIdx }) {
                     <div
                         key={idx}
                         onClick={() => setSelectedEvent(evt)}
-                        className={`bg-${evt.label}-200 p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
+                        className={`text-gray-600 rounded mb-1 truncate`}
+                        style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
                     >
                         {evt.title}
                     </div>

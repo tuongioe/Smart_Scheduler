@@ -17,7 +17,6 @@ export default function DayOfWeek({ day, rowIdx }) {
             (evt) => {
                 return dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY")
             }
-
         );
         setDayEvents(events);
     }, [filteredEvents, day]);
@@ -29,32 +28,30 @@ export default function DayOfWeek({ day, rowIdx }) {
     }
 
     return (
-        <div className="border-r border-b border-gray-200 flex flex-col" >
-            <header className="flex flex-col items-center">
+        <div className="border-r border-gray-200 w-[120px]" >
                 {rowIdx === 0? (
-                    <React.Fragment>
-                        <p className="text-sm mt-1">
-                            {day.format("ddd").toUpperCase()}
-                        </p>
-                        <p
-                            className={`min-h-11 text-sm mt-1 text-center  ${getCurrentDayClass()}`}
-                        >
-                            {day.format("DD")}
-                        </p>
-                    </React.Fragment>
+                    <header className="flex flex-col items-center">
+                            <React.Fragment>
+                                <p className="text-sm mt-1">
+                                    {day.format("ddd").toUpperCase()}
+                                </p>
+                                <p
+                                    className={`min-h-11 text-sm mt-1 text-center  ${getCurrentDayClass()}`}
+                                >
+                                    {day.format("DD")}
+                                </p>
+                            </React.Fragment>
+
+                    </header>
                 ): (
-                    <p
-                        className={` p-1 my-1 text-center `}
-                    >
-                    </p>
+                    <React.Fragment>
+                    </React.Fragment>
                 )}
 
-            </header>
-
             <div
-                className="flex-1 cursor-pointer min-h-10 "
+                className="flex-1 cursor-pointer min-h-10 border-b h-[33px]"
                 onClick={() => {
-                    setDaySelected(day);
+                    setDaySelected(day.set('hour',rowIdx));
                     setShowEventAddDateModel(true);
                 }}
             >
@@ -62,9 +59,8 @@ export default function DayOfWeek({ day, rowIdx }) {
                     <div
                         key={idx}
                         onClick={() => setSelectedEvent(evt)}
-                        className={`p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
-                        style={{backgroundColor: labels.find(el=> el.label === evt.label).color}}
-
+                        className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
+                        style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
                     >
                         {evt.title}
                     </div>

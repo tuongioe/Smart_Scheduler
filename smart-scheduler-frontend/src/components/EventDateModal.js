@@ -1,42 +1,39 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import GlobalContext from "../context/GlobalContext";
 import {Checkbox} from "@mui/material";
-
-const labelsClasses = [
-  {
-    label: "indigo",
-    color: "#fffff"
-  },
-  {
-    label: "red",
-    color: "#fffff"
-  },
-  {
-    label: "blue",
-    color: "#fffff"
-  },
-  {
-    label: "green",
-    color: "#fffff"
-  },
-  {
-    label: "gray",
-    color: "#fffff"
-  },
-  {
-    label: "purple",
-    color: "#fffff"
-  }
-];
+import {axiosClient} from "../utils/util";
 
 export default function EventDateModal() {
   const {
+    frame,
     setShowEventAddDateModel,
     daySelected,
     dispatchCalEvent,
     selectedEvent,
       labels,
   } = useContext(GlobalContext);
+  const [nextTime, setNextTime] = useState(daySelected);
+  const modalRef = useRef();
+
+  useEffect(() => {
+    setNextTime(daySelected);
+  }, [daySelected]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (!modalRef.current.contains(event.target)) {
+        setShowEventAddDateModel(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [setShowEventAddDateModel]);
+
+
 
   const [title, setTitle] = useState(
     selectedEvent ? selectedEvent.title : ""
@@ -58,6 +55,7 @@ export default function EventDateModal() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    alert(JSON.stringify(selectedLabel, null, 2));
     const calendarEvent = {
       title,
       description,
@@ -70,9 +68,25 @@ export default function EventDateModal() {
     };
 
     if (selectedEvent) {
-      dispatchCalEvent({ type: "update", payload: calendarEvent });
+      // dispatchCalEvent({ type: "update", payload: calendarEvent });
+      console.log('update event');
     } else {
-      dispatchCalEvent({ type: "push", payload: calendarEvent });
+      const nextTime = daySelected;
+      axiosClient.post('/api', {
+        title,
+        description,
+        calendarId: selectedLabel.id,
+        startTime: daySelected,
+        endTime: nextTime.add('hour', 1),
+        isRecurring: true,
+      })
+          .then(result => {
+            console.log(JSON.stringify(result, null, 2));
+            dispatchCalEvent({ type: "push", payload: calendarEvent });
+          })
+          .catch(error=>{
+            console.log(JSON.stringify(error, null, 2));
+          })
     }
 
     setShowEventAddDateModel(false);
@@ -86,7 +100,7 @@ export default function EventDateModal() {
 
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
-      <form className="bg-dark-color rounded-lg shadow-2xl w-1/4">
+      <form className="bg-dark-color rounded-lg shadow-2xl w-1/4" ref={modalRef}>
         <div className="p-3">
           <div className="grid grid-cols-1/5 items-end gap-y-8">
             <div></div>
@@ -103,7 +117,7 @@ export default function EventDateModal() {
                   onChange={(e) => setTitle(e.target.value)}
               />
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex">
               <svg className="mr-7" width="30" height="30" viewBox="0 0 24 24" fill="none"
                    xmlns="http://www.w3.org/2000/svg"
                    stroke="#ffffff">
@@ -115,8 +129,12 @@ export default function EventDateModal() {
                       stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                 </g>
               </svg>
-              <div>
-              <p >{daySelected.format("dddd, MMMM DD")}</p>
+              <div className="">
+                <label>{daySelected.format("dddd, MMMM DD")}</label>
+
+                {frame!=="month"? <label className="ml-1"> {daySelected.format('hha')} - {nextTime.format('hha')}</label>:<></>}
+
+                <div></div>
                 <Checkbox
                     sx={{
                       color: '#00717F',
@@ -127,6 +145,13 @@ export default function EventDateModal() {
                 />
 
                 <label htmlFor="#allDay" className="text-[#00717F]">All Day</label>
+
+                <select id="repeat" className="bg-dark-color">
+                  <option value="no-repeat">No repeat</option>
+                  <option value="everyday">Every day</option>
+                  <option value="every-thursday">Every thursday</option>
+                  <option value="option">Option</option>
+                </select>
               </div>
             </div>
 
@@ -136,7 +161,7 @@ export default function EventDateModal() {
                      xmlns="http://www.w3.org/2000/svg">
                   <path
                       d="M8 6.00067L21 6.00139M8 12.0007L21 12.0015M8 18.0007L21 18.0015M3.5 6H3.51M3.5 12H3.51M3.5 18H3.51M4 6C4 6.27614 3.77614 6.5 3.5 6.5C3.22386 6.5 3 6.27614 3 6C3 5.72386 3.22386 5.5 3.5 5.5C3.77614 5.5 4 5.72386 4 6ZM4 12C4 12.2761 3.77614 12.5 3.5 12.5C3.22386 12.5 3 12.2761 3 12C3 11.7239 3.22386 11.5 3.5 11.5C3.77614 11.5 4 11.7239 4 12ZM4 18C4 18.2761 3.77614 18.5 3.5 18.5C3.22386 18.5 3 18.2761 3 18C3 17.7239 3.22386 17.5 3.5 17.5C3.77614 17.5 4 17.7239 4 18Z"
-                      stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </span>
 
@@ -148,7 +173,7 @@ export default function EventDateModal() {
                       onChange={handleChange}
               >
                 {labels.map((el, index)=>(
-                    <option key={`select-option-label-${index}`} value={el.label}>
+                    <option key={`select-option-label-${index}`} value={el.id}>
                       {el.label}
                     </option>
                 ))}

@@ -15,7 +15,7 @@ export default function CreateEventButton() {
   return (
       <React.Fragment>
           <button
-              className="border p-2 flex items-center shadow-md hover:shadow-2xl"
+              className="ml-[256px] border p-2 flex items-center shadow-md hover:shadow-2xl border-solid border-[#00717F]"
               id="basic-button"
               aria-controls="basic-menu"
               aria-haspopup="true"
@@ -53,7 +53,7 @@ export default function CreateEventButton() {
                   }}
                   PaperProps={{
                       style: {
-                          backgroundColor: 'rgb(0,0,0,0.5)', // Thay đổi màu nền của menu thành màu đen
+                          backgroundColor: 'rgb(0,0,0,0.5)',
                           color: "white"
                       },
                   }}
