@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { FaPen, FaCalendarWeek, FaXmark } from "react-icons/fa6";
+import React, { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { FaPen, FaCalendarWeek, FaXmark } from 'react-icons/fa6';
+import customAxios from '../utils/customAxios';
 
 export default function AIScheduler() {
   const [formData, setFormData] = useState({
-    taskTitle: "",
-    estimateTime: "10 mins",
-    taskType: "health",
-    repeat: "noRepeat",
-    taskNote: "",
+    taskTitle: '',
+    estimateTime: '10 mins',
+    taskType: 'health',
+    repeat: 'noRepeat',
+    taskNote: '',
   });
 
   const [submittedData, setSubmittedData] = useState([]);
@@ -17,10 +18,10 @@ export default function AIScheduler() {
   const [isRepeatOpen, setisRepeatOpen] = useState(false);
   const [isRepeatDetailsOpen, setisRepeatDetailsOpen] = useState(false);
   const [currentTaskIndex, setCurrentTaskIndex] = useState(null);
-  const [repeatOption, setRepeatOption] = useState("Day");
-  const [repeatTimes, setRepeatTimes] = useState("1");
+  const [repeatOption, setRepeatOption] = useState('Day');
+  const [repeatTimes, setRepeatTimes] = useState('1');
   const [repeatDays, setRepeatDays] = useState([]);
-  const [endOption, setEndOption] = useState("never");
+  const [endOption, setEndOption] = useState('never');
   const [endDate, setEndDate] = useState(new Date());
 
   const openEditModal = (index) => {
@@ -58,7 +59,7 @@ export default function AIScheduler() {
       ...formData,
       [name]: value,
     });
-    if (name === "repeat" && value === "optionRepeat") {
+    if (name === 'repeat' && value === 'optionRepeat') {
       openRepeatModal();
     }
   };
@@ -98,11 +99,11 @@ export default function AIScheduler() {
       setSubmittedData([...submittedData, formData]);
     }
     setFormData({
-      taskTitle: "",
-      estimateTime: "30 min",
-      taskType: "health",
-      repeat: "noRepeat",
-      taskNote: "",
+      taskTitle: '',
+      estimateTime: '30 min',
+      taskType: 'health',
+      repeat: 'noRepeat',
+      taskNote: '',
     });
     closeEditModal();
   };
@@ -117,19 +118,28 @@ export default function AIScheduler() {
   };
 
   const dayMapping = {
-    M: "Monday",
-    T: "Tuesday",
-    W: "Wednesday",
-    Th: "Thursday",
-    F: "Friday",
-    Sa: "Saturday",
-    S: "Sunday",
+    M: 'Monday',
+    T: 'Tuesday',
+    W: 'Wednesday',
+    Th: 'Thursday',
+    F: 'Friday',
+    Sa: 'Saturday',
+    S: 'Sunday',
   };
 
+  const fetchTest = async () => {
+    localStorage.getItem('token');
+    console.log(await customAxios.get('/api/calendar/month/2024/05/23'));
+  };
+
+  useEffect(() => {
+    fetchTest();
+  }, []);
+
   return (
-    <div className="">
-      <div className="mt-0 flex flex-col md:flex-row items-center md:justify-around md:items-start md:mt-20">
-        <div className="w-[273px] h-auto">
+    <div>
+      <div className="h-screen items-center flex flex-col md:flex-row md:justify-around md:items-start">
+        <div className="w-[273px] my-auto">
           <div className="text-[22px] font-bold leading-[25.2px] text-center">
             Create new task
           </div>
@@ -221,13 +231,13 @@ export default function AIScheduler() {
             <button
               type="submit"
               className="mt-[30px] rounded-xl w-[273px] h-[50px] text-center leading-[50px] font-medium text-lg hover:bg-primary-100 md:mt-[50px]"
-              style={{ border: "1px solid #004B55" }}
+              style={{ border: '1px solid #004B55' }}
             >
               Add task
             </button>
           </form>
         </div>
-        <div className="w-[346px] h-auto mt-20 md:mt-0">
+        <div className="w-[346px] my-auto">
           <div className="flex justify-center">
             <div className="mr-2 text-[22px] font-bold leading-[25.2px] text-center">
               Generate schedule
@@ -239,7 +249,7 @@ export default function AIScheduler() {
                 <div
                   key={index}
                   className={`group py-5 flex hover:bg-[#373636] ${
-                    index === 0 ? "rounded-t-xl" : ""
+                    index === 0 ? 'rounded-t-xl' : ''
                   }`}
                 >
                   <div className="w-2/12 cursor-pointer">
@@ -256,7 +266,7 @@ export default function AIScheduler() {
                   >
                     <p className="text-sm font-light leading-[16px] mr-1 w-6/12 text-small-text">
                       {task.taskTitle.length > 16
-                        ? task.taskTitle.substring(0, 14) + "..."
+                        ? task.taskTitle.substring(0, 14) + '...'
                         : task.taskTitle}
                     </p>
                     <p className="text-sm font-light leading-[16px] mr-1 w-6/12 text-small-text">
@@ -264,7 +274,7 @@ export default function AIScheduler() {
                     </p>
                   </div>
                   <div className="w-2/12 cursor-pointer flex justify-center text-small-text hover:text-white">
-                    {task.repeat === "optionRepeat" && (
+                    {task.repeat === 'optionRepeat' && (
                       <i onClick={() => openRepeatDetailsModal(index)}>
                         <FaCalendarWeek />
                       </i>
@@ -274,7 +284,7 @@ export default function AIScheduler() {
               ))
             ) : (
               <div className="flex justify-center items-center h-full">
-                No tasks found.
+                Generate some tasks
               </div>
             )}
             <div className="absolute bottom-10 left-0 right-0 m-auto rounded-xl w-[273px] h-[50px] bg-primary-200 text-center leading-[50px] font-medium text-lg hover:bg-primary-100 cursor-pointer">
@@ -300,7 +310,7 @@ export default function AIScheduler() {
                 <option value="Week">Week</option>
               </select>
             </div>
-            {repeatOption === "Day" && (
+            {repeatOption === 'Day' && (
               <div className="mb-4">
                 <label className="block mb-2">Times:</label>
                 <select
@@ -316,17 +326,17 @@ export default function AIScheduler() {
                 </select>
               </div>
             )}
-            {repeatOption === "Week" && (
+            {repeatOption === 'Week' && (
               <div className="mb-4">
                 <label className="block mb-2">Days:</label>
                 <div className="flex space-x-2">
-                  {["M", "T", "W", "Th", "F", "Sa", "S"].map((day) => (
+                  {['M', 'T', 'W', 'Th', 'F', 'Sa', 'S'].map((day) => (
                     <button
                       key={day}
                       className={`w-8 h-8 flex items-center justify-center rounded-full ${
                         repeatDays.includes(day)
-                          ? "bg-primary-50 text-white"
-                          : "bg-[#262525] border border-primary-200"
+                          ? 'bg-primary-50 text-white'
+                          : 'bg-[#262525] border border-primary-200'
                       }`}
                       onClick={() =>
                         handleRepeatDayChange({ target: { value: day } })
@@ -349,7 +359,7 @@ export default function AIScheduler() {
                 <option value="onDate">On Date</option>
               </select>
             </div>
-            {endOption === "onDate" && (
+            {endOption === 'onDate' && (
               <div className="mb-4">
                 <label className="block mb-2">End Date:</label>
                 <DatePicker
@@ -498,13 +508,13 @@ export default function AIScheduler() {
                   <div className="">{repeatOption}</div>
                 </div>
                 <div className="text-lg mt-[10px] w-[200px]">
-                  {repeatOption === "Day" && (
+                  {repeatOption === 'Day' && (
                     <div className="flex">
                       <div className="mr-3 font-medium">Times:</div>
                       <div className="">{repeatTimes}</div>
                     </div>
                   )}
-                  {repeatOption === "Week" && (
+                  {repeatOption === 'Week' && (
                     <div className="flex">
                       <div className="mr-3 font-medium">Repeat on:</div>
                       <div className="flex flex-wrap flex-row">
@@ -525,8 +535,8 @@ export default function AIScheduler() {
                     End day:
                   </div>
                   <div className="">
-                    {endOption === "never" ? (
-                      "Never"
+                    {endOption === 'never' ? (
+                      'Never'
                     ) : (
                       <DatePicker
                         selected={endDate}
