@@ -9,6 +9,8 @@ import dayjs from "dayjs";
 
 function savedEventsReducer(state, { type, payload }) {
   switch (type) {
+      case "new":
+          return payload;
     case "push":
       return [...state, payload];
     case "update":
@@ -36,11 +38,13 @@ export default function ContextWrapper(props) {
   const [showEventAddDateModel, setShowEventAddDateModel] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [labels, setLabels] = useState([]);
+
   const [savedEvents, dispatchCalEvent] = useReducer(
     savedEventsReducer,
     [],
     initEvents
   );
+
   const [labelClasses, setLabelClasses] = useState([
       {
           label: "white",
@@ -137,7 +141,6 @@ export default function ContextWrapper(props) {
   }
 
   function addLabel(id, color, label) {
-
           labels.push({
               id,
               color,

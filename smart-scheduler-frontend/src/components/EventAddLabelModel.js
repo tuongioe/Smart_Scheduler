@@ -38,13 +38,13 @@ export default function EventAddLabelModel() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const result = await axiosClient.post('/calendar',{
+        const result = await axiosClient.post('/api/calendar',{
             title,
             color: selectedLabel,
         });
 
         addLabel(
-            result.data.id,
+            result.data.data.id,
             selectedLabel,
             title
         );

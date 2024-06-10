@@ -14,9 +14,14 @@ export default function EventDateModal() {
   } = useContext(GlobalContext);
   const [nextTime, setNextTime] = useState(daySelected);
   const modalRef = useRef();
+  const [isAllDay, setIsAllDay] = useState(true);
 
+  const handleCheckboxChange = (event) => {
+    setIsAllDay(event.target.checked);
+  };
+  
   useEffect(() => {
-    setNextTime(daySelected);
+    setNextTime(daySelected.add(1,'hour'));
   }, [daySelected]);
 
   useEffect(() => {
@@ -52,41 +57,44 @@ export default function EventDateModal() {
       : labels[0]
   );
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    alert(JSON.stringify(selectedLabel, null, 2));
     const calendarEvent = {
       title,
       description,
       label: selectedLabel.label,
-      from: null,
-      to: null,
-      isAllDay: true,
+      from: daySelected.toISOString().slice(0,-1),
+      to: nextTime.toISOString().slice(0,-1),
+      isAllDay,
       day: daySelected.valueOf(),
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
 
     if (selectedEvent) {
       // dispatchCalEvent({ type: "update", payload: calendarEvent });
-      console.log('update event');
     } else {
-      const nextTime = daySelected;
-      axiosClient.post('/api', {
+      console.log(JSON.stringify({
         title,
         description,
         calendarId: selectedLabel.id,
-        startTime: daySelected,
-        endTime: nextTime.add('hour', 1),
-        isRecurring: true,
-      })
-          .then(result => {
-            console.log(JSON.stringify(result, null, 2));
-            dispatchCalEvent({ type: "push", payload: calendarEvent });
-          })
-          .catch(error=>{
-            console.log(JSON.stringify(error, null, 2));
-          })
+        startTime: daySelected.toISOString().slice(0,-1),
+        endTime: nextTime.toISOString().slice(0,-1),
+        isRecurring: false,
+      }, null, 2));
+
+      const result = await axiosClient.post('/api/task', {
+        title,
+        description,
+        calendarId: selectedLabel.id,
+        startTime: daySelected.toISOString().slice(0,-1),
+        endTime: nextTime.toISOString().slice(0,-1),
+        isRecurring: false,
+      });
+
+      console.log(result);
+
+      dispatchCalEvent({ type: "push", payload: calendarEvent });
     }
 
     setShowEventAddDateModel(false);
@@ -142,6 +150,9 @@ export default function EventDateModal() {
                         color: '#00717F',
                       },
                     }}
+                    checked={isAllDay}
+                    onChange={handleCheckboxChange}
+                    inputProps={{ 'aria-label': 'controlled' }}
                 />
 
                 <label htmlFor="#allDay" className="text-[#00717F]">All Day</label>
