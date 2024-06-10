@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './User.css';
+import '../assets/User.css';
 import { Link } from 'react-router-dom';
 
 function GetStartedPage() {
