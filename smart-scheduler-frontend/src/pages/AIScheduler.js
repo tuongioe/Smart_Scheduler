@@ -1,15 +1,24 @@
 import { useEffect, useState } from 'react';
-import { Form, useActionData } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FaPen, FaCalendarWeek, FaXmark } from 'react-icons/fa6';
-import { dayMapping, timeOptions, estimateTimeOptions } from '../utils/renderArr';
-
+import {
+  dayMapping,
+  timeOptions,
+  estimateTimeOptions,
+} from '../utils/renderArr';
+import {
+  formatAmPmDate,
+  toISOWithoutZ,
+  createDateTimeWithSpecificTime,
+  convertToTimeString,
+} from '../utils/dateFormat';
 import {
   createManyTasks,
   generateTask,
   getAllCalendars,
 } from '../apis/generate';
+import { toast } from 'react-toastify';
+import ReactLoading from 'react-loading';
 
 export default function AIScheduler() {
   const [formData, setFormData] = useState({
@@ -45,7 +54,7 @@ export default function AIScheduler() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    };
+  };
 
   const handleEditingTaskChange = (e) => {
     console.log(editingTask);
@@ -97,7 +106,7 @@ export default function AIScheduler() {
     setFormData({
       title: '',
       estimatedTime: '30',
-      calendarId: '',
+      calendarId: calendars[0].id,
       description: '',
       isRecurring: false,
     });
@@ -131,12 +140,12 @@ export default function AIScheduler() {
   const handleSaveEditBtnClick = () => {
     const { title, calendarId, description, startTime, endTime, isRecurring } =
       editingTask;
-    
+
     const request = {
       title,
       calendarId,
       description,
-       startTime: createDateTimeWithSpecificTime(startTime),
+      startTime: createDateTimeWithSpecificTime(startTime),
       endTime: createDateTimeWithSpecificTime(endTime),
       isRecurring,
     };
@@ -181,6 +190,7 @@ export default function AIScheduler() {
 
   const fetchCalendars = async () => {
     const { data } = await getAllCalendars();
+    console.log(data);
     setCalendars(data);
     setFormData({ ...formData, calendarId: data[0].id });
     setIsLoading(false);
@@ -305,7 +315,7 @@ export default function AIScheduler() {
                     index === 0 ? 'rounded-t-xl' : ''
                   }`}
                 >
-                <div className="w-8/12 flex justify-between">
+                  <div className="w-8/12 flex justify-between">
                     <p className="text-sm leading-[16px] mr-1 text-md">
                       {title.length > 16
                         ? title.substring(0, 14) + '...'
@@ -420,7 +430,7 @@ export default function AIScheduler() {
       )}
 
       {/* Edit Modal */}
-      {/* {isEditOpen && (
+      {isEditOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-[#262525] max-w-custom w-[420px] rounded-xl shadow-custom flex justify-center items-center">
             <div className="w-8/12 flex-col justify-center items-center">
@@ -433,7 +443,7 @@ export default function AIScheduler() {
                   onChange={handleEditingTaskChange}
                 />
               </div>
-  <div>
+              <div>
                 {/* Start time */}
                 <div className="mt-[30px] w-full h-[60px] flex flex-col items-center md:flex-row md:justify-between md:h-[38px]">
                   <label className="text-lg font-medium">Start time</label>
@@ -617,12 +627,11 @@ export default function AIScheduler() {
                     Save
                   </button>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 }
