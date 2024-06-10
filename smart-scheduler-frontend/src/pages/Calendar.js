@@ -40,9 +40,9 @@ export default function Calendar() {
         {showEventAddDateModel && <EventDateModal />}
         {showEventAddLabelModel && <EventAddLabelModel />}
 
-        <div className={`${frame === "month"? "h-screen":""} flex flex-col bg-dark-color text-white pl-[24px] no-scrollbar`}>
+        <div className={`${frame === "month"? "h-screen":""} flex flex-col bg-dark-color text-white pl-[24px] no-scrollbar`} style={{margin: "0 auto"}}>
           <CalendarHeader />
-          <div className="h-screen w-screen flex overflow-y-scroll no-scrollbar">
+          <div className="h-screen flex overflow-y-scroll no-scrollbar">
             <aside className="w-[198px] mr-8 ml-[32px]">
               <SmallCalendar />
               <Labels />
