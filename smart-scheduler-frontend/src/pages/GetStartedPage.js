@@ -28,7 +28,7 @@ function GetStartedPage() {
   return (
     <div className="get-started-page">
       <h1>{contents[content]}</h1>
-      <Link to="/survey"><button className="welcome__btn">Get Started</button></Link>
+      <Link to="/survey"><button className="welcome__btn" style={{ backgroundImage: 'linear-gradient(to left, #00717F, #00777F)' }}>Get Started</button></Link>
     </div>
   );
 }
