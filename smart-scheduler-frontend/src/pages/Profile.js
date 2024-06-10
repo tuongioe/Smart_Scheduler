@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../assets/User.css';
 import axios from 'axios';
+import SurveyForm from '../components/SurveyForm';
 
 function generateTimeOptions() {
   const options = [];
@@ -47,9 +48,11 @@ function convertTo12HourFormat(time24) {
 }
 
 const ProfilePage = () => {
+  const [formIsShow, setFormIsShow] = useState({ status: false, data: null });
   const navigate = useNavigate();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const timeOptions = generateTimeOptions();
+
   useEffect(() => {
     const verifyAuth = async () => {
       const token = localStorage.getItem('token');
@@ -76,79 +79,86 @@ const ProfilePage = () => {
 
     verifyAuth();
   }, []);
+
+  const closeForm = () => {
+    setFormIsShow({ status: false, data: null });
+  };
   return (
-    <div className="grid grid-cols-3 mt-[70px] gap-[30px] ">
-      <aside className="col-span-1 rounded-3xl  overflow-hidden w-full shadow-2xl">
-        <section className="relative flex flex-col items-center z-0 overflow-hidden  w-full h-[150px]  background pt-[40px] px-[40px] pb-[20px] ">
-          <img
-            src="https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833572.jpg?w=1060&t=st=1718015495~exp=1718016095~hmac=36ca437cbf93b5ae6d9d5fff98b707055513b9ed3403d224ee6473fe2d80155c"
-            alt=""
-            className="w-[100px] h-[100px] rounded-full border-[5px] border-solid border-[#fff] absolute top-[50px] "
-          />
-        </section>
-        <ul className="p-[30px] bg-[#262525]">
-          <div className="flex flex-col gap-[10px]">
-            <h2 className="text-2xl font-bold text-[#00a9bf]">Information</h2>
-            <p className="text-xl font-medium pl-[20px] text-[#00717f]">
-              Username:{' '}
-              <span className="font-bold text-white"> {user?.userName}</span>
-            </p>
-            <p className="text-xl font-medium text-[#00717f]  pl-[20px]">
-              Email :
-              <span className="font-bold  text-white "> {user?.email}</span>
-            </p>
-          </div>
-        </ul>
-      </aside>
-      <div
-        className="col-span-2 w-full rounded-[20px] p-[30px]"
-        style={{
-          backgroundImage: 'linear-gradient(to right, #146D78, #1F3336)',
-        }}
-      >
-        <form>
-          <button
-            type="submit"
-            className="w-[200px] p-[20px] rounded-[10px] text-xl font-bold  shadow-xl"
-            style={{
-              backgroundImage: 'linear-gradient(to left, #00717F, #00777F)',
-            }}
-          >
-            Create
-          </button>
-          <div className="Activity__Block">
-            <div className="Activity__Name">Breakfast</div>
-            <div className="Activity__Start">
-              <select id="breakfast-start">{timeOptions}</select>
+    <>
+      {formIsShow.status && (
+        <SurveyForm
+          timeOptions={timeOptions}
+          closeForm={closeForm}
+          convertTo12HourFormat={convertTo12HourFormat}
+          survey={formIsShow.data}
+        />
+      )}
+      <div className="w-full grid grid-cols-3 mt-[30px] gap-[30px] ">
+        <aside className="col-span-1 rounded-3xl  overflow-hidden w-full shadow-2xl">
+          <section className="relative flex flex-col items-center z-0 overflow-hidden  w-full h-[150px]  background pt-[40px] px-[40px] pb-[20px] ">
+            <img
+              src="https://img.freepik.com/free-psd/3d-rendering-avatar_23-2150833572.jpg?w=1060&t=st=1718015495~exp=1718016095~hmac=36ca437cbf93b5ae6d9d5fff98b707055513b9ed3403d224ee6473fe2d80155c"
+              alt=""
+              className="w-[100px] h-[100px] rounded-full border-[5px] border-solid border-[#fff] absolute top-[50px] "
+            />
+          </section>
+          <ul className="p-[30px] bg-[#262525]">
+            <div className="flex flex-col gap-[10px]">
+              <h2 className="text-2xl font-bold text-[#00a9bf]">Information</h2>
+              <p className="text-xl font-medium pl-[20px] text-[#00717f]">
+                Username:{' '}
+                <span className="font-bold text-white"> {user?.userName}</span>
+              </p>
+              <p className="text-xl font-medium text-[#00717f]  pl-[20px]">
+                Email :
+                <span className="font-bold  text-white "> {user?.email}</span>
+              </p>
             </div>
+          </ul>
+        </aside>
+        <div
+          className="col-span-2 w-full rounded-[20px] p-[30px]"
+          style={{
+            backgroundImage: 'linear-gradient(to right, #146D78, #1F3336)',
+          }}
+        >
+          <div>
+            <button
+              onClick={() => {
+                setFormIsShow({ status: true, data: null });
+              }}
+              className="w-[200px] p-[20px] ml-auto rounded-[10px] text-xl font-bold  shadow-xl"
+              style={{
+                backgroundImage: 'linear-gradient(to left, #00717F, #00777F)',
+              }}
+            >
+              Create
+            </button>
+
+            {user &&
+              user.surveyTasks.length > 0 &&
+              user.surveyTasks.map((task) => (
+                <div className="flex bg-[#00bcd4] p-[20px] rounded-xl justify-between items-center mt-[30px]">
+                  <div className="text-2xl font-medium w-[100px]">
+                    {task.title}
+                  </div>
+                  <div className=" text-2xl font-medium text-center">
+                    {task.startTime}
+                  </div>
+                  <button
+                    onClick={() => {
+                      setFormIsShow({ status: true, data: task });
+                    }}
+                    className="bg-[#004b55] px-[20px] py-[5px] rounded-lg text-xl font-medium"
+                  >
+                    Edit
+                  </button>
+                </div>
+              ))}
           </div>
-          <div className="Activity__Block">
-            <div className="Activity__Name">Lunch</div>
-            <div className="Activity__Start">
-              <select id="lunch-start">{timeOptions}</select>
-            </div>
-          </div>
-          <div className="Activity__Block">
-            <div className="Activity__Name">Dinner</div>
-            <div className="Activity__Start">
-              <select id="dinner-start">{timeOptions}</select>
-            </div>
-          </div>
-          {/* <div className="Activity__Block">
-          <div className="Activity__Name">Work/Study</div>
-          <div className="Activity__Start">
-            <select id="work-start">{timeOptions}</select>
-          </div>
-        </div> */}
-          <div className="Activity__Block">
-            <div className="Activity__Name">Take a shower</div>
-            <div className="Activity__Start">
-              <select id="shower-start">{timeOptions}</select>
-            </div>
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

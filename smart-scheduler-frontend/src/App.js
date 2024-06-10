@@ -10,6 +10,7 @@ import {
   HomeLayout,
   DashboardLayout,
 } from './pages';
+import ProfilePage from './pages/Profile';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
           {
             path: 'generate',
             element: <AIScheduler />,
+          },
+          {
+            path: 'profile',
+            element: <ProfilePage />,
           },
         ],
       },
