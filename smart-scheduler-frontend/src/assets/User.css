@@ -228,11 +228,20 @@ body {
   color: white;
 }
 .Survey__Block {
-  height: 770px;
+  max-height: 770px;
   width: 800px;
-  margin-left: 320px;
-  margin-top: 30px;
+  margin: 30px auto;
+  /* margin-top: 30px; */
   border-radius: 29px;
+  padding: 30px;
+}
+
+.survey__block__head {
+  text-align: center;
+}
+
+.survey__block__head p {
+  margin-top: 10px;
 }
 
 .Survey__Block button {
@@ -284,9 +293,11 @@ h1 {
   font-weight: bolder;
 }
 .Activity__Start {
+  display: flex;
+  align-items: center;
   height: 60px;
   width: 180px;
-  background-color: aqua;
+  background-color: #00717f;
   margin-left: 300px;
   border-radius: 19px;
 }
