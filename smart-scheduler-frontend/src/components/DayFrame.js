@@ -45,7 +45,7 @@ export default function DayFrame() {
                 {
                     listTime.map((_, i) => {
                         return <React.Fragment key={i}>
-                            <Day day={day.hour(i)} key={i} rowIdx={i}/>
+                            <Day day={currentDayFrame.hour(i)} key={i} rowIdx={i}/>
                         </React.Fragment>
                     })
                 }

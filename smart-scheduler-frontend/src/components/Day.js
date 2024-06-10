@@ -5,6 +5,7 @@ import GlobalContext from "../context/GlobalContext";
 export default function Day({ day, rowIdx }) {
     const [dayEvents, setDayEvents] = useState([]);
     const {
+        daySelected,
         setDaySelected,
         setShowEventAddDateModel,
         filteredEvents,
@@ -17,14 +18,9 @@ export default function Day({ day, rowIdx }) {
             (evt) =>
                 dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY")
         );
+
         setDayEvents(events);
     }, [filteredEvents, day]);
-
-    function getCurrentDayClass() {
-        return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
-            ? "bg-blue-custom-5 text-white rounded-full w-7"
-            : "";
-    }
 
     return (
         <div className="border-t flex flex-col">
@@ -46,20 +42,39 @@ export default function Day({ day, rowIdx }) {
             <div
                 className="flex-1 cursor-pointer"
                 onClick={() => {
-                    setDaySelected(day);
+                    setDaySelected(day.set('hour',rowIdx));
                     setShowEventAddDateModel(true);
                 }}
             >
-                {dayEvents.map((evt, idx) => (
-                    <div
-                        key={idx}
-                        onClick={() => setSelectedEvent(evt)}
-                        className={`text-gray-600 rounded mb-1 truncate`}
-                        style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
-                    >
-                        {evt.title}
-                    </div>
-                ))}
+                {dayEvents.map((evt, idx) => {
+                    const from = dayjs(evt.from + 'z').get('hour');
+                    const to = dayjs(evt.to + 'z').get('hour')
+
+                    if(!evt.isAllDay){
+                        if(rowIdx === from){
+                            return (
+                                <div
+                                    key={idx}
+                                    onClick={() => setSelectedEvent(evt)}
+                                    className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
+                                    style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
+                                >
+                                    {evt.title}
+                                </div>
+                            )
+                        }
+
+                    }else {
+                        return <div
+                            key={idx}
+                            onClick={() => setSelectedEvent(evt)}
+                            className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
+                            style={{fontSize: "12px", backgroundColor: labels.find(el => el.label === evt.label).color}}
+                        >
+                            {evt.title}
+                        </div>
+                    }
+                })}
             </div>
         </div>
     );
