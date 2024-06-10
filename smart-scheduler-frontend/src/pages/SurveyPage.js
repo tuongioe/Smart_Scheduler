@@ -3,6 +3,7 @@ import '../assets/User.css';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function generateTimeOptions() {
   const options = [];
@@ -37,10 +38,27 @@ function SurveyPage() {
       const token = localStorage.getItem('token');
       if (!token) {
         navigate('/login');
+      } else {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_SERVER_URL}api/user`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log(response);
+        } catch (e) {
+          console.log(e);
+        }
       }
     };
+
     verifyAuth();
   }, []);
+
   const timeOptions = generateTimeOptions();
 
   return (

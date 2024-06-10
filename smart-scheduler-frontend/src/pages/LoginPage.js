@@ -17,7 +17,7 @@ function LoginPage() {
     };
     verifyAuth();
   }, []);
-  const [showPassword, setShowPassword] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState();
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
