@@ -42,6 +42,7 @@ export default function ContextWrapper(props) {
     [],
     initEvents
   );
+
   const [labelClasses, setLabelClasses] = useState([
       {
           label: "white",

@@ -28,26 +28,28 @@ export default function Calendar() {
       const storageEvents = localStorage.getItem("savedEvents");
 
       const listCalendar = [];
-      const listTask = [];
+      const listLabels = [];
 
+      console.log(result.data.data)
       if(result.data.data.length > 0){
         const listData = result.data.data;
         for(let dataIndex = 0; dataIndex<listData.length; dataIndex ++){
           const calendar = listData[dataIndex];
+          const listTask = calendar.task;
 
-          const task = {
+          const label = {
               id: calendar.id,
               label: calendar.title,
               color: calendar.color,
               checked: true,
           };
 
-          listTask.push(task);
+          listLabels.push(label);
+
         }
       }
 
-      setLabels(listTask);
-      console.log(listTask)
+      setLabels(listLabels);
     })
   }, []);
 
