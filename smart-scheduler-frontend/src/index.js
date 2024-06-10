@@ -4,15 +4,26 @@ import './assets/index.css';
 import App from './App';
 import reportWebVitals from './utils/reportWebVitals';
 import ContextWrapper from './context/ContextWrapper';
-import Modal from 'react-modal';
-
-Modal.setAppElement('#root');
+import { Bounce, Slide, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ContextWrapper>
       <App />
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Slide}
+      />
     </ContextWrapper>
   </React.StrictMode>
 );
