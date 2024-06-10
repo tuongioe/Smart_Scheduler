@@ -58,9 +58,8 @@ export default function DayOfWeek({ day, rowIdx }) {
                 {dayEvents.map((evt, idx) => {
                     const from = dayjs(evt.from + 'z').get('hour');
                     const to = dayjs(evt.to + 'z').get('hour')
-                            // console.log(idx)
 
-                    if(from !== to){
+                    if(!evt.isAllDay){
                         if(rowIdx === from){
                             return (
                                 <div

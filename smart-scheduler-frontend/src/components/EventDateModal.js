@@ -14,7 +14,12 @@ export default function EventDateModal() {
   } = useContext(GlobalContext);
   const [nextTime, setNextTime] = useState(daySelected);
   const modalRef = useRef();
+  const [isAllDay, setIsAllDay] = useState(true);
 
+  const handleCheckboxChange = (event) => {
+    setIsAllDay(event.target.checked);
+  };
+  
   useEffect(() => {
     setNextTime(daySelected.add(1,'hour'));
   }, [daySelected]);
@@ -61,7 +66,7 @@ export default function EventDateModal() {
       label: selectedLabel.label,
       from: daySelected.toISOString().slice(0,-1),
       to: nextTime.toISOString().slice(0,-1),
-      isAllDay: true,
+      isAllDay,
       day: daySelected.valueOf(),
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
@@ -145,6 +150,9 @@ export default function EventDateModal() {
                         color: '#00717F',
                       },
                     }}
+                    checked={isAllDay}
+                    onChange={handleCheckboxChange}
+                    inputProps={{ 'aria-label': 'controlled' }}
                 />
 
                 <label htmlFor="#allDay" className="text-[#00717F]">All Day</label>
