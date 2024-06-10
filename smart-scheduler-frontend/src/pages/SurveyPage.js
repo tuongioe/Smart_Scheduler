@@ -66,7 +66,7 @@ function SurveyPage() {
               },
             }
           );
-          // console.log(response);
+          console.log(response);
         } catch (e) {
           console.log(e);
         }
@@ -86,10 +86,10 @@ function SurveyPage() {
     const dinner = e.target.elements['dinner-start'].value;
     const shower = e.target.elements['shower-start'].value;
     const data = [
-      { title: 'breakfast', startTime: breakfast },
-      { title: 'lunch', startTime: lunch },
-      { title: 'dinner', startTime: dinner },
-      { title: 'take a shower', startTime: shower },
+      { title: 'breakfast', startTime: convertTo12HourFormat(breakfast) },
+      { title: 'lunch', startTime: convertTo12HourFormat(lunch) },
+      { title: 'dinner', startTime: convertTo12HourFormat(dinner) },
+      { title: 'take a shower', startTime: convertTo12HourFormat(shower) },
     ];
 
     const token = localStorage.getItem('token');

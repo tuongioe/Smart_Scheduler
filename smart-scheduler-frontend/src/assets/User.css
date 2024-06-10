@@ -35,6 +35,14 @@ body {
   line-height: 1;
 }
 
+.background {
+  background: linear-gradient(
+    109.46deg,
+    #00bcd4 1.57%,
+    rgba(0, 75, 85, 0.2) 100%
+  );
+}
+
 .Register__Block {
   min-height: 630px;
   width: 480px;
@@ -268,8 +276,7 @@ h1 {
 }
 
 .Activity__Block {
-  margin-top: 30px;
-  margin-left: 45px;
+  margin: 30px auto;
   height: 80px;
   width: 700px;
   padding: 8px;
