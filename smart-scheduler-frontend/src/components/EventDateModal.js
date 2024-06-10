@@ -52,10 +52,9 @@ export default function EventDateModal() {
       : labels[0]
   );
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    alert(JSON.stringify(selectedLabel, null, 2));
     const calendarEvent = {
       title,
       description,
@@ -69,24 +68,27 @@ export default function EventDateModal() {
 
     if (selectedEvent) {
       // dispatchCalEvent({ type: "update", payload: calendarEvent });
-      console.log('update event');
     } else {
       const nextTime = daySelected;
-      axiosClient.post('/api', {
+      console.log(JSON.stringify({
         title,
         description,
         calendarId: selectedLabel.id,
-        startTime: daySelected,
-        endTime: nextTime.add('hour', 1),
+        startTime: daySelected.toISOString().slice(0,-1),
+        endTime: daySelected.toISOString().slice(0,-1),
         isRecurring: true,
-      })
-          .then(result => {
-            console.log(JSON.stringify(result, null, 2));
-            dispatchCalEvent({ type: "push", payload: calendarEvent });
-          })
-          .catch(error=>{
-            console.log(JSON.stringify(error, null, 2));
-          })
+      }, null, 2));
+
+      const result = await axiosClient.post('/api/task', {
+        title,
+        description,
+        calendarId: 10,
+        startTime: daySelected.toISOString().slice(0,-1),
+        endTime: daySelected.toISOString().slice(0,-1),
+        isRecurring: false,
+      });
+
+      dispatchCalEvent({ type: "push", payload: calendarEvent });
     }
 
     setShowEventAddDateModel(false);

@@ -9,7 +9,6 @@ import {
   SurveyPage,
   HomeLayout,
   DashboardLayout,
-  GetStartedPage,
 } from './pages';
 import ProfilePage from './pages/Profile';
 
@@ -29,10 +28,6 @@ const router = createBrowserRouter([
       {
         path: 'survey',
         element: <SurveyPage />,
-      },
-      {
-        path: '',
-        element: <GetStartedPage />,
       },
       {
         path: 'dashboard',

@@ -36,6 +36,7 @@ export default function ContextWrapper(props) {
   const [showEventAddDateModel, setShowEventAddDateModel] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [labels, setLabels] = useState([]);
+
   const [savedEvents, dispatchCalEvent] = useReducer(
     savedEventsReducer,
     [],
@@ -137,7 +138,6 @@ export default function ContextWrapper(props) {
   }
 
   function addLabel(id, color, label) {
-
           labels.push({
               id,
               color,
