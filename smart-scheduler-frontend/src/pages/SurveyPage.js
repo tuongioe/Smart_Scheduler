@@ -31,6 +31,23 @@ function generateTimeOptions() {
   return options;
 }
 
+function convertTo12HourFormat(time24) {
+  const [hour, minute] = time24.split(':');
+
+  let hourInt = parseInt(hour, 10);
+
+  const suffix = hourInt >= 12 ? 'pm' : 'am';
+
+  hourInt = hourInt % 12 || 12;
+
+  const hour12 = hourInt < 10 ? `0${hourInt}` : hourInt;
+  const minuteStr = minute < 10 ? `0${minute}` : minute;
+
+  const time12 = `${hour12}:${minuteStr}${suffix}`;
+
+  return time12;
+}
+
 function SurveyPage() {
   const navigate = useNavigate();
   useEffect(() => {
@@ -49,7 +66,7 @@ function SurveyPage() {
               },
             }
           );
-          console.log(response);
+          // console.log(response);
         } catch (e) {
           console.log(e);
         }
@@ -61,16 +78,48 @@ function SurveyPage() {
 
   const timeOptions = generateTimeOptions();
 
+  const surveyHandler = async (e) => {
+    e.preventDefault();
+
+    const breakfast = e.target.elements['breakfast-start'].value;
+    const lunch = e.target.elements['lunch-start'].value;
+    const dinner = e.target.elements['dinner-start'].value;
+    const shower = e.target.elements['shower-start'].value;
+    const data = [
+      { title: 'breakfast', startTime: breakfast },
+      { title: 'lunch', startTime: lunch },
+      { title: 'dinner', startTime: dinner },
+      { title: 'take a shower', startTime: shower },
+    ];
+
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}api/survey`,
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      navigate('/calendar');
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <div
       className="Survey__Block"
       style={{ backgroundImage: 'linear-gradient(to right, #146D78, #1F3336)' }}
     >
-      <div>
+      <div className="survey__block__head">
         <h1>Survey</h1>
         <p>Take a survey to help us know more about your daily routine</p>
       </div>
-      <div>
+      <form onSubmit={surveyHandler}>
         <div className="Activity__Block">
           <div className="Activity__Name">Breakfast</div>
           <div className="Activity__Start">
@@ -89,28 +138,29 @@ function SurveyPage() {
             <select id="dinner-start">{timeOptions}</select>
           </div>
         </div>
-        <div className="Activity__Block">
+        {/* <div className="Activity__Block">
           <div className="Activity__Name">Work/Study</div>
           <div className="Activity__Start">
             <select id="work-start">{timeOptions}</select>
           </div>
-        </div>
+        </div> */}
         <div className="Activity__Block">
           <div className="Activity__Name">Take a shower</div>
           <div className="Activity__Start">
             <select id="shower-start">{timeOptions}</select>
           </div>
         </div>
-      </div>
-      <Link to="/">
+        {/* <Link to="/"> */}
         <button
+          type="submit"
           style={{
             backgroundImage: 'linear-gradient(to left, #00717F, #00777F)',
           }}
         >
           Save
         </button>
-      </Link>
+        {/* </Link> */}
+      </form>
     </div>
   );
 }
