@@ -1,243 +1,236 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Form, useActionData } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaPen, FaCalendarWeek, FaXmark } from 'react-icons/fa6';
-import customAxios from '../utils/customAxios';
+import { dayMapping, estimateTimeOptions } from '../utils/renderArr';
+import {
+  createManyTasks,
+  generateTask,
+  getAllCalendars,
+} from '../apis/generate';
+import { formatAmPmDate, toISOWithoutZ } from '../utils/dateFormat';
+import ReactLoading from 'react-loading';
 
 export default function AIScheduler() {
   const [formData, setFormData] = useState({
-    taskTitle: '',
-    estimateTime: '10 mins',
-    taskType: 'health',
-    repeat: 'noRepeat',
-    taskNote: '',
+    title: '',
+    estimatedTime: '30',
+    calendarId: '',
+    description: '',
+    isRecurring: false,
   });
+  const [repeat, setRepeat] = useState({
+    type: 'day',
+    repeatGap: '1',
+    dayOfWeek: [],
+    endDate: new Date(),
+    hasEndDate: false,
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [generatedTasks, setGeneratedTasks] = useState([]);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isRepeatOpen, setIsRepeatOpen] = useState(false);
+  const [calendars, setCalendars] = useState([]);
 
-  const [submittedData, setSubmittedData] = useState([]);
-  const [isEditOpen, setisEditOpen] = useState(false);
-  const [isRepeatOpen, setisRepeatOpen] = useState(false);
-  const [isRepeatDetailsOpen, setisRepeatDetailsOpen] = useState(false);
-  const [currentTaskIndex, setCurrentTaskIndex] = useState(null);
-  const [repeatOption, setRepeatOption] = useState('Day');
-  const [repeatTimes, setRepeatTimes] = useState('1');
-  const [repeatDays, setRepeatDays] = useState([]);
-  const [endOption, setEndOption] = useState('never');
-  const [endDate, setEndDate] = useState(new Date());
+  // const openEditModal = (index) => {
+  //   setCurrentTaskIndex(index);
+  //   setFormData(generatedTasks[index]);
+  //   setIsEditOpen(true);
+  // };
 
-  const openEditModal = (index) => {
-    setCurrentTaskIndex(index);
-    setFormData(submittedData[index]);
-    setisEditOpen(true);
-  };
+  // const closeEditModal = () => {
+  //   setIsEditOpen(false);
+  //   setCurrentTaskIndex(null);
+  // };
 
-  const closeEditModal = () => {
-    setisEditOpen(false);
-    setCurrentTaskIndex(null);
-  };
+  // const openRepeatModal = () => {
+  //   setIsRepeatOpen(true);
+  // };
 
-  const openRepeatModal = () => {
-    setisRepeatOpen(true);
-  };
+  // const closeRepeatModal = () => {
+  //   setIsRepeatOpen(false);
+  // };
 
-  const closeRepeatModal = () => {
-    setisRepeatOpen(false);
-  };
+  // const openRepeatDetailsModal = (index) => {
+  //   setisRepeatDetailsOpen(true);
+  //   setFormData(generatedTasks[index]);
+  //   setCurrentTaskIndex(index);
+  // };
 
-  const openRepeatDetailsModal = (index) => {
-    setisRepeatDetailsOpen(true);
-    setFormData(submittedData[index]);
-    setCurrentTaskIndex(index);
-  };
+  // const closeRepeatDetailsModal = () => {
+  //   setisRepeatDetailsOpen(false);
+  // };
 
-  const closeRepeatDetailsModal = () => {
-    setisRepeatDetailsOpen(false);
-  };
+  // const handleDelete = (e) => {
+  //   e.preventDefault();
+  //   const updatedData = generatedTasks.filter(
+  //     (_, index) => index !== currentTaskIndex
+  //   );
+  //   setGeneratedTasks(updatedData);
+  //   closeEditModal();
+  // };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [e.target.name]: e.target.value,
     });
-    if (name === 'repeat' && value === 'optionRepeat') {
-      openRepeatModal();
-    }
   };
 
-  const handleRepeatOptionChange = (e) => {
-    setRepeatOption(e.target.value);
-  };
-
-  const handleRepeatTimesChange = (e) => {
-    setRepeatTimes(e.target.value);
-  };
-
-  const handleRepeatDayChange = (e) => {
-    const { value } = e.target;
-    setRepeatDays((prev) =>
-      prev.includes(value)
-        ? prev.filter((day) => day !== value)
-        : [...prev, value]
-    );
-  };
-
-  const handleEndOptionChange = (e) => {
-    setEndOption(e.target.value);
-  };
-
-  const handleEndDateChange = (date) => {
-    setEndDate(date);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (currentTaskIndex !== null) {
-      const updatedData = [...submittedData];
-      updatedData[currentTaskIndex] = formData;
-      setSubmittedData(updatedData);
-    } else {
-      setSubmittedData([...submittedData, formData]);
-    }
-    setFormData({
-      taskTitle: '',
-      estimateTime: '30 min',
-      taskType: 'health',
-      repeat: 'noRepeat',
-      taskNote: '',
+  const handleRepeatChange = (e) => {
+    setRepeat({
+      ...repeat,
+      [e.target.name]: e.target.value,
     });
-    closeEditModal();
   };
 
-  const handleDelete = (e) => {
+  const handleGenerateBtnClick = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
-    const updatedData = submittedData.filter(
-      (_, index) => index !== currentTaskIndex
-    );
-    setSubmittedData(updatedData);
-    closeEditModal();
+    const { title, calendarId, description, estimatedTime, isRecurring } =
+      formData;
+    const request = {
+      title,
+      calendarId,
+      description,
+      estimatedTime,
+      isRecurring,
+    };
+    if (isRecurring === 'true') {
+      const cleanRepeat = {
+        type: repeat.type,
+        repeatGap: repeat.repeatGap,
+        dayOfWeek: repeat.dayOfWeek,
+      };
+      if (repeat.hasEndDate === 'true')
+        cleanRepeat.endDate = toISOWithoutZ(repeat.endDate);
+      request.repeat = cleanRepeat;
+    }
+    console.log(request);
+    const task = await generateTask(request);
+    setGeneratedTasks([...generatedTasks, task]);
+    console.log(task);
+    setIsLoading(false);
   };
 
-  const dayMapping = {
-    M: 'Monday',
-    T: 'Tuesday',
-    W: 'Wednesday',
-    Th: 'Thursday',
-    F: 'Friday',
-    Sa: 'Saturday',
-    S: 'Sunday',
+  const handleSubmit = async (e) => {
+    setIsLoading(true);
+    e.preventDefault();
+    const createdTasks = await createManyTasks(generatedTasks);
+    console.log(createdTasks);
+    setIsLoading(false);
   };
 
-  const fetchTest = async () => {
-    localStorage.getItem('token');
-    console.log(await customAxios.get('/api/calendar/month/2024/05/23'));
+  const fetchCalendars = async () => {
+    const { data } = await getAllCalendars();
+    setCalendars(data);
+    setFormData({ ...formData, calendarId: data[0].id });
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchTest();
+    fetchCalendars();
   }, []);
+
+  if (isLoading)
+    return (
+      <div className="flex-1 flex items-center justify-center">
+        <ReactLoading height={'3%'} width={'3%'} />
+      </div>
+    );
 
   return (
     <div className="flex-1">
-      <div className="h-screen items-center flex flex-col md:flex-row md:justify-around md:items-start">
+      <div className="h-screen items-center flex flex-row justify-around">
         {/* Left col */}
-        <div className="w-[273px] my-auto">
+        <form method="post" className="w-[273px] my-auto">
           <div className="text-[22px] font-bold leading-[25.2px] text-center">
             Create new task
           </div>
-          <form onSubmit={handleSubmit}>
-            <div className="mt-[50px] relative">
-              <div className="absolute -top-5 left-4 font-medium text-lg bg-[#262525] p-1 ">
-                Title
-              </div>
-              <input
-                type="text"
-                name="taskTitle"
-                id="taskId"
-                placeholder="Enter title here"
-                value={formData.taskTitle}
-                onChange={handleChange}
-                required
-                className="rounded-xl w-full h-[47px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none"
-              />
+          <div className="mt-[50px] relative">
+            <div className="absolute -top-5 left-4 font-medium text-lg bg-[#262525] p-1 ">
+              Title
             </div>
-            <div className="mt-[30px] w-[272px] h-[38px]">
-              <label htmlFor="estimateTime" className="font-medium text-lg">
-                Estimate Time
-              </label>
-              <select
-                name="estimateTime"
-                id="estimateTime"
-                required
-                onChange={handleChange}
-                value={formData.estimateTime}
-                className="w-[134px] h-[38px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right"
-              >
-                <option value="10 mins">10 mins</option>
-                <option value="20 min">20 mins</option>
-                <option value="30 mins">30 mins</option>
-                <option value="1 hour">1 hour</option>
-                <option value="2 hours">2 hours</option>
-                <option value="3 hours">3 hours</option>
-                <option value="4 hours">4 hours</option>
-                <option value="5 hours">5 hours</option>
-              </select>
-            </div>
-            <div className="mt-[30px] w-[272px] h-[38px]">
-              <label htmlFor="taskType" className="text-lg font-medium">
-                Calendar
-              </label>
-              <select
-                name="taskType"
-                id="taskType"
-                required
-                onChange={handleChange}
-                value={formData.taskType}
-                className="w-[123px] h-[38px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right"
-              >
-                <option value="health">Health</option>
-                <option value="personal">Personal</option>
-                <option value="work">Work</option>
-              </select>
-            </div>
-            <div className="mt-[30px] w-[272px] h-[38px]">
-              <label htmlFor="repeat" className="text-lg font-medium">
-                Repeat
-              </label>
-              <select
-                name="repeat"
-                id="repeat"
-                required
-                onChange={handleChange}
-                value={formData.repeat}
-                className="w-[134px] h-[38px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right"
-              >
-                <option value="noRepeat">No repeat</option>
-                <option value="optionRepeat">Option...</option>
-              </select>
-            </div>
-            <div className="mt-[30px] relative">
-              <div className="absolute -top-5 left-4 text-lg font-medium bg-[#262525] p-1 ">
-                Description
-              </div>
-              <input
-                type="text"
-                name="taskNote"
-                id="taskNote"
-                placeholder="Enter description here"
-                onChange={handleChange}
-                value={formData.taskNote}
-                className="rounded-xl w-[273px] h-[50px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="mt-[30px] rounded-xl w-[273px] h-[50px] text-center leading-[50px] font-medium text-lg hover:bg-primary-100 md:mt-[50px]"
-              style={{ border: '1px solid #004B55' }}
+            <input
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="Enter title here"
+              required
+              className="rounded-xl w-full h-[47px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none"
+            />
+          </div>
+          <div className="mt-[30px] w-[272px] h-[38px]">
+            <label className="font-medium text-lg">Estimate Time</label>
+            <select
+              name="estimatedTime"
+              value={formData.estimatedTime}
+              onChange={handleChange}
+              required
+              className="w-[134px] h-[38px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right"
             >
-              Add task
-            </button>
-          </form>
-        </div>
+              {estimateTimeOptions.map(({ value, label }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mt-[30px] w-[272px] h-[38px]">
+            <label className="text-lg font-medium">Calendar</label>
+            <select
+              name="calendarId"
+              value={formData.calendarId}
+              onChange={handleChange}
+              required
+              className="w-[123px] h-[38px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right"
+            >
+              {calendars.map(({ id, title }) => (
+                <option key={id} value={id}>
+                  {title}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mt-[30px] w-[272px] h-[38px]">
+            <label className="text-lg font-medium">Repeat</label>
+            <select
+              name="isRecurring"
+              onChange={(e) => {
+                if (e.target.value === 'true') setIsRepeatOpen(true);
+                handleChange(e);
+              }}
+              required
+              value={formData.isRecurring}
+              className="w-[134px] h-[38px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right"
+            >
+              <option value={false}>No repeat</option>
+              <option value={true}>Option...</option>
+            </select>
+          </div>
+          {/* Description */}
+          <div className="mt-[30px] relative">
+            <label className="absolute -top-5 left-4 text-lg font-medium bg-[#262525] p-1 ">
+              Description
+            </label>
+            <input
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Enter description here"
+              className="rounded-xl w-[273px] h-[50px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={handleGenerateBtnClick}
+            className="mt-[30px] rounded-xl w-[273px] h-[50px] text-center leading-[50px] font-medium text-lg hover:bg-primary-100 md:mt-[50px]"
+            style={{ border: '1px solid #004B55' }}
+          >
+            Add task
+          </button>
+        </form>
         {/* Right col */}
         <div className="w-[346px] my-auto">
           <div className="flex justify-center">
@@ -246,8 +239,8 @@ export default function AIScheduler() {
             </div>
           </div>
           <div className="mt-[50px] w-[346px] h-[526px] border border-primary-200 rounded-xl relative">
-            {submittedData.length > 0 ? (
-              submittedData.map((task, index) => (
+            {generatedTasks.length > 0 ? (
+              generatedTasks.map(({ title, startTime, endTime }, index) => (
                 <div
                   key={index}
                   className={`group py-5 flex hover:bg-[#373636] ${
@@ -257,31 +250,31 @@ export default function AIScheduler() {
                   <div className="w-2/12 cursor-pointer">
                     <i
                       className="hidden group-hover:flex justify-center text-small-text hover:text-white"
-                      onClick={() => openEditModal(index)}
+                      // onClick={() => openEditModal(index)}
                     >
                       <FaPen />
                     </i>
                   </div>
                   <div
                     className="w-8/12 cursor-pointer flex justify-between"
-                    onClick={() => openEditModal(index)}
+                    // onClick={() => openEditModal(index)}
                   >
-                    <p className="text-sm font-light leading-[16px] mr-1 w-6/12 text-small-text">
-                      {task.taskTitle.length > 16
-                        ? task.taskTitle.substring(0, 14) + '...'
-                        : task.taskTitle}
+                    <p className="text-sm leading-[16px] mr-1 text-md">
+                      {title.length > 16
+                        ? title.substring(0, 14) + '...'
+                        : title}
                     </p>
-                    <p className="text-sm font-light leading-[16px] mr-1 w-6/12 text-small-text">
-                      6:30am - 7:00am
+                    <p className="text-sm leading-[16px] mr-1 text-md">
+                      {formatAmPmDate(startTime)} - {formatAmPmDate(endTime)}
                     </p>
                   </div>
-                  <div className="w-2/12 cursor-pointer flex justify-center text-small-text hover:text-white">
+                  {/* <div className="w-2/12 cursor-pointer flex justify-center text-small-text hover:text-white">
                     {task.repeat === 'optionRepeat' && (
                       <i onClick={() => openRepeatDetailsModal(index)}>
                         <FaCalendarWeek />
                       </i>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               ))
             ) : (
@@ -289,9 +282,13 @@ export default function AIScheduler() {
                 Generate some tasks
               </div>
             )}
-            <div className="absolute bottom-10 left-0 right-0 m-auto rounded-xl w-[273px] h-[50px] bg-primary-200 text-center leading-[50px] font-medium text-lg hover:bg-primary-100 cursor-pointer">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="absolute bottom-10 left-0 right-0 m-auto rounded-xl w-[273px] h-[50px] bg-primary-200 text-center leading-[50px] font-medium text-lg hover:bg-primary-100 cursor-pointer"
+            >
               Generate Schedule
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -303,48 +300,48 @@ export default function AIScheduler() {
             <h2 className="text-xl font-bold mb-4">Repeat Options</h2>
             <div className="mb-4">
               <label className="block mb-2">Repeat every:</label>
-              <select
-                value={repeatOption}
-                onChange={handleRepeatOptionChange}
-                className="w-full p-2 rounded bg-[#262525] border border-primary-200"
-              >
-                <option value="Day">Day</option>
-                <option value="Week">Week</option>
-              </select>
-            </div>
-            {repeatOption === 'Day' && (
-              <div className="mb-4">
-                <label className="block mb-2">Times:</label>
+              <div className="grid grid-cols-2">
+                <input
+                  name="repeatGap"
+                  min={1}
+                  type="number"
+                  value={repeat.repeatGap}
+                  onChange={handleRepeatChange}
+                  className="text-center"
+                />
                 <select
-                  value={repeatTimes}
-                  onChange={handleRepeatTimesChange}
+                  name="type"
+                  value={repeat.type}
+                  onChange={handleRepeatChange}
                   className="w-full p-2 rounded bg-[#262525] border border-primary-200"
                 >
-                  <option value="1">1 time</option>
-                  <option value="2">2 times</option>
-                  <option value="3">3 times</option>
-                  <option value="4">4 times</option>
-                  <option value="5">5 times</option>
+                  <option value="day">Day</option>
+                  <option value="week">Week</option>
+                  <option value="month">Month</option>
+                  <option value="year">Year</option>
                 </select>
               </div>
-            )}
-            {repeatOption === 'Week' && (
+            </div>
+            {repeat.type === 'week' && (
               <div className="mb-4">
                 <label className="block mb-2">Days:</label>
                 <div className="flex space-x-2">
-                  {['M', 'T', 'W', 'Th', 'F', 'Sa', 'S'].map((day) => (
+                  {dayMapping.map(({ value, label }) => (
                     <button
-                      key={day}
+                      key={value}
                       className={`w-8 h-8 flex items-center justify-center rounded-full ${
-                        repeatDays.includes(day)
+                        repeat.dayOfWeek.includes(value)
                           ? 'bg-primary-50 text-white'
                           : 'bg-[#262525] border border-primary-200'
                       }`}
                       onClick={() =>
-                        handleRepeatDayChange({ target: { value: day } })
+                        setRepeat({
+                          ...repeat,
+                          dayOfWeek: [...repeat.dayOfWeek, value],
+                        })
                       }
                     >
-                      {day}
+                      {label}
                     </button>
                   ))}
                 </div>
@@ -353,26 +350,27 @@ export default function AIScheduler() {
             <div className="mb-4">
               <label className="block mb-2">End:</label>
               <select
-                value={endOption}
-                onChange={handleEndOptionChange}
+                value={repeat.hasEndDate}
+                name="hasEndDate"
+                onChange={handleRepeatChange}
                 className="w-full p-2 rounded bg-[#262525] border border-primary-200"
               >
-                <option value="never">Never</option>
-                <option value="onDate">On Date</option>
+                <option value={false}>Never</option>
+                <option value={true}>On Date</option>
               </select>
             </div>
-            {endOption === 'onDate' && (
+            {repeat.hasEndDate === 'true' && (
               <div className="mb-4">
                 <label className="block mb-2">End Date:</label>
                 <DatePicker
-                  selected={endDate}
-                  onChange={handleEndDateChange}
+                  selected={repeat.endDate}
+                  onChange={(date) => setRepeat({ ...repeat, endDate: date })}
                   className="w-full p-2 rounded bg-[#262525] border border-primary-200"
                 />
               </div>
             )}
             <button
-              onClick={closeRepeatModal}
+              onClick={() => setIsRepeatOpen(!isRepeatOpen)}
               className="w-full mt-4 bg-primary-50 p-2 rounded text-white"
             >
               Save
@@ -382,7 +380,7 @@ export default function AIScheduler() {
       )}
 
       {/* Edit Modal */}
-      {isEditOpen && (
+      {/* {isEditOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-[#262525] max-w-custom w-[420px] rounded-xl shadow-custom flex justify-center items-center">
             <div className="w-8/12 flex-col justify-center items-center">
@@ -392,7 +390,7 @@ export default function AIScheduler() {
                   {formData.taskTitle}
                 </div>
               </div>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleGenerateBtnClick}>
                 <div className="mt-[30px] w-full h-[60px] flex flex-col items-center md:flex-row md:justify-between md:h-[38px]">
                   <label htmlFor="estimateTime" className="font-medium text-lg">
                     Estimate Time
@@ -481,10 +479,10 @@ export default function AIScheduler() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Repeat Details Modal */}
-      {isRepeatDetailsOpen && (
+      {/* {isRepeatDetailsOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-[#262525] max-w-custom w-[420px] rounded-xl shadow-custom flex justify-center items-center relative">
             <i
@@ -551,7 +549,7 @@ export default function AIScheduler() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

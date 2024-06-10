@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 const Dashboard = () => {
   return (
     <div className="container mx-auto">
-      <div className="flex h-screen gap-[20px]">
+      <div className="flex h-screen gap-[40px]">
         <Sidebar />
         <Outlet />
       </div>

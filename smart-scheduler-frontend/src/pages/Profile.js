@@ -20,6 +20,7 @@ function generateTimeOptions() {
     const minutesStr = minutes.toString().padStart(2, '0');
     const timeLabel = `${hours}:${minutesStr} ${ampm}`;
     const value24 = `${hours24}:${minutesStr}`;
+
     options.push(
       <option key={value24} value={value24}>
         {timeLabel}
@@ -52,9 +53,9 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const timeOptions = generateTimeOptions();
-
+  let verifyAuth;
   useEffect(() => {
-    const verifyAuth = async () => {
+    verifyAuth = async () => {
       const token = localStorage.getItem('token');
       if (!token) {
         navigate('/login');
@@ -69,7 +70,7 @@ const ProfilePage = () => {
               },
             }
           );
-          console.log(response.data.data);
+
           setUser(response.data.data);
         } catch (e) {
           console.log(e);
@@ -78,9 +79,9 @@ const ProfilePage = () => {
     };
 
     verifyAuth();
-  }, []);
+  }, [formIsShow]);
 
-  const closeForm = () => {
+  const closeForm = async () => {
     setFormIsShow({ status: false, data: null });
   };
   return (
@@ -123,38 +124,38 @@ const ProfilePage = () => {
           }}
         >
           <div>
-            <button
-              onClick={() => {
-                setFormIsShow({ status: true, data: null });
-              }}
-              className="w-[200px] p-[20px] ml-auto rounded-[10px] text-xl font-bold  shadow-xl"
-              style={{
-                backgroundImage: 'linear-gradient(to left, #00717F, #00777F)',
-              }}
-            >
-              Create
-            </button>
-
-            {user &&
-              user.surveyTasks.length > 0 &&
-              user.surveyTasks.map((task) => (
-                <div className="flex bg-[#00bcd4] p-[20px] rounded-xl justify-between items-center mt-[30px]">
-                  <div className="text-2xl font-medium w-[100px]">
-                    {task.title}
+            <div className="flex justify-end">
+              <button
+                onClick={() => {
+                  setFormIsShow({ status: true, data: null });
+                }}
+                className="w-[200px] p-[20px]  rounded-[10px] text-xl font-bold  shadow-xl bg-[#262525] border-[#00717F]"
+              >
+                Create
+              </button>
+            </div>
+            <div className="h-[500px] overflow-auto">
+              {user &&
+                user.surveyTasks.length > 0 &&
+                user.surveyTasks.map((task) => (
+                  <div className="flex bg-[#00bcd4] p-[20px] rounded-xl justify-between items-center mt-[30px] ">
+                    <div className="text-2xl font-medium w-[100px]">
+                      {task.title}
+                    </div>
+                    <div className=" text-2xl font-medium text-center">
+                      {task.startTime}
+                    </div>
+                    <button
+                      onClick={() => {
+                        setFormIsShow({ status: true, data: task });
+                      }}
+                      className="bg-[#004b55] px-[20px] py-[5px] rounded-lg text-xl font-medium"
+                    >
+                      Edit
+                    </button>
                   </div>
-                  <div className=" text-2xl font-medium text-center">
-                    {task.startTime}
-                  </div>
-                  <button
-                    onClick={() => {
-                      setFormIsShow({ status: true, data: task });
-                    }}
-                    className="bg-[#004b55] px-[20px] py-[5px] rounded-lg text-xl font-medium"
-                  >
-                    Edit
-                  </button>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
         </div>
       </div>

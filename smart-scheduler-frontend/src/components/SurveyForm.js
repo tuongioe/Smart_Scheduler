@@ -38,14 +38,18 @@ const SurveyForm = ({
     e.preventDefault();
 
     if (survey) {
-      const data = {
-        startTime: convertTo12HourFormat(e.target[1].value),
-        title: e.target[0].value,
-      };
+      const data = [
+        {
+          id: survey.id,
+          startTime: convertTo12HourFormat(e.target[1].value),
+          title: e.target[0].value,
+        },
+      ];
+
       const token = localStorage.getItem('token');
       try {
         const response = await axios.patch(
-          `${process.env.REACT_APP_SERVER_URL}api/survey/`,
+          `${process.env.REACT_APP_SERVER_URL}api/survey`,
           data,
           {
             headers: {
@@ -80,8 +84,8 @@ const SurveyForm = ({
         console.log(e);
       }
     }
-    console.log(convertTo24Hour(survey.startTime));
   };
+
   return (
     <>
       <div
@@ -99,13 +103,11 @@ const SurveyForm = ({
             defaultValue={survey ? survey.title : ''}
             className="text-3xl font-bold text-[#00bcd4] rounded-xl px-[20px] border-[#008494] border-solid border-[1px] bg-white w-[500px] h-[50px]"
           />
-          <select
-            id="time"
-            defaultValue={convertTo24Hour(survey.startTime)}
-            className="bg-[#008494] text-xl font-medium p-[12px] h-[50px] rounded-xl"
-          >
-            {timeOptions}
-          </select>
+          <input
+            type="time"
+            className="text-[#00bcd4] bg-white text-3xl rounded-xl pl-[20px]"
+            defaultValue={survey ? convertTo24Hour(survey.startTime) : ''}
+          />
         </div>
         <div className="mt-[60px] text-xl font-medium flex justify-center gap-5">
           <button
