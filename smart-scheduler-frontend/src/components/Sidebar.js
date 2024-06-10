@@ -39,7 +39,7 @@ export default function Sidebar() {
         <NavLink
           to="profile"
           className={`mb-6 p-3 rounded-xl ${
-            location.pathname === '/dashboard/setting'
+            location.pathname === '/dashboard/profile'
               ? 'activeLink bg-[#232E30] text-primary'
               : ''
           }`}
@@ -50,6 +50,7 @@ export default function Sidebar() {
           </i>
         </NavLink>
       </div>
+
       <div className="mt-auto mb-10">avatar</div>
     </aside>
   );
