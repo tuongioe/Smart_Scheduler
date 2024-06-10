@@ -32,6 +32,7 @@ export default function Calendar() {
 
       if(result.data.data.length > 0){
         const listData = result.data.data;
+        console.log(listData)
         for(let dataIndex = 0; dataIndex<listData.length; dataIndex ++){
           const calendar = listData[dataIndex];
           const listTask = calendar.task;
@@ -62,7 +63,6 @@ export default function Calendar() {
         }
       }
 
-      // console.log(listCalendar)
       dispatchCalEvent({ type: 'new', payload: listCalendar });
       setLabels(listLabels);
     })
