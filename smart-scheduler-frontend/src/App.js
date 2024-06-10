@@ -65,7 +65,7 @@ const router = createBrowserRouter([
                   },
                 }
               );
-
+              console.log(response);
               if (response.data.data.surveyTasks.length > 0) {
                 return redirect('/dashboard');
               }

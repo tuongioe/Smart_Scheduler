@@ -45,7 +45,7 @@ function LoginPage() {
       );
 
       localStorage.setItem('token', response.data.data.token);
-      navigate('/dashboard/survey');
+      navigate('/survey');
     } catch (e) {
       setError({
         msg: e.response.data.message,
