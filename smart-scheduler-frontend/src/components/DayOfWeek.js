@@ -51,7 +51,7 @@ export default function DayOfWeek({ day, rowIdx }) {
             <div
                 className="flex-1 cursor-pointer min-h-10 border-b h-[33px]"
                 onClick={() => {
-                    setDaySelected(day.add(1,'day').set('hour',rowIdx));
+                    setDaySelected(day.set('hour',rowIdx));
                     setShowEventAddDateModel(true);
                 }}
             >
