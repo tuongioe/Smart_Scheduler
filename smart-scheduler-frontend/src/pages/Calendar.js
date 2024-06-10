@@ -2,7 +2,7 @@ import "../App.css";
 import React, { useContext, useEffect, useState } from "react";
 import CalendarHeader from "../components/CalendarHeader.js";
 import EventAddLabelModel from "../components/EventAddLabelModel.js";
-import { getMonth } from "../utils/util.js";
+import {axiosClient, getMonth} from "../utils/util.js";
 import GlobalContext from "../context/GlobalContext.js";
 import MonthFrame from "../components/MonthFrame.js";
 import WeekFrame from "../components/WeekFrame.js";
@@ -12,12 +12,44 @@ import Labels from "../components/Labels";
 import EventDateModal from "../components/EventDateModal";
 
 export default function Calendar() {
-  const [currenMonth, setCurrentMonth] = useState(getMonth());
-  const { showEventAddDateModel, showEventAddLabelModel, frame, currentDayFrame } = useContext(GlobalContext);
+  const [currenMonth, setCurrentMonth, ] = useState(getMonth());
+  const { setLabels, showEventAddDateModel, showEventAddLabelModel, frame, currentDayFrame } = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentMonth(getMonth(currentDayFrame));
   }, [currentDayFrame]);
+
+  const fetchDate = async () => {
+    return axiosClient.get(`/api/calendar/year/${currentDayFrame.get('month')}/${currentDayFrame.get('month')}/${currentDayFrame.get('day')}`);
+  }
+
+  useEffect(() => {
+    fetchDate().then(result=>{
+      const storageEvents = localStorage.getItem("savedEvents");
+
+      const listCalendar = [];
+      const listTask = [];
+
+      if(result.data.data.length > 0){
+        const listData = result.data.data;
+        for(let dataIndex = 0; dataIndex<listData.length; dataIndex ++){
+          const calendar = listData[dataIndex];
+
+          const task = {
+              id: calendar.id,
+              label: calendar.title,
+              color: calendar.color,
+              checked: true,
+          };
+
+          listTask.push(task);
+        }
+      }
+
+      setLabels(listTask);
+      console.log(listTask)
+    })
+  }, []);
 
   let content;
 
