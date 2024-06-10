@@ -54,7 +54,7 @@ function RegisterPage() {
           headers: { 'Content-Type': 'application/json' },
         }
       );
-      navigate('/login');
+      navigate('/');
     } catch (e) {
       setError({
         msg: e.response.data.message,
@@ -183,7 +183,7 @@ function RegisterPage() {
       <p className="Login__Text">
         Already have account ?
         <Link
-          to="/login"
+          to="/"
           style={{ fontWeight: 'bold', color: 'white', textDecoration: 'none' }}
         >
           {' '}

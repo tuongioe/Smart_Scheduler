@@ -105,7 +105,7 @@ function SurveyPage() {
         }
       );
 
-      navigate('/calendar');
+      navigate('/dashboard');
     } catch (e) {
       console.log(e);
     }
