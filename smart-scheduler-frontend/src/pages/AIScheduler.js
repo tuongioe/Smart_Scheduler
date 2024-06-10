@@ -137,8 +137,9 @@ export default function AIScheduler() {
   }, []);
 
   return (
-    <div>
+    <div className="flex-1">
       <div className="h-screen items-center flex flex-col md:flex-row md:justify-around md:items-start">
+        {/* Left col */}
         <div className="w-[273px] my-auto">
           <div className="text-[22px] font-bold leading-[25.2px] text-center">
             Create new task
@@ -237,6 +238,7 @@ export default function AIScheduler() {
             </button>
           </form>
         </div>
+        {/* Right col */}
         <div className="w-[346px] my-auto">
           <div className="flex justify-center">
             <div className="mr-2 text-[22px] font-bold leading-[25.2px] text-center">
