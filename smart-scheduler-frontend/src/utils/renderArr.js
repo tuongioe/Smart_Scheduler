@@ -26,7 +26,6 @@ export const dayMapping = [
   { label: 'Sa', value: 'Saturday' },
   { label: 'S', value: 'Sunday' },
 ];
-
 export const timeOptions = [
   { value: '00:00', label: '12:00am' },
   { value: '00:30', label: '12:30am' },

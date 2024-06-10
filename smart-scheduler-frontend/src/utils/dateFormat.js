@@ -20,7 +20,6 @@ export const toISOWithoutZ = (date) => {
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 };
-
 export const createDateTimeWithSpecificTime = (timeString) => {
   const [hours, minutes] = timeString.split(':');
   // Get today's date
