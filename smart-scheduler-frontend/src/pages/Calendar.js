@@ -30,7 +30,6 @@ export default function Calendar() {
       const listCalendar = [];
       const listLabels = [];
 
-      console.log(result.data.data)
       if(result.data.data.length > 0){
         const listData = result.data.data;
         for(let dataIndex = 0; dataIndex<listData.length; dataIndex ++){

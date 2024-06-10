@@ -51,20 +51,41 @@ export default function DayOfWeek({ day, rowIdx }) {
             <div
                 className="flex-1 cursor-pointer min-h-10 border-b h-[33px]"
                 onClick={() => {
-                    setDaySelected(day.set('hour',rowIdx));
+                    setDaySelected(day.add(1,'day').set('hour',rowIdx));
                     setShowEventAddDateModel(true);
                 }}
             >
-                {dayEvents.map((evt, idx) => (
-                    <div
-                        key={idx}
-                        onClick={() => setSelectedEvent(evt)}
-                        className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
-                        style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
-                    >
-                        {evt.title}
-                    </div>
-                ))}
+                {dayEvents.map((evt, idx) => {
+                    const from = dayjs(evt.from + 'z').get('hour');
+                    const to = dayjs(evt.to + 'z').get('hour')
+                            // console.log(idx)
+
+                    if(from !== to){
+                        if(rowIdx === from){
+                            return (
+                                <div
+                                    key={idx}
+                                    onClick={() => setSelectedEvent(evt)}
+                                    className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
+                                    style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
+                                >
+                                    {evt.title}
+                                </div>
+                            )
+                        }
+
+                    }else {
+                        return <div
+                            key={idx}
+                            onClick={() => setSelectedEvent(evt)}
+                            className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
+                            style={{fontSize: "12px", backgroundColor: labels.find(el => el.label === evt.label).color}}
+                        >
+                            {evt.title}
+                        </div>
+                    }
+
+                })}
             </div>
         </div>
     );

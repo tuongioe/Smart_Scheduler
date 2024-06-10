@@ -16,7 +16,7 @@ export default function EventDateModal() {
   const modalRef = useRef();
 
   useEffect(() => {
-    setNextTime(daySelected);
+    setNextTime(daySelected.add(1,'hour'));
   }, [daySelected]);
 
   useEffect(() => {
@@ -59,8 +59,8 @@ export default function EventDateModal() {
       title,
       description,
       label: selectedLabel.label,
-      from: null,
-      to: null,
+      from: daySelected.toISOString().slice(0,-1),
+      to: nextTime.toISOString().slice(0,-1),
       isAllDay: true,
       day: daySelected.valueOf(),
       id: selectedEvent ? selectedEvent.id : Date.now(),
@@ -69,24 +69,25 @@ export default function EventDateModal() {
     if (selectedEvent) {
       // dispatchCalEvent({ type: "update", payload: calendarEvent });
     } else {
-      const nextTime = daySelected;
       console.log(JSON.stringify({
         title,
         description,
         calendarId: selectedLabel.id,
         startTime: daySelected.toISOString().slice(0,-1),
-        endTime: daySelected.toISOString().slice(0,-1),
-        isRecurring: true,
+        endTime: nextTime.toISOString().slice(0,-1),
+        isRecurring: false,
       }, null, 2));
 
       const result = await axiosClient.post('/api/task', {
         title,
         description,
-        calendarId: 10,
+        calendarId: selectedLabel.id,
         startTime: daySelected.toISOString().slice(0,-1),
-        endTime: daySelected.toISOString().slice(0,-1),
+        endTime: nextTime.toISOString().slice(0,-1),
         isRecurring: false,
       });
+
+      console.log(result);
 
       dispatchCalEvent({ type: "push", payload: calendarEvent });
     }
