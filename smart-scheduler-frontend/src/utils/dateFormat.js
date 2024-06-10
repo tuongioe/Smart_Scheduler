@@ -20,3 +20,30 @@ export const toISOWithoutZ = (date) => {
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 };
+export const createDateTimeWithSpecificTime = (timeString) => {
+  const [hours, minutes] = timeString.split(':');
+  // Get today's date
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth(); // Months are zero-based
+  const day = today.getDate();
+
+  // Create a new Date object with today's date and the specific time
+  const dateTime = new Date(year, month, day, hours, minutes, 0);
+
+  return toISOWithoutZ(dateTime);
+};
+
+export const convertToTimeString = (dateTimeString) => {
+  // Parse the DateTime string to a Date object
+  const date = new Date(dateTimeString);
+
+  // Extract hours and minutes
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  // Combine hours and minutes into the desired format
+  const timeString = `${hours}:${minutes}`;
+
+  return timeString;
+};

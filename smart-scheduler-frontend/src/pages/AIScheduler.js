@@ -3,14 +3,13 @@ import { Form, useActionData } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaPen, FaCalendarWeek, FaXmark } from 'react-icons/fa6';
-import { dayMapping, estimateTimeOptions } from '../utils/renderArr';
+import { dayMapping, timeOptions, estimateTimeOptions } from '../utils/renderArr';
+
 import {
   createManyTasks,
   generateTask,
   getAllCalendars,
 } from '../apis/generate';
-import { formatAmPmDate, toISOWithoutZ } from '../utils/dateFormat';
-import ReactLoading from 'react-loading';
 
 export default function AIScheduler() {
   const [formData, setFormData] = useState({
@@ -27,59 +26,44 @@ export default function AIScheduler() {
     endDate: new Date(),
     hasEndDate: false,
   });
+  const [editingRepeat, setEditingRepeat] = useState({
+    type: 'day',
+    repeatGap: '1',
+    dayOfWeek: [],
+    endDate: new Date(),
+    hasEndDate: false,
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [generatedTasks, setGeneratedTasks] = useState([]);
-  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isRepeatOpen, setIsRepeatOpen] = useState(false);
   const [calendars, setCalendars] = useState([]);
-
-  // const openEditModal = (index) => {
-  //   setCurrentTaskIndex(index);
-  //   setFormData(generatedTasks[index]);
-  //   setIsEditOpen(true);
-  // };
-
-  // const closeEditModal = () => {
-  //   setIsEditOpen(false);
-  //   setCurrentTaskIndex(null);
-  // };
-
-  // const openRepeatModal = () => {
-  //   setIsRepeatOpen(true);
-  // };
-
-  // const closeRepeatModal = () => {
-  //   setIsRepeatOpen(false);
-  // };
-
-  // const openRepeatDetailsModal = (index) => {
-  //   setisRepeatDetailsOpen(true);
-  //   setFormData(generatedTasks[index]);
-  //   setCurrentTaskIndex(index);
-  // };
-
-  // const closeRepeatDetailsModal = () => {
-  //   setisRepeatDetailsOpen(false);
-  // };
-
-  // const handleDelete = (e) => {
-  //   e.preventDefault();
-  //   const updatedData = generatedTasks.filter(
-  //     (_, index) => index !== currentTaskIndex
-  //   );
-  //   setGeneratedTasks(updatedData);
-  //   closeEditModal();
-  // };
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState({});
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    };
+
+  const handleEditingTaskChange = (e) => {
+    console.log(editingTask);
+    setEditingTask({
+      ...editingTask,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleRepeatChange = (e) => {
     setRepeat({
+      ...repeat,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEditingRepeatChange = (e) => {
+    setEditingRepeat({
       ...repeat,
       [e.target.name]: e.target.value,
     });
@@ -101,17 +85,88 @@ export default function AIScheduler() {
       const cleanRepeat = {
         type: repeat.type,
         repeatGap: repeat.repeatGap,
-        dayOfWeek: repeat.dayOfWeek,
+        dayOfWeek: repeat.type === 'week' ? repeat.dayOfWeek : null,
       };
       if (repeat.hasEndDate === 'true')
         cleanRepeat.endDate = toISOWithoutZ(repeat.endDate);
       request.repeat = cleanRepeat;
     }
-    console.log(request);
     const task = await generateTask(request);
-    setGeneratedTasks([...generatedTasks, task]);
     console.log(task);
+    setGeneratedTasks([...generatedTasks, task]);
+    setFormData({
+      title: '',
+      estimatedTime: '30',
+      calendarId: '',
+      description: '',
+      isRecurring: false,
+    });
+    setRepeat({
+      type: 'day',
+      repeatGap: '1',
+      dayOfWeek: [],
+      endDate: new Date(),
+      hasEndDate: false,
+    });
+    toast.success('Task generated successfully');
     setIsLoading(false);
+  };
+
+  const handleTaskClick = (index) => {
+    setIsEditOpen(true);
+    setEditingTask({
+      ...generatedTasks[index],
+      index,
+      startTime: convertToTimeString(generatedTasks[index].startTime),
+      endTime: convertToTimeString(generatedTasks[index].endTime),
+    });
+    if (generatedTasks[index].repeat) {
+      setEditingRepeat({
+        ...generatedTasks[index].repeat,
+        hasEndDate: generatedTasks[index].repeat.endDate && 'true',
+      });
+    }
+  };
+
+  const handleSaveEditBtnClick = () => {
+    const { title, calendarId, description, startTime, endTime, isRecurring } =
+      editingTask;
+    
+    const request = {
+      title,
+      calendarId,
+      description,
+       startTime: createDateTimeWithSpecificTime(startTime),
+      endTime: createDateTimeWithSpecificTime(endTime),
+      isRecurring,
+    };
+    if (isRecurring === 'true' || isRecurring === true) {
+      const cleanRepeat = {
+        type: editingRepeat.type,
+        repeatGap: editingRepeat.repeatGap,
+        dayOfWeek:
+          editingRepeat.type === 'week' ? editingRepeat.dayOfWeek : null,
+      };
+      if (
+        editingRepeat.hasEndDate === 'true' ||
+        editingRepeat.hasEndDate === true
+      )
+        cleanRepeat.endDate = toISOWithoutZ(editingRepeat.endDate);
+      request.repeat = cleanRepeat;
+    }
+    const editedTasks = generatedTasks.map((_, index) => {
+      if (index === editingTask.index) return request;
+    });
+    console.log(editedTasks);
+    setGeneratedTasks(editedTasks);
+    setIsEditOpen(false);
+    setEditingRepeat({
+      type: 'day',
+      repeatGap: '1',
+      dayOfWeek: [],
+      endDate: new Date(),
+      hasEndDate: false,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -119,6 +174,8 @@ export default function AIScheduler() {
     e.preventDefault();
     const createdTasks = await createManyTasks(generatedTasks);
     console.log(createdTasks);
+    setGeneratedTasks([]);
+    toast.success('Save all tasks successfully');
     setIsLoading(false);
   };
 
@@ -242,23 +299,13 @@ export default function AIScheduler() {
             {generatedTasks.length > 0 ? (
               generatedTasks.map(({ title, startTime, endTime }, index) => (
                 <div
+                  onClick={() => handleTaskClick(index)}
                   key={index}
-                  className={`group py-5 flex hover:bg-[#373636] ${
+                  className={`group py-5 flex justify-center cursor-pointer hover:bg-[#373636] ${
                     index === 0 ? 'rounded-t-xl' : ''
                   }`}
                 >
-                  <div className="w-2/12 cursor-pointer">
-                    <i
-                      className="hidden group-hover:flex justify-center text-small-text hover:text-white"
-                      // onClick={() => openEditModal(index)}
-                    >
-                      <FaPen />
-                    </i>
-                  </div>
-                  <div
-                    className="w-8/12 cursor-pointer flex justify-between"
-                    // onClick={() => openEditModal(index)}
-                  >
+                <div className="w-8/12 flex justify-between">
                     <p className="text-sm leading-[16px] mr-1 text-md">
                       {title.length > 16
                         ? title.substring(0, 14) + '...'
@@ -268,13 +315,6 @@ export default function AIScheduler() {
                       {formatAmPmDate(startTime)} - {formatAmPmDate(endTime)}
                     </p>
                   </div>
-                  {/* <div className="w-2/12 cursor-pointer flex justify-center text-small-text hover:text-white">
-                    {task.repeat === 'optionRepeat' && (
-                      <i onClick={() => openRepeatDetailsModal(index)}>
-                        <FaCalendarWeek />
-                      </i>
-                    )}
-                  </div> */}
                 </div>
               ))
             ) : (
@@ -385,78 +425,172 @@ export default function AIScheduler() {
           <div className="bg-[#262525] max-w-custom w-[420px] rounded-xl shadow-custom flex justify-center items-center">
             <div className="w-8/12 flex-col justify-center items-center">
               <div className="flex flex-col font-medium text-lg mt-8 items-center">
-                <div className="mr-1">EDIT TASK</div>
-                <div className="text-primary-50 text-center">
-                  {formData.taskTitle}
-                </div>
+                <label className="mr-1">Edit task</label>
+                <input
+                  className="text-primary-50 text-center"
+                  value={editingTask.title}
+                  name="title"
+                  onChange={handleEditingTaskChange}
+                />
               </div>
-              <form onSubmit={handleGenerateBtnClick}>
+  <div>
+                {/* Start time */}
                 <div className="mt-[30px] w-full h-[60px] flex flex-col items-center md:flex-row md:justify-between md:h-[38px]">
-                  <label htmlFor="estimateTime" className="font-medium text-lg">
-                    Estimate Time
-                  </label>
+                  <label className="text-lg font-medium">Start time</label>
                   <select
-                    name="estimateTime"
-                    id="estimateTime"
+                    name="startTime"
                     required
-                    onChange={handleChange}
-                    value={formData.estimateTime}
-                    className="w-full h-[60px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right md:h-[38px] md:w-[134px]"
-                  >
-                    <option value="10 mins">10 mins</option>
-                    <option value="20 min">20 mins</option>
-                    <option value="30 mins">30 mins</option>
-                    <option value="1 hour">1 hour</option>
-                    <option value="2 hours">2 hours</option>
-                    <option value="3 hours">3 hours</option>
-                    <option value="4 hours">4 hours</option>
-                    <option value="5 hours">5 hours</option>
-                  </select>
-                </div>
-                <div className="mt-[30px] w-full h-[60px] flex flex-col items-center md:flex-row md:justify-between md:h-[38px]">
-                  <label htmlFor="taskType" className="text-lg font-medium">
-                    Calendar
-                  </label>
-                  <select
-                    name="taskType"
-                    id="taskType"
-                    required
-                    onChange={handleChange}
-                    value={formData.taskType}
+                    onChange={handleEditingTaskChange}
+                    value={editingTask.startTime}
                     className="w-full h-[60px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right md:w-[123px] md:h-[38px]"
                   >
-                    <option value="health">Health</option>
-                    <option value="personal">Personal</option>
-                    <option value="work">Work</option>
+                    {timeOptions.map(({ value, label }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* End time */}
+                <div className="mt-[30px] w-full h-[60px] flex flex-col items-center md:flex-row md:justify-between md:h-[38px]">
+                  <label className="text-lg font-medium">End time</label>
+                  <select
+                    name="endTime"
+                    required
+                    onChange={handleEditingTaskChange}
+                    value={editingTask.endTime}
+                    className="w-full h-[60px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right md:w-[123px] md:h-[38px]"
+                  >
+                    {timeOptions.map(({ value, label }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* Calendar */}
+                <div className="mt-[30px] w-full h-[60px] flex flex-col items-center md:flex-row md:justify-between md:h-[38px]">
+                  <label className="text-lg font-medium">Calendar</label>
+                  <select
+                    name="calendarId"
+                    required
+                    onChange={handleEditingTaskChange}
+                    value={editingTask.calendarId}
+                    className="w-full h-[60px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right md:w-[123px] md:h-[38px]"
+                  >
+                    {calendars.map(({ id, title }) => (
+                      <option key={id} value={id}>
+                        {title}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="mt-[30px] w-full h-[60px] flex flex-col items-center md:flex-row md:justify-between md:h-[38px]">
-                  <label htmlFor="repeat" className="text-lg font-medium">
-                    Repeat
-                  </label>
+                  <label className="text-lg font-medium">Repeat</label>
                   <select
-                    name="repeat"
-                    id="repeat"
+                    name="isRecurring"
                     required
-                    onChange={handleChange}
-                    value={formData.repeat}
+                    onChange={handleEditingTaskChange}
+                    value={editingTask.isRecurring}
                     className="w-full h-[60px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none rounded-xl text-small-text float-right md:w-[134px] md:h-[38px]"
                   >
-                    <option value="noRepeat">No repeat</option>
-                    <option value="optionRepeat">Option...</option>
+                    <option value="false">No repeat</option>
+                    <option value="true">Option...</option>
                   </select>
                 </div>
+                {/* Edit Repeat */}
+                {(editingTask.isRecurring === true ||
+                  editingTask.isRecurring === 'true') && (
+                  <div className="mt-2">
+                    <div className="mb-4">
+                      <div className="grid grid-cols-2">
+                        <input
+                          name="repeatGap"
+                          min={1}
+                          type="number"
+                          value={editingRepeat.repeatGap}
+                          onChange={handleEditingRepeatChange}
+                          className="text-center"
+                        />
+                        <select
+                          name="type"
+                          value={editingRepeat.type}
+                          onChange={handleEditingRepeatChange}
+                          className="w-full p-2 rounded bg-[#262525] border border-primary-200"
+                        >
+                          <option value="day">Day</option>
+                          <option value="week">Week</option>
+                          <option value="month">Month</option>
+                          <option value="year">Year</option>
+                        </select>
+                      </div>
+                    </div>
+                    {editingRepeat.type === 'week' && (
+                      <div className="mb-4">
+                        <label className="block mb-2">Days:</label>
+                        <div className="flex space-x-2">
+                          {dayMapping.map(({ value, label }) => (
+                            <button
+                              key={value}
+                              className={`w-8 h-8 flex items-center justify-center rounded-full ${
+                                editingRepeat.dayOfWeek.includes(value)
+                                  ? 'bg-primary-50 text-white'
+                                  : 'bg-[#262525] border border-primary-200'
+                              }`}
+                              onClick={() =>
+                                setEditingRepeat({
+                                  ...editingRepeat,
+                                  dayOfWeek: [
+                                    ...editingRepeat.dayOfWeek,
+                                    value,
+                                  ],
+                                })
+                              }
+                            >
+                              {label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    <div className="mb-4">
+                      <label className="block mb-2">End</label>
+                      <select
+                        value={editingRepeat.hasEndDate}
+                        name="hasEndDate"
+                        onChange={handleEditingRepeatChange}
+                        className="w-full p-2 rounded bg-[#262525] border border-primary-200"
+                      >
+                        <option value={false}>Never</option>
+                        <option value={true}>On Date</option>
+                      </select>
+                    </div>
+                    {editingRepeat.hasEndDate === 'true' && (
+                      <div className="mb-4">
+                        <label className="block mb-2">End Date</label>
+                        <DatePicker
+                          selected={editingRepeat.endDate}
+                          onChange={(date) =>
+                            setEditingRepeat({
+                              ...editingRepeat,
+                              endDate: date,
+                            })
+                          }
+                          className="w-full p-2 rounded bg-[#262525] border border-primary-200"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div className="mt-[50px] relative md:mt-[30px]">
                   <div className="absolute -top-5 left-4 text-lg font-medium bg-[#262525] p-1 ">
                     Description
                   </div>
                   <input
-                    type="text"
-                    name="taskNote"
-                    id="taskNote"
+                    name="description"
                     placeholder="Enter description here"
-                    onChange={handleChange}
-                    value={formData.taskNote}
+                    onChange={handleEditingTaskChange}
+                    value={editingTask.description}
                     className="rounded-xl w-full h-[50px] bg-[#262525] border border-primary-200 pl-5 focus:outline-none"
                   />
                 </div>
@@ -464,87 +598,26 @@ export default function AIScheduler() {
                   <button
                     type="button"
                     className="rounded-xl w-5/12 h-[50px] bg-[#b02d2d] opacity-90 focus:outline-none text-center leading-[50px] font-medium text-lg hover:opacity-100"
-                    onClick={handleDelete}
+                    onClick={() => {
+                      setGeneratedTasks(
+                        generatedTasks.filter(
+                          (_, taskIndex) => taskIndex !== editingTask.index
+                        )
+                      );
+                      setIsEditOpen(false);
+                    }}
                   >
                     Delete
                   </button>
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handleSaveEditBtnClick}
                     className="rounded-xl w-5/12 h-[50px] bg-primary-200 focus:outline-none text-center leading-[50px] font-medium text-lg hover:bg-primary-100"
                   >
                     Save
                   </button>
                 </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )} */}
 
-      {/* Repeat Details Modal */}
-      {/* {isRepeatDetailsOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-[#262525] max-w-custom w-[420px] rounded-xl shadow-custom flex justify-center items-center relative">
-            <i
-              className="absolute top-2 right-2 text-small-text cursor-pointer hover:text-white"
-              onClick={closeRepeatDetailsModal}
-            >
-              <FaXmark />
-            </i>
-            <div className="flex-col justify-center items-center">
-              <div className="flex flex-col font-medium text-lg mt-8 items-center">
-                <div className="mr-1">REPEATION DETAILS</div>
-                <div className="text-primary-50 text-center">
-                  {formData.taskTitle}
-                </div>
-              </div>
-              <div className="flex flex-col justify-center items-center w-full">
-                <div className="flex text-lg mt-[30px] w-[200px]">
-                  <div className="mr-3 font-medium">When: </div>
-                  <div className="">6:30am - 7:00am</div>
-                </div>
-                <div className="flex text-lg mt-[10px] w-[200px]">
-                  <div className="mr-3 font-medium">Repeat every: </div>
-                  <div className="">{repeatOption}</div>
-                </div>
-                <div className="text-lg mt-[10px] w-[200px]">
-                  {repeatOption === 'Day' && (
-                    <div className="flex">
-                      <div className="mr-3 font-medium">Times:</div>
-                      <div className="">{repeatTimes}</div>
-                    </div>
-                  )}
-                  {repeatOption === 'Week' && (
-                    <div className="flex">
-                      <div className="mr-3 font-medium">Repeat on:</div>
-                      <div className="flex flex-wrap flex-row">
-                        <div className="">
-                          {repeatDays.map((day) => (
-                            <div className="">
-                              <span key={day}>{dayMapping[day]}</span>
-                              <span>,</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="flex text-lg mt-[10px] mb-[30px] w-[200px]">
-                  <div className="w-[90px] mr-3 font-medium whitespace-nowrap">
-                    End day:
-                  </div>
-                  <div className="">
-                    {endOption === 'never' ? (
-                      'Never'
-                    ) : (
-                      <DatePicker
-                        selected={endDate}
-                        onChange={handleEndDateChange}
-                      />
-                    )}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
