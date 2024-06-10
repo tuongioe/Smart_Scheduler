@@ -14,9 +14,9 @@ import {
   SurveyPage,
   HomeLayout,
   DashboardLayout,
-  GetStartedPage,
 } from './pages';
 import ProfilePage from './pages/Profile';
+import GetStartedPage from './pages/GetStartedPage';
 
 const router = createBrowserRouter([
   {
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: '',
+        path: '/getstarted',
         element: <GetStartedPage />,
       },
       {
