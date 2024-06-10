@@ -9,6 +9,8 @@ import dayjs from "dayjs";
 
 function savedEventsReducer(state, { type, payload }) {
   switch (type) {
+      case "new":
+          return payload;
     case "push":
       return [...state, payload];
     case "update":

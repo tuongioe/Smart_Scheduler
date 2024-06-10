@@ -13,7 +13,7 @@ import EventDateModal from "../components/EventDateModal";
 
 export default function Calendar() {
   const [currenMonth, setCurrentMonth, ] = useState(getMonth());
-  const { setLabels, showEventAddDateModel, showEventAddLabelModel, frame, currentDayFrame } = useContext(GlobalContext);
+  const { dispatchCalEvent, setLabels, showEventAddDateModel, showEventAddLabelModel, frame, currentDayFrame } = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentMonth(getMonth(currentDayFrame));
@@ -44,10 +44,26 @@ export default function Calendar() {
           };
 
           listLabels.push(label);
+            console.log(calendar)
+          if(listTask){
+            for(let taskIndex = 0; taskIndex < listTask.length; taskIndex++){
+              const task = listTask[taskIndex];
+
+              listCalendar.push({
+                ...task,
+                from: task.startTime,
+                to: task.endTime,
+                day: task.startTime,
+                isAllDay: task.startTime !== task.endTime,
+              })
+            }
+          }
 
         }
       }
 
+      // console.log(listCalendar)
+      dispatchCalEvent({ type: 'new', payload: listCalendar });
       setLabels(listLabels);
     })
   }, []);
