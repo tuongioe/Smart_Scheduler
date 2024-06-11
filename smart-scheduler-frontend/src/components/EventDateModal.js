@@ -53,7 +53,7 @@ export default function EventDateModal() {
 
   const [selectedLabel, setSelectedLabel] = useState(
     selectedEvent
-      ? labels.find((lbl) => lbl === labels.label)
+      ? labels.find((lbl) => lbl.id === labels.id)
       : labels[0]
   );
 
@@ -91,8 +91,6 @@ export default function EventDateModal() {
         endTime: nextTime.toISOString().slice(0,-1),
         isRecurring: false,
       });
-
-      console.log(result);
 
       dispatchCalEvent({ type: "push", payload: calendarEvent });
     }
@@ -177,14 +175,17 @@ export default function EventDateModal() {
               </span>
 
               {selectedLabel && <div className="w-2 h-2 rounded mr-3 self-center"
-                                     style={{backgroundColor: selectedLabel.color}}></div>}
+                                     style={{backgroundColor: selectedLabel.color}}>
+                {selectedLabel.label}
+              </div>}
 
 
               <select className="bg-dark-color text-white"
                       onChange={handleChange}
+                      value={selectedLabel}
               >
                 {labels.map((el, index)=>(
-                    <option key={`select-option-label-${index}`} value={el.id}>
+                    <option key={`select-option-label-${index}`} value={el.label}>
                       {el.label}
                     </option>
                 ))}

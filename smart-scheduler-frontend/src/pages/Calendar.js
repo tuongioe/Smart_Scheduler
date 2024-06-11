@@ -32,7 +32,6 @@ export default function Calendar() {
 
       if(result.data.data.length > 0){
         const listData = result.data.data;
-        console.log(listData)
         for(let dataIndex = 0; dataIndex<listData.length; dataIndex ++){
           const calendar = listData[dataIndex];
           const listTask = calendar.task;
@@ -45,7 +44,6 @@ export default function Calendar() {
           };
 
           listLabels.push(label);
-            console.log(calendar)
           if(listTask){
             for(let taskIndex = 0; taskIndex < listTask.length; taskIndex++){
               const task = listTask[taskIndex];
