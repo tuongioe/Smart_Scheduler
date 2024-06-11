@@ -176,7 +176,6 @@ export default function EventDateModal() {
 
               {selectedLabel && <div className="w-2 h-2 rounded mr-3 self-center"
                                      style={{backgroundColor: selectedLabel.color}}>
-                {selectedLabel.label}
               </div>}
 
 

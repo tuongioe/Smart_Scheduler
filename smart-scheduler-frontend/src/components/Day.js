@@ -24,23 +24,8 @@ export default function Day({ day, rowIdx }) {
 
     return (
         <div className="border-t flex flex-col">
-            <header className="flex flex-col items-center">
-                {(
-                    <React.Fragment>
-                        <p className="min-h-11 text-sm mt-1">
-
-                        </p>
-                        <p
-                            className={`text-sm p-1 my-1 text-center `}
-                        >
-
-                        </p>
-                    </React.Fragment>
-                )}
-
-            </header>
             <div
-                className="flex-1 cursor-pointer"
+                className="flex-1 cursor-pointer min-h-10"
                 onClick={() => {
                     setDaySelected(day.set('hour',rowIdx));
                     setShowEventAddDateModel(true);
@@ -56,7 +41,7 @@ export default function Day({ day, rowIdx }) {
                                 <div
                                     key={idx}
                                     onClick={() => setSelectedEvent(evt)}
-                                    className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
+                                    className={`text-gray-600 rounded mb-1 truncate min-h-10 w-full w-[113px] h-[33px]`}
                                     style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
                                 >
                                     {evt.title}

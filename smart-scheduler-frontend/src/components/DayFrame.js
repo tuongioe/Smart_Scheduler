@@ -9,46 +9,48 @@ export default function DayFrame() {
 
     return (
         <div className="flex w-[688px]">
-            <div className="mt-[12px] flex flex-col ">
-                {
-                    listTime.map((time, i) => {
-                        return <React.Fragment>
-                                        <span
-                                            className={`mt-[53px] `}
-                                            style={{fontSize:"12px"}}
-                                        >
-                                            {time+":"}
-                                        </span>
-                            </React.Fragment>
+            <div className="flex w-[1024px]">
+                <div className="mt-[26px] flex flex-col ">
+                    {
+                        listTime.map((time, i) => {
+                            return <React.Fragment>
+                                            <span
+                                                className={`mt-[29px] `}
+                                                style={{fontSize:"12px",textWrap: "nowrap"}}
+                                            >
+                                                {time+":"}
+                                            </span>
+                                </React.Fragment>
 
-                    })
-                }
-            </div>
-            <div className="w-9/12">
-                <div className="pt-[10px]">
-                    <header className="flex flex-col items-left text-[#00717F]">
-                        {(
-                            <React.Fragment>
-                                <p className="text-sm mt-1">
-                                    {currentDayFrame.format('ddd').toUpperCase()}
-                                </p>
-                                <p
-                                    className={`text-sm p-1 my-1 text-left `}
-                                >
-                                    {currentDayFrame.format('DD')}
-                                </p>
-                            </React.Fragment>
-                        )}
-
-                    </header>
+                        })
+                    }
                 </div>
-                {
-                    listTime.map((_, i) => {
-                        return <React.Fragment key={i}>
-                            <Day day={currentDayFrame.hour(i)} key={i} rowIdx={i}/>
-                        </React.Fragment>
-                    })
-                }
+                <div className="grid grid-cols-1 w-9/12">
+                    <div>
+                        <header className="flex flex-col items-left text-[#00717F]">
+                            {(
+                                <React.Fragment>
+                                    <p className="text-sm mt-1">
+                                        {currentDayFrame.format('ddd').toUpperCase()}
+                                    </p>
+                                    <p
+                                        className={`text-sm p-1 my-1 text-left `}
+                                    >
+                                        {currentDayFrame.format('DD')}
+                                    </p>
+                                </React.Fragment>
+                            )}
+
+                        </header>
+                    </div>
+                    {
+                        listTime.map((_, i) => {
+                            return <React.Fragment key={i}>
+                                <Day day={currentDayFrame.hour(i)} key={i} rowIdx={i}/>
+                            </React.Fragment>
+                        })
+                    }
+                </div>
             </div>
         </div>
     );
