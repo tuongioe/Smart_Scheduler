@@ -74,6 +74,7 @@ export default function ContextWrapper(props) {
   const [currentDayFrame, setCurrentDayFrame] = useState(dayjs());
   const [frame, setFrame] = useState("month");
   const [eventDates, setEventDates] = useState([]);
+  const [currentYear, setCurrentYear] = useState(dayjs());
 
   const filteredEvents = useMemo(() => {
     return savedEvents.filter((evt) =>
@@ -156,6 +157,7 @@ export default function ContextWrapper(props) {
   return (
     <GlobalContext.Provider
       value={{
+          currentYear,
         monthIndex,
         setMonthIndex,
         smallCalendarMonth,
@@ -178,6 +180,7 @@ export default function ContextWrapper(props) {
         filteredEvents,
         addEventDate,
           addLabel,
+          setCurrentYear,
         setEventDates,
         eventDates,
         frame,

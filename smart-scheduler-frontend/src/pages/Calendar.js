@@ -10,35 +10,42 @@ import DayFrame from "../components/DayFrame.js";
 import SmallCalendar from "../components/SmallCalendar";
 import Labels from "../components/Labels";
 import EventDateModal from "../components/EventDateModal";
+import dayjs from "dayjs";
 
 export default function Calendar() {
   const [currenMonth, setCurrentMonth, ] = useState(getMonth());
-  const { dispatchCalEvent, setLabels, showEventAddDateModel, showEventAddLabelModel, frame, currentDayFrame } = useContext(GlobalContext);
-
+  const { currentYear, setCurrentYear, dispatchCalEvent, setLabels, showEventAddDateModel, showEventAddLabelModel, frame, currentDayFrame } = useContext(GlobalContext);
+  const [currentYearIndex, setCurrentYearIndex] = useState(currentDayFrame.get('year'));
   useEffect(() => {
     setCurrentMonth(getMonth(currentDayFrame));
+    if(currentDayFrame.get('year') !== currentYear.get('year')) {
+      setCurrentYear(currentDayFrame);
+      updateLocalStorage();
+    }
   }, [currentDayFrame]);
 
   const fetchDate = async () => {
-    return axiosClient.get(`/api/calendar/year/${currentDayFrame.get('month')}/${currentDayFrame.get('month')}/${currentDayFrame.get('day')}`);
+    return axiosClient.get(`/api/calendar/year/${currentDayFrame.get('year')}/${currentDayFrame.get('month')}/${currentDayFrame.get('day')}`);
   }
 
-  useEffect(() => {
+  const updateLocalStorage = async () => {
+    console.log(currentYearIndex)
     fetchDate().then(result=>{
       const listCalendar = [];
       const listLabels = [];
 
       if(result.data.data.length > 0){
+        // console.log(result.data.data)
         const listData = result.data.data;
         for(let dataIndex = 0; dataIndex<listData.length; dataIndex ++){
           const calendar = listData[dataIndex];
-          const listTask = calendar.task;
+          const listTask = calendar.tasks;
 
           const label = {
-              id: calendar.id,
-              label: calendar.title,
-              color: calendar.color,
-              checked: true,
+            id: calendar.id,
+            label: calendar.title,
+            color: calendar.color,
+            checked: true,
           };
 
           listLabels.push(label);
@@ -49,8 +56,9 @@ export default function Calendar() {
               listCalendar.push({
                 ...task,
                 from: task.startTime,
-                to: task.endTime,
-                day: task.startTime,
+                to: dayjs(task.endTime),
+                day: dayjs(task.startTime),
+                label: task.calendar.title,
                 isAllDay: task.startTime !== task.endTime,
               })
             }
@@ -62,6 +70,10 @@ export default function Calendar() {
       dispatchCalEvent({ type: 'new', payload: listCalendar });
       setLabels(listLabels);
     })
+  }
+
+  useEffect(() => {
+    updateLocalStorage();
   }, []);
 
   let content;
