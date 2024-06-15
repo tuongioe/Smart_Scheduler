@@ -20,12 +20,13 @@ export default function Calendar() {
     setCurrentMonth(getMonth(currentDayFrame));
     if(currentDayFrame.get('year') !== currentYear.get('year')) {
       setCurrentYear(currentDayFrame);
+      setCurrentYearIndex(currentDayFrame)
       updateLocalStorage();
     }
   }, [currentDayFrame]);
 
   const fetchDate = async () => {
-    return axiosClient.get(`/api/calendar/year/${currentDayFrame.get('year')}/${currentDayFrame.get('month')}/${currentDayFrame.get('day')}`);
+    return axiosClient.get(`/api/calendar/year/${currentDayFrame.get('year')}/${currentDayFrame.get('month')+1}/${currentDayFrame.get('day')}`);
   }
 
   const updateLocalStorage = async () => {
@@ -69,6 +70,8 @@ export default function Calendar() {
 
       dispatchCalEvent({ type: 'new', payload: listCalendar });
       setLabels(listLabels);
+    }).catch(error => {
+      console.log(error)
     })
   }
 
