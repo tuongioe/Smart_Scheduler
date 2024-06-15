@@ -25,8 +25,6 @@ export default function Calendar() {
 
   useEffect(() => {
     fetchDate().then(result=>{
-      const storageEvents = localStorage.getItem("savedEvents");
-
       const listCalendar = [];
       const listLabels = [];
 
