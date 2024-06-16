@@ -38,6 +38,7 @@ export default function EventDateModal() {
       if (!modalRef.current.contains(event.target)) {
         setShowEventAddDateModel(false);
         setIsShowRepeat(false);
+        handleClear();
       }
     };
 
@@ -47,8 +48,6 @@ export default function EventDateModal() {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [setShowEventAddDateModel]);
-
-
 
   const [title, setTitle] = useState(
     selectedEvent ? selectedEvent.title : ""
@@ -62,11 +61,16 @@ export default function EventDateModal() {
   );
 
   const [selectedLabel, setSelectedLabel] = useState(
-    selectedEvent
+    selectedEvent && selectedEvent.calendar
       ? labels.find((lbl) => lbl.id === selectedEvent.calendar.id)
       : labels[0]
   );
 
+  function handleClear() {
+    setNoti("");
+    setTitle("");
+    setDescription("")
+  }
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -74,19 +78,19 @@ export default function EventDateModal() {
       title,
       description,
       label: selectedLabel.label,
-      from: dayDataSelected.toISOString().slice(0,-1),
-      to: dayDataSelected.toISOString().slice(0,-1),
+      from: dayDataSelected.set('hha',startTime).toISOString().slice(0,-1),
+      to: dayDataSelected.set('hha',endTime).toISOString().slice(0,-1),
       isAllDay,
       day: dayDataSelected.valueOf(),
-      id: selectedEvent ? selectedEvent.id : Date.now(),
+      id: selectedEvent && selectedEvent.id ? selectedEvent.id : Date.now(),
     };
 
     const calendarEventUpload = {
       title,
       description,
       calendarId: selectedLabel.id,
-      startTime: dayDataSelected.toISOString().slice(0,-1),
-      endTime: dayDataSelected.toISOString().slice(0,-1),
+      startTime: dayDataSelected.set('hha',startTime).toISOString().slice(0,-1),
+      endTime: dayDataSelected.set('hha',endTime).toISOString().slice(0,-1),
       isRecurring: false,
     }
 
@@ -104,8 +108,6 @@ export default function EventDateModal() {
 
 
     if (selectedEvent && selectedEvent.id) {
-      console.log(calendarEventUpload)
-
       const result = await axiosClient.patch(`/api/tasks/${calendarEventPayload.id}`, calendarEventUpload);
 
       console.log(result);
@@ -119,21 +121,21 @@ export default function EventDateModal() {
     }
 
     setShowEventAddDateModel(false);
+    handleClear();
   }
 
   const handleDelete = async (e) => {
     e.preventDefault();
 
-    if(selectedEvent){
+    if(selectedEvent && selectedEvent.id){
       const result = await axiosClient.delete(`/api/task/${selectedEvent.id}`)
       dispatchCalEvent({ type: "delete", payload: selectedEvent });
       setShowEventAddDateModel(false);
-
+      handleClear()
     }
   }
 
   const handleChange = (event) => {
-    console.log(selectedLabel)
     setSelectedLabel(
         labels.find((lbl) => lbl.id + "" === event.target.value)
     )

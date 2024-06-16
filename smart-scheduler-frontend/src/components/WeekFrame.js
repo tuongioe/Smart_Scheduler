@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import DayOfWeek from "./DayOfWeek";
 import GlobalContext from "../context/GlobalContext";
 import {getDayOfWeek} from "../utils/util";
@@ -13,8 +13,36 @@ export default function WeekFrame() {
         setWeek(getDayOfWeek(currentDayFrame));
     }, [currentDayFrame]);
 
+    const containerRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        setStartX(e.pageX - containerRef.current.offsetLeft);
+        setScrollLeft(containerRef.current.scrollLeft);
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
+        const x = e.pageX - containerRef.current.offsetLeft;
+        const walk = (x - startX) * 2; // Tăng tốc độ cuộn
+        containerRef.current.scrollLeft = scrollLeft - walk;
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
     return (
-        <div className="w-[688px] overflow-auto no-scrollbar">
+        <div className="w-[688px] overflow-auto no-scrollbar"
+             ref={containerRef}
+             onMouseDown={handleMouseDown}
+             onMouseMove={handleMouseMove}
+             onMouseUp={handleMouseUp}
+             onMouseLeave={handleMouseUp}
+        >
             <div className="flex w-[1024px]">
                 <div className="flex flex-col mt-[61px]">
                     {
