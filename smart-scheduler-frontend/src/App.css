@@ -46,3 +46,7 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+.delete-calendar-label:hover .delete-calendar-icon {
+  display: block;
+}

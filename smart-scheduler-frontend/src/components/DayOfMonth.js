@@ -51,7 +51,10 @@ export default function DayOfMonth({ day, rowIdx }) {
         {dayEvents.map((evt, idx) => (
           <div
             key={idx}
-            onClick={() => setSelectedEvent(evt)}
+            onClick={() => {
+                console.log(evt)
+                setSelectedEvent(evt)
+            }}
             className={`w-full p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
             style={{backgroundColor: labels.find(el=> el.label === evt.label).color}}
           >

@@ -1,12 +1,19 @@
 import React, {useContext, useState} from "react";
 import GlobalContext from "../context/GlobalContext";
+import {axiosClient} from "../utils/util";
 
 export default function Labels() {
-  const { labels, updateLabel, setShowEventAddLabelModelModal, labelClasses} = useContext(GlobalContext);
+  const { setLabelSelected, updateLocalStorage, deleteLabel, labels, updateLabel, setShowEventAddLabelModelModal, labelClasses} = useContext(GlobalContext);
 
   const [isShowLabel, setIsShowLabel] = useState(true);
   const handleDisplayLabels = () => {
       setIsShowLabel(!isShowLabel);
+  }
+
+  const handleDeleteCalendar = async (id) => {
+      const result = await axiosClient.delete(`/api/calendar/${id}`);
+      console.log(result);
+      updateLocalStorage();
   }
 
   return (
@@ -38,20 +45,37 @@ export default function Labels() {
 
           <div>
               {
-                  isShowLabel? labels.map(({label, checked, color}, index) => {
-                      return <label key={index} className="items-center mt-3 block">
-                          <input
-                              type="checkbox"
-                              checked={checked}
-                              onChange={() =>
-                                  updateLabel({label, checked: !checked, color})
-                              }
-                              className={`form-checkbox h-5 w-5 text-red-600 rounded cursor-pointer outline-none`}
-                              style={{accentColor: color, color:"red", border: "1px solid red"}}
-                          />
-                          <span className={`ml-2 capitalize text-red-50`} style={{color: color}}>{label}</span>
+                  isShowLabel? labels.map(({ label, checked, color, id}, index) => {
+                      return <label key={index} className="items-center mt-3 flex justify-between delete-calendar-label">
+                          <div>
+
+                              <input
+                                  type="checkbox"
+                                  checked={checked}
+                                  onChange={() =>
+                                      updateLabel({id, label, checked: !checked, color})
+                                  }
+                                  className={`form-checkbox h-5 w-5 text-red-600 rounded cursor-pointer outline-none`}
+                                  style={{accentColor: color, color: "red", border: "1px solid red"}}
+                              />
+
+                              <span className={`ml-2 capitalize text-red-50`} style={{color: color}}
+                                onClick={() => {
+                                    alert(label)
+
+                                    setLabelSelected({
+                                        label, checked, color, id
+                                    })
+
+                                    setShowEventAddLabelModelModal(true);
+                                }}
+                              >{label}</span>
+                          </div>
+                          <span className="ml-[20px] cursor-pointer text-red-700 delete-calendar-icon hidden"  onClick={() => {
+                              handleDeleteCalendar(id)
+                          }}>X</span>
                       </label>
-                  }):<></>
+                  }) : <></>
               }
           </div>
       </React.Fragment>

@@ -14,7 +14,7 @@ import dayjs from "dayjs";
 
 export default function Calendar() {
   const [currenMonth, setCurrentMonth, ] = useState(getMonth());
-  const { currentYear, setCurrentYear, dispatchCalEvent, setLabels, showEventAddDateModel, showEventAddLabelModel, frame, currentDayFrame } = useContext(GlobalContext);
+  const { updateLocalStorage, currentYear, setCurrentYear, dispatchCalEvent, setLabels, showEventAddDateModel, showEventAddLabelModel, frame, currentDayFrame } = useContext(GlobalContext);
   const [currentYearIndex, setCurrentYearIndex] = useState(currentDayFrame.get('year'));
   useEffect(() => {
     setCurrentMonth(getMonth(currentDayFrame));
@@ -24,56 +24,6 @@ export default function Calendar() {
       updateLocalStorage();
     }
   }, [currentDayFrame]);
-
-  const fetchDate = async () => {
-    return axiosClient.get(`/api/calendar/year/${currentDayFrame.get('year')}/${currentDayFrame.get('month')+1}/${currentDayFrame.get('day')}`);
-  }
-
-  const updateLocalStorage = async () => {
-    console.log(currentYearIndex)
-    fetchDate().then(result=>{
-      const listCalendar = [];
-      const listLabels = [];
-
-      if(result.data.data.length > 0){
-        // console.log(result.data.data)
-        const listData = result.data.data;
-        for(let dataIndex = 0; dataIndex<listData.length; dataIndex ++){
-          const calendar = listData[dataIndex];
-          const listTask = calendar.tasks;
-
-          const label = {
-            id: calendar.id,
-            label: calendar.title,
-            color: calendar.color,
-            checked: true,
-          };
-
-          listLabels.push(label);
-          if(listTask){
-            for(let taskIndex = 0; taskIndex < listTask.length; taskIndex++){
-              const task = listTask[taskIndex];
-
-              listCalendar.push({
-                ...task,
-                from: task.startTime,
-                to: dayjs(task.endTime),
-                day: dayjs(task.startTime),
-                label: task.calendar.title,
-                isAllDay: task.startTime !== task.endTime,
-              })
-            }
-          }
-
-        }
-      }
-
-      dispatchCalEvent({ type: 'new', payload: listCalendar });
-      setLabels(listLabels);
-    }).catch(error => {
-      console.log(error)
-    })
-  }
 
   useEffect(() => {
     updateLocalStorage();

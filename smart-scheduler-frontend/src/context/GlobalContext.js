@@ -29,6 +29,10 @@ const GlobalContext = React.createContext({
   filteredEvents: [],
   frame: 'month',
   setFrame: () => {},
+  deleteLabel: () => {},
+  updateLocalStorage: () => {},
+  labelSelected: null,
+  setLabelSelected: () => {}
 });
 
 export default GlobalContext;

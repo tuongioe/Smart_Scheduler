@@ -62,7 +62,7 @@ export default function EventDateModal() {
 
   const [selectedLabel, setSelectedLabel] = useState(
     selectedEvent
-      ? labels.find((lbl) => lbl.id === labels.id)
+      ? labels.find((lbl) => lbl.id === selectedEvent.id)
       : labels[0]
   );
 
@@ -103,7 +103,14 @@ export default function EventDateModal() {
 
 
     if (selectedEvent) {
-      // dispatchCalEvent({ type: "update", payload: calendarEvent });
+
+      console.log(calendarEventUpload)
+      const result = await axiosClient.patch(`/api/tasks/${calendarEventPayload.id}`, calendarEventUpload);
+
+      console.log(result);
+      dispatchCalEvent({ type: "update", payload: calendarEventPayload });
+
+      dispatchCalEvent({ type: "push", payload: calendarEventPayload });
     } else {
       const result = await axiosClient.post('/api/task', calendarEventUpload);
 
@@ -113,9 +120,20 @@ export default function EventDateModal() {
     setShowEventAddDateModel(false);
   }
 
+  const handleDelete = async (e) => {
+    e.preventDefault();
+
+    if(selectedEvent){
+      const result = await axiosClient.delete(`/api/task/${selectedEvent.id}`)
+      dispatchCalEvent({ type: "delete", payload: selectedEvent });
+      setShowEventAddDateModel(false);
+
+    }
+  }
+
   const handleChange = (event) => {
     setSelectedLabel(
-        labels.find((lbl) => lbl.label === event.target.value)
+        labels.find((lbl) => lbl.id + "" === event.target.value)
     )
   };
 
@@ -325,13 +343,13 @@ export default function EventDateModal() {
 
                 <select className="bg-dark-color text-white"
                         onChange={handleChange}
-                        value={selectedLabel}
+                        value={selectedLabel.id}
                 >
-                  {labels.map((el, index) => (
-                      <option key={`select-option-label-${index}`} value={el.label}>
-                        {el.label}
-                      </option>
-                  ))}
+                  {labels.map((el, index) => {
+                    return <option key={`select-option-label-${index}`} value={el.id}>
+                      {el.label}
+                    </option>
+                  })}
                 </select>
               </div>
 
@@ -366,14 +384,20 @@ export default function EventDateModal() {
                     name="description"
                     placeholder="30 minutes before"
                     value={noti}
-                    required
                     className="pt-3 border-0 bg-dark-color text-white pb-2 w-full focus:outline-none"
                     onChange={(e) => setNoti(e.target.value)}
                 />
               </div>
             </div>
           </div>
-          <footer className="flex justify-end p-3 mt-5">
+          <footer className="flex justify-around p-3 mt-5">
+            <button
+                type="submit"
+                onClick={handleDelete}
+                className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded text-white"
+            >
+              Delete
+            </button>
             <button
                 type="submit"
                 onClick={handleSubmit}

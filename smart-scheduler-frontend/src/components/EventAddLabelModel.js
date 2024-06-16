@@ -6,17 +6,22 @@ export default function EventAddLabelModel() {
     const {
         setShowEventAddLabelModelModal,
         selectedEvent,
+        labelSelected,
+        setLabelSelected,
+        labels,
+        setLabels,
         labelClasses,
-        addLabel
+        addLabel,
+        updateLocalStorage,
     } = useContext(GlobalContext);
 
     const [title, setTitle] = useState(
-        selectedEvent ? selectedEvent.title : ""
+        labelSelected ? labelSelected.label : ""
     );
 
     const [selectedLabel, setSelectedLabel] = useState(
-        selectedEvent
-            ? labelClasses.find((lbl) => lbl === selectedEvent.color)
+        labelSelected
+            ? labelClasses.find((lbl) => lbl === labelSelected.color)
             : labelClasses[0]
     );
 
@@ -38,16 +43,39 @@ export default function EventAddLabelModel() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const result = await axiosClient.post('/api/calendar',{
-            title,
-            color: selectedLabel,
-        });
+        if(labelSelected) {
+            const result = await axiosClient.patch(`/api/calendar/${labelSelected.id}`,{
+                title,
+                color: selectedLabel,
+            });
 
-        addLabel(
-            result.data.data.id,
-            selectedLabel,
-            title
-        );
+            // console.log(result);
+            // updateLocalStorage();
+            //
+            // setLabels(
+            //     labels.map(label => {
+            //         if(label.id === labelSelected.id){
+            //             return {
+            //                 id: labelSelected.id,
+            //                 label: title,
+            //                 color: selectedLabel,
+            //             }
+            //         }
+            //         return label;
+            //     })
+            // )
+        }else{
+            const result = await axiosClient.post('/api/calendar',{
+                title,
+                color: selectedLabel,
+            });
+
+            addLabel(
+                result.data.data.id,
+                selectedLabel,
+                title
+            );
+        }
         setShowEventAddLabelModelModal(false);
     }
     return (
