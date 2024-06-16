@@ -38,7 +38,6 @@ export default function DayOfMonth({ day, rowIdx }) {
   }
 
   const handleChild = (e, evt) => {
-      // e.stopPropagation();
       setDaySelected(day);
       setShowEventAddDateModel(true);
 

@@ -205,7 +205,7 @@ export default function ContextWrapper(props) {
                               to: dayjs(task.endTime),
                               day: dayjs(task.startTime),
                               label: task.calendar.title,
-                              isAllDay: task.startTime !== task.endTime,
+                              isAllDay: task.startTime === task.endTime,
                           })
                       }
                   }

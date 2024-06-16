@@ -76,11 +76,11 @@ export default function DayOfWeek({ day, rowIdx }) {
                 className="flex-1 cursor-pointer min-h-10 border-b h-[33px]"
             >
                 {dayEvents.length > 0 ? dayEvents.map((evt, idx) => {
-                    const from = dayjs(evt.from + 'z').get('hour');
-                    const to = dayjs(evt.to + 'z').get('hour')
+                    const from = dayjs(evt.from).get('hour');
+                    const to = dayjs(evt.to).get('hour')
 
                     if (!evt.isAllDay) {
-                        if (rowIdx === from) {
+                        if (rowIdx <= to && rowIdx>=from || rowIdx <= from && rowIdx>=to) {
                             return (
                                 <div
                                     key={idx}

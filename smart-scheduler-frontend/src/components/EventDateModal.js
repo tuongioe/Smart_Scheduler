@@ -74,12 +74,24 @@ export default function EventDateModal() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    let numberStartTime = startTime === '12am'? 0:parseInt(startTime.slice(0,-2));
+    let numberEndTime = endTime === '12am'? 0:parseInt(endTime.slice(0,-2));
+
+    const isStartTimeAm = startTime.slice(-2)==='am';
+    const isEndTimeAm = endTime.slice(-2)==='am';
+
+    numberStartTime += isStartTimeAm? 0:12;
+    numberEndTime += isEndTimeAm? 0:12;
+
+    const startTimeUpload = dayDataSelected.set('hour',numberStartTime);
+    const endTimeUpload = dayDataSelected.set('hour',numberEndTime);
+
     const calendarEventPayload = {
       title,
       description,
       label: selectedLabel.label,
-      from: dayDataSelected.set('hha',startTime).toISOString().slice(0,-1),
-      to: dayDataSelected.set('hha',endTime).toISOString().slice(0,-1),
+      from: startTimeUpload.toISOString().slice(0,-1),
+      to: endTimeUpload.toISOString().slice(0,-1),
       isAllDay,
       day: dayDataSelected.valueOf(),
       id: selectedEvent && selectedEvent.id ? selectedEvent.id : Date.now(),
@@ -89,8 +101,8 @@ export default function EventDateModal() {
       title,
       description,
       calendarId: selectedLabel.id,
-      startTime: dayDataSelected.set('hha',startTime).toISOString().slice(0,-1),
-      endTime: dayDataSelected.set('hha',endTime).toISOString().slice(0,-1),
+      startTime: startTimeUpload.toISOString().slice(0,-1),
+      endTime: endTimeUpload.toISOString().slice(0,-1),
       isRecurring: false,
     }
 
@@ -115,8 +127,10 @@ export default function EventDateModal() {
 
       dispatchCalEvent({ type: "push", payload: calendarEventPayload });
     } else {
+      console.log(JSON.stringify(calendarEventPayload, null, 2))
       const result = await axiosClient.post('/api/task', calendarEventUpload);
 
+      console.log(result)
       dispatchCalEvent({ type: "push", payload: calendarEventPayload });
     }
 
@@ -317,11 +331,11 @@ export default function EventDateModal() {
                   </label>
 
                   {!isAllDay?
-                      <label className="ml-1">
+                      <label className="ml-1" >
                         <select className="cursor-pointer bg-dark-color" value={startTime} onChange={handleStartTime}>
                           {
-                            allTime.map(timeX => (
-                                <option value={dayjs().set('hour', timeX).format('hha')}>
+                            allTime.map((timeX, index) => (
+                                <option value={dayjs().set('hour', timeX).format('hha')} key={`allTime_start_${index}`}>
                                   {dayjs().set('hour', timeX).format('hha')}
                                 </option>
                             ))
@@ -331,8 +345,8 @@ export default function EventDateModal() {
                         <label className="cursor-pointer bg-dark-color">
                           <select className="cursor-pointer bg-dark-color" value={endTime} onChange={handleEndTime}>
                             {
-                              allTime.map(timeX => (
-                                  <option value={dayjs().set('hour', timeX).format('hha')}>
+                              allTime.map((timeX, index) => (
+                                  <option value={dayjs().set('hour', timeX).format('hha')} key={`allTime_end_${index}`}>
                                     {dayjs().set('hour', timeX).format('hha')}
                                   </option>
                               ))
