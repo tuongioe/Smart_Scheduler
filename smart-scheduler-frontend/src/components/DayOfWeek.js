@@ -28,6 +28,29 @@ export default function DayOfWeek({ day, rowIdx }) {
             : "";
     }
 
+    const handleParent = () => {
+        setDaySelected(day);
+        setShowEventAddDateModel(true);
+        setSelectedEvent({
+            title: "",
+            description: "",
+            noti: "",
+        })
+    }
+
+    const handleChild = (e, evt) => {
+        setDaySelected(day);
+        setShowEventAddDateModel(true);
+
+        setLabelSelected({
+            id: evt.calendar.id,
+            label: evt.calendar.title,
+            color: evt.calendar.color
+        })
+
+        setSelectedEvent(evt);
+    }
+
     return (
         <div className="border-r border-gray-200 w-[120px]" >
                 {rowIdx === 0? (
@@ -51,39 +74,33 @@ export default function DayOfWeek({ day, rowIdx }) {
 
             <div
                 className="flex-1 cursor-pointer min-h-10 border-b h-[33px]"
-                onClick={() => {
-                    setDaySelected(day.set('hour',rowIdx));
-                    setShowEventAddDateModel(true);
-                }}
             >
-                {dayEvents.map((evt, idx) => {
+                {dayEvents.length > 0 ? dayEvents.map((evt, idx) => {
                     const from = dayjs(evt.from + 'z').get('hour');
                     const to = dayjs(evt.to + 'z').get('hour')
 
-                    if(!evt.isAllDay){
-                        if(rowIdx === from){
+                    if (!evt.isAllDay) {
+                        if (rowIdx === from) {
                             return (
                                 <div
                                     key={idx}
                                     onClick={() => setSelectedEvent(evt)}
                                     className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
-                                    style={{fontSize:"12px",backgroundColor: labels.find(el=> el.label === evt.label).color}}
+                                    style={{
+                                        fontSize: "12px",
+                                        backgroundColor: labels.find(el => el.label === evt.label).color
+                                    }}
                                 >
                                     {evt.title}
                                 </div>
                             )
                         }
 
-                    }else {
+                    } else {
                         return <div
                             key={idx}
-                            onClick={() => {
-                                setSelectedEvent(evt)
-                                setLabelSelected({
-                                    id: evt.calendar.id,
-                                    label: evt.calendar.title,
-                                    color: evt.calendar.color
-                                })
+                            onClick={(e)=> {
+                                handleChild(e, evt)
                             }}
                             className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
                             style={{fontSize: "12px", backgroundColor: labels.find(el => el.label === evt.label).color}}
@@ -92,7 +109,7 @@ export default function DayOfWeek({ day, rowIdx }) {
                         </div>
                     }
 
-                })}
+                }) : <div className="w-full h-full" onClick={handleParent}></div>}
             </div>
         </div>
     );

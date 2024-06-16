@@ -30,15 +30,17 @@ export default function DayOfMonth({ day, rowIdx }) {
   const handleParent = () => {
       setDaySelected(day);
       setShowEventAddDateModel(true);
-      // setSelectedEvent({
-      //     title: "",
-      //     description: "",
-      //     noti: "",
-      // })
+      setSelectedEvent({
+          title: "",
+          description: "",
+          noti: "",
+      })
   }
 
   const handleChild = (e, evt) => {
       // e.stopPropagation();
+      setDaySelected(day);
+      setShowEventAddDateModel(true);
 
       setLabelSelected({
           id: evt.calendar.id,
@@ -66,18 +68,18 @@ export default function DayOfMonth({ day, rowIdx }) {
 
       <div
         className="flex-1 cursor-pointer"
-        onClick={handleParent}
       >
-        {dayEvents.map((evt, idx) => (
-          <div
-            key={idx}
-            onClick={(e) => handleChild(e, evt)}
-            className={`w-full p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
-            style={{backgroundColor: labels.find(el=> el.label === evt.label).color}}
-          >
-            {evt.title}
-          </div>
-        ))}
+          {dayEvents.length > 0 ? dayEvents.map((evt, idx) => (
+              <div
+                  key={idx}
+                  onClick={(e) => handleChild(e, evt)}
+                  className={`w-full p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
+                  style={{backgroundColor: labels.find(el => el.label === evt.label).color}}
+              >
+                  {evt.title}
+              </div>
+          )) : <div className="w-full h-full" onClick={handleParent}></div>}
+
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ export default function WeekFrame() {
     const handleMouseMove = (e) => {
         if (!isDragging) return;
         const x = e.pageX - containerRef.current.offsetLeft;
-        const walk = (x - startX) * 2; // Tăng tốc độ cuộn
+        const walk = (x - startX) * 2;
         containerRef.current.scrollLeft = scrollLeft - walk;
     };
 
