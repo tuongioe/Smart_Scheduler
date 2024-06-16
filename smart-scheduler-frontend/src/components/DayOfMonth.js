@@ -10,6 +10,7 @@ export default function DayOfMonth({ day, rowIdx }) {
     filteredEvents,
     setSelectedEvent,
       labels,
+      setLabelSelected
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -52,8 +53,12 @@ export default function DayOfMonth({ day, rowIdx }) {
           <div
             key={idx}
             onClick={() => {
-                console.log(evt)
-                setSelectedEvent(evt)
+                setSelectedEvent(evt);
+                setLabelSelected({
+                    id: evt.calendar.id,
+                    label: evt.calendar.title,
+                    color: evt.calendar.color
+                })
             }}
             className={`w-full p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
             style={{backgroundColor: labels.find(el=> el.label === evt.label).color}}

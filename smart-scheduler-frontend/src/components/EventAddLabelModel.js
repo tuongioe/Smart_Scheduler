@@ -49,21 +49,20 @@ export default function EventAddLabelModel() {
                 color: selectedLabel,
             });
 
-            // console.log(result);
-            // updateLocalStorage();
-            //
-            // setLabels(
-            //     labels.map(label => {
-            //         if(label.id === labelSelected.id){
-            //             return {
-            //                 id: labelSelected.id,
-            //                 label: title,
-            //                 color: selectedLabel,
-            //             }
-            //         }
-            //         return label;
-            //     })
-            // )
+            updateLocalStorage();
+
+            setLabels(
+                labels.map(label => {
+                    if(label.id === labelSelected.id){
+                        return {
+                            id: labelSelected.id,
+                            label: title,
+                            color: selectedLabel,
+                        }
+                    }
+                    return label;
+                })
+            )
         }else{
             const result = await axiosClient.post('/api/calendar',{
                 title,

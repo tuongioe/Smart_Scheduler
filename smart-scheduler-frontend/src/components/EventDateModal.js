@@ -13,8 +13,11 @@ export default function EventDateModal() {
     dispatchCalEvent,
     selectedEvent,
       labels,
+      labelSelected,
+    allTime
   } = useContext(GlobalContext);
   const [nextTime, setNextTime] = useState(daySelected);
+  const [dayDataSelected, setDayDataSelected] = useState(daySelected);
   const modalRef = useRef();
   const [isAllDay, setIsAllDay] = useState(true);
   const [endDay, setEndDay] = useState(dayjs());
@@ -23,15 +26,13 @@ export default function EventDateModal() {
   const [repeatType, setRepeatType] = useState('day');
   const [repeatDateType, setRepeatDateType] = useState('no-repeat');
   const [isShowRepeat, setIsShowRepeat] = useState(false);
+  const [startTime, setStartTime] = useState(daySelected.format('hha'));
+  const [endTime, setEndTime] = useState(daySelected.add(1,'hour').format('hha'));
 
   const handleCheckboxChange = (event) => {
     setIsAllDay(event.target.checked);
   };
   
-  useEffect(() => {
-    setNextTime(daySelected.add(1,'hour'));
-  }, [daySelected]);
-
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (!modalRef.current.contains(event.target)) {
@@ -62,7 +63,7 @@ export default function EventDateModal() {
 
   const [selectedLabel, setSelectedLabel] = useState(
     selectedEvent
-      ? labels.find((lbl) => lbl.id === selectedEvent.id)
+      ? labels.find((lbl) => lbl.id === selectedEvent.calendar.id)
       : labels[0]
   );
 
@@ -73,10 +74,10 @@ export default function EventDateModal() {
       title,
       description,
       label: selectedLabel.label,
-      from: daySelected.toISOString().slice(0,-1),
-      to: nextTime.toISOString().slice(0,-1),
+      from: dayDataSelected.toISOString().slice(0,-1),
+      to: dayDataSelected.toISOString().slice(0,-1),
       isAllDay,
-      day: daySelected.valueOf(),
+      day: dayDataSelected.valueOf(),
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
 
@@ -84,8 +85,8 @@ export default function EventDateModal() {
       title,
       description,
       calendarId: selectedLabel.id,
-      startTime: daySelected.toISOString().slice(0,-1),
-      endTime: nextTime.toISOString().slice(0,-1),
+      startTime: dayDataSelected.toISOString().slice(0,-1),
+      endTime: dayDataSelected.toISOString().slice(0,-1),
       isRecurring: false,
     }
 
@@ -102,9 +103,9 @@ export default function EventDateModal() {
     }
 
 
-    if (selectedEvent) {
-
+    if (selectedEvent && selectedEvent.id) {
       console.log(calendarEventUpload)
+
       const result = await axiosClient.patch(`/api/tasks/${calendarEventPayload.id}`, calendarEventUpload);
 
       console.log(result);
@@ -132,6 +133,7 @@ export default function EventDateModal() {
   }
 
   const handleChange = (event) => {
+    console.log(selectedLabel)
     setSelectedLabel(
         labels.find((lbl) => lbl.id + "" === event.target.value)
     )
@@ -166,6 +168,17 @@ export default function EventDateModal() {
     if(e.target.value === 'option'){
       setIsShowRepeat(true);
     }
+  }
+
+  const handleStartTime = (e) => {
+    setStartTime(e.target.value)
+  }
+
+  const handleEndTime = (e) => {
+    setEndTime(e.target.value)
+  }
+  const handleDayDate = (e) => {
+    setDayDataSelected(dayjs(e.target.value))
   }
 
   return (
@@ -297,10 +310,36 @@ export default function EventDateModal() {
                   </g>
                 </svg>
                 <div className="">
-                  <label>{daySelected.format("dddd, MMMM DD")}</label>
+                  <label>
+                    <input className="" type="date" value={dayDataSelected.format('YYYY-MM-DD')} onChange={handleDayDate}/>
+                  </label>
 
-                  {frame !== "month" ?
-                      <label className="ml-1"> {daySelected.format('hha')} - {nextTime.format('hha')}</label> : <></>}
+                  {!isAllDay?
+                      <label className="ml-1">
+                        <select className="cursor-pointer bg-dark-color" value={startTime} onChange={handleStartTime}>
+                          {
+                            allTime.map(timeX => (
+                                <option value={dayjs().set('hour', timeX).format('hha')}>
+                                  {dayjs().set('hour', timeX).format('hha')}
+                                </option>
+                            ))
+                          }
+
+                        </select> -
+                        <label className="cursor-pointer bg-dark-color">
+                          <select className="cursor-pointer bg-dark-color" value={endTime} onChange={handleEndTime}>
+                            {
+                              allTime.map(timeX => (
+                                  <option value={dayjs().set('hour', timeX).format('hha')}>
+                                    {dayjs().set('hour', timeX).format('hha')}
+                                  </option>
+                              ))
+                            }
+
+                          </select>
+                        </label>
+                      </label> : <></>
+                  }
 
                   <div></div>
                   <Checkbox

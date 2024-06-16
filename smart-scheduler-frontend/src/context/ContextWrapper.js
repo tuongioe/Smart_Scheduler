@@ -53,6 +53,8 @@ export default function ContextWrapper(props) {
     initEvents
   );
 
+  const allTime = Array.from({length: 25}, (_, index )=> index);
+
   const [labelClasses, setLabelClasses] = useState([
       {
           label: "white",
@@ -255,6 +257,7 @@ export default function ContextWrapper(props) {
           updateLocalStorage,
           labelSelected,
           setLabelSelected,
+          allTime,
       }}
     >
       {props.children}

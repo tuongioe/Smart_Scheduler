@@ -67,10 +67,11 @@ export default function CreateEventButton() {
                   {labels.map((el, index)=>(
                       <MenuItem key={`label-map-${index}`} onClick={() => {
                           setSelectedEvent({
-                              ...el,
-                              id: el.id,
-                              color: el.color,
-                              label: el.label
+                              calendar: {
+                                  id: el.id,
+                                  color: el.color,
+                                  label: el.label
+                              }
                           });
                           setAnchorEl(null);
                           setShowEventAddDateModel(true);

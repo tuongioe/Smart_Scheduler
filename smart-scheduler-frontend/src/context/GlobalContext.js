@@ -32,7 +32,8 @@ const GlobalContext = React.createContext({
   deleteLabel: () => {},
   updateLocalStorage: () => {},
   labelSelected: null,
-  setLabelSelected: () => {}
+  setLabelSelected: () => {},
+  allTime: [Array.from({ length: 25 }, (_, index) => index)],
 });
 
 export default GlobalContext;

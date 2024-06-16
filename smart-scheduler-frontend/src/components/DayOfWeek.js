@@ -9,7 +9,8 @@ export default function DayOfWeek({ day, rowIdx }) {
         setShowEventAddDateModel,
         filteredEvents,
         setSelectedEvent,
-        labels
+        labels,
+        setLabelSelected
     } = useContext(GlobalContext);
 
     useEffect(() => {
@@ -76,7 +77,14 @@ export default function DayOfWeek({ day, rowIdx }) {
                     }else {
                         return <div
                             key={idx}
-                            onClick={() => setSelectedEvent(evt)}
+                            onClick={() => {
+                                setSelectedEvent(evt)
+                                setLabelSelected({
+                                    id: evt.calendar.id,
+                                    label: evt.calendar.title,
+                                    color: evt.calendar.color
+                                })
+                            }}
                             className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
                             style={{fontSize: "12px", backgroundColor: labels.find(el => el.label === evt.label).color}}
                         >
