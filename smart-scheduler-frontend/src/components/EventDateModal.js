@@ -12,9 +12,10 @@ export default function EventDateModal() {
     daySelected,
     dispatchCalEvent,
     selectedEvent,
-      labels,
-      labelSelected,
-    allTime
+    labels,
+    labelSelected,
+    allTime,
+    updateLocalStorage
   } = useContext(GlobalContext);
   const [nextTime, setNextTime] = useState(daySelected);
   const [dayDataSelected, setDayDataSelected] = useState(daySelected);
@@ -32,7 +33,7 @@ export default function EventDateModal() {
   const handleCheckboxChange = (event) => {
     setIsAllDay(event.target.checked);
   };
-  
+
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (!modalRef.current.contains(event.target)) {
@@ -50,10 +51,10 @@ export default function EventDateModal() {
   }, [setShowEventAddDateModel]);
 
   const [title, setTitle] = useState(
-    selectedEvent ? selectedEvent.title : ""
+      selectedEvent ? selectedEvent.title : ""
   );
   const [description, setDescription] = useState(
-    selectedEvent ? selectedEvent.description : ""
+      selectedEvent ? selectedEvent.description : ""
   );
 
   const [noti, setNoti] = useState(
@@ -61,9 +62,9 @@ export default function EventDateModal() {
   );
 
   const [selectedLabel, setSelectedLabel] = useState(
-    selectedEvent && selectedEvent.calendar
-      ? labels.find((lbl) => lbl.id === selectedEvent.calendar.id)
-      : labels[0]
+      selectedEvent && selectedEvent.calendar
+          ? labels.find((lbl) => lbl.id === selectedEvent.calendar.id)
+          : labels[0]
   );
 
   function handleClear() {
@@ -71,6 +72,7 @@ export default function EventDateModal() {
     setTitle("");
     setDescription("")
   }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -120,7 +122,7 @@ export default function EventDateModal() {
 
 
     if (selectedEvent && selectedEvent.id) {
-      const result = await axiosClient.patch(`/api/tasks/${calendarEventPayload.id}`, calendarEventUpload);
+      const result = await axiosClient.patch(`/api/task/${calendarEventPayload.id}`, calendarEventUpload);
 
       console.log(result);
       dispatchCalEvent({ type: "update", payload: calendarEventPayload });
@@ -134,6 +136,7 @@ export default function EventDateModal() {
       dispatchCalEvent({ type: "push", payload: calendarEventPayload });
     }
 
+    updateLocalStorage()
     setShowEventAddDateModel(false);
     handleClear();
   }
