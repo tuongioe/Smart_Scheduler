@@ -80,7 +80,8 @@ export default function DayOfWeek({ day, rowIdx }) {
                     const to = dayjs(evt.to).get('hour')
 
                     if (!evt.isAllDay) {
-                        if (rowIdx <= to && rowIdx>=from || rowIdx <= from && rowIdx>=to) {
+                        const index = rowIdx + 1
+                        if (index <= to && index>from || index <= from && index>to) {
                             return (
                                 <div
                                     key={idx}
@@ -96,6 +97,20 @@ export default function DayOfWeek({ day, rowIdx }) {
                                     {evt.title}
                                 </div>
                             )
+                        }else{
+                            <div
+                            key={idx}
+                            onClick={(e)=> {
+                                handleChild(e, evt)
+                            }}
+                            className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
+                            style={{
+                                fontSize: "12px",
+                                backgroundColor: labels.find(el => el.label === evt.label).color
+                            }}
+                        >
+                            {evt.title}
+                        </div>
                         }
 
                     } else {
@@ -107,6 +122,7 @@ export default function DayOfWeek({ day, rowIdx }) {
                             className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
                             style={{fontSize: "12px", backgroundColor: labels.find(el => el.label === evt.label).color}}
                         >
+                            11111
                             {evt.title}
                         </div>
                     }

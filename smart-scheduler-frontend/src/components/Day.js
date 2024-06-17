@@ -61,7 +61,8 @@ export default function Day({ day, rowIdx }) {
                     const to = dayjs(evt.to).get('hour');
 
                     if (!evt.isAllDay) {
-                        if (rowIdx <= to && rowIdx>=from || rowIdx <= from && rowIdx>=to) {
+                        const index = rowIdx + 1
+                        if (index < to && index>=from || index < from && index>=to) {
                             return (
                                 <div
                                     key={idx}

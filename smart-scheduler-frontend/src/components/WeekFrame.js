@@ -61,10 +61,10 @@ export default function WeekFrame() {
 
                 <div className="grid grid-cols-7">
                     {
-                        listTime.map((_, i) => (
-                            week.map((row, hour) => (
+                        listTime.map((row, i) => (
+                            week.map((col, hour) => (
                                 <React.Fragment key={`week-frame-fragment-${i + hour}`}>
-                                    <DayOfWeek day={row.hour(i)} key={i + hour} rowIdx={i}/>
+                                    <DayOfWeek day={col.hour(i)} key={i + hour} rowIdx={i}/>
                                 </React.Fragment>
                             ))
                         ))

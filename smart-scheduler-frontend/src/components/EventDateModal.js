@@ -110,6 +110,8 @@ export default function EventDateModal() {
       isRecurring: false,
     }
 
+    console.log(JSON.stringify(calendarEventUpload, null, 2))
+
     if(repeatDateType === 'option'){
       const repeat = {
         type: repeatType,
