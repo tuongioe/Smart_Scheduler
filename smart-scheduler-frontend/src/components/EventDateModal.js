@@ -109,9 +109,6 @@ export default function EventDateModal() {
       endTime: isAllDay? toISOWithoutZ(startTimeUpload.toDate()):toISOWithoutZ(endTimeUpload.toDate()),
       isRecurring: false,
     }
-    console.log({
-      ...calendarEventUpload,
-    })
 
     if(repeatDateType === 'option'){
       const repeat = {

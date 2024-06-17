@@ -84,7 +84,9 @@ export default function DayOfWeek({ day, rowIdx }) {
                             return (
                                 <div
                                     key={idx}
-                                    onClick={() => setSelectedEvent(evt)}
+                                    onClick={(e)=> {
+                                        handleChild(e, evt)
+                                    }}
                                     className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
                                     style={{
                                         fontSize: "12px",
