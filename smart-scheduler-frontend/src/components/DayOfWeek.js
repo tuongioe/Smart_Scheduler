@@ -98,18 +98,11 @@ export default function DayOfWeek({ day, rowIdx }) {
                                 </div>
                             )
                         }else{
-                            <div
+                            return <div
                             key={idx}
-                            onClick={(e)=> {
-                                handleChild(e, evt)
-                            }}
-                            className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
-                            style={{
-                                fontSize: "12px",
-                                backgroundColor: labels.find(el => el.label === evt.label).color
-                            }}
+                            onClick={handleParent}
+                            className={`w-full h-full`}
                         >
-                            {evt.title}
                         </div>
                         }
 
@@ -122,7 +115,6 @@ export default function DayOfWeek({ day, rowIdx }) {
                             className={`text-gray-600 rounded mb-1 truncate w-full w-[113px] h-[33px]`}
                             style={{fontSize: "12px", backgroundColor: labels.find(el => el.label === evt.label).color}}
                         >
-                            11111
                             {evt.title}
                         </div>
                     }
