@@ -4,6 +4,7 @@ import {Checkbox, FormControlLabel, Radio, RadioGroup} from "@mui/material";
 import {axiosClient} from "../utils/util";
 
 import dayjs from "dayjs";
+import {toISOWithoutZ} from "../utils/dateFormat";
 
 export default function EventDateModal() {
   const {
@@ -88,12 +89,13 @@ export default function EventDateModal() {
     const startTimeUpload = dayDataSelected.set('hour',numberStartTime);
     const endTimeUpload = dayDataSelected.set('hour',numberEndTime);
 
+
     const calendarEventPayload = {
       title,
       description,
       label: selectedLabel.label,
       from: startTimeUpload.toISOString().slice(0,-1),
-      to: endTimeUpload.toISOString().slice(0,-1),
+      to: isAllDay? startTimeUpload.toISOString().slice(0,-1):endTimeUpload.toISOString().slice(0,-1),
       isAllDay,
       day: dayDataSelected.valueOf(),
       id: selectedEvent && selectedEvent.id ? selectedEvent.id : Date.now(),
@@ -103,10 +105,13 @@ export default function EventDateModal() {
       title,
       description,
       calendarId: selectedLabel.id,
-      startTime: startTimeUpload.toISOString().slice(0,-1),
-      endTime: endTimeUpload.toISOString().slice(0,-1),
+      startTime: toISOWithoutZ(startTimeUpload.toDate()),
+      endTime: isAllDay? toISOWithoutZ(startTimeUpload.toDate()):toISOWithoutZ(endTimeUpload.toDate()),
       isRecurring: false,
     }
+    console.log({
+      ...calendarEventUpload,
+    })
 
     if(repeatDateType === 'option'){
       const repeat = {
@@ -129,7 +134,6 @@ export default function EventDateModal() {
 
       dispatchCalEvent({ type: "push", payload: calendarEventPayload });
     } else {
-      console.log(JSON.stringify(calendarEventPayload, null, 2))
       const result = await axiosClient.post('/api/task', calendarEventUpload);
 
       console.log(result)
