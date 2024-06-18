@@ -73,7 +73,7 @@ export default function DayOfWeek({ day, rowIdx }) {
                 )}
 
             <div
-                className="flex-1 cursor-pointer min-h-10 border-b h-[33px]"
+                className="flex-1 cursor-pointer min-h-10 border-b h-[33px] "
             >
                 {dayEvents.length > 0 ? dayEvents.map((evt, idx) => {
                     const from = dayjs(evt.from).get('hour');

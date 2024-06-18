@@ -100,6 +100,7 @@ export default function AIScheduler() {
         cleanRepeat.endDate = toISOWithoutZ(repeat.endDate);
       request.repeat = cleanRepeat;
     }
+    console.log('request: ',request)
     const task = await generateTask(request);
     console.log(task);
     setGeneratedTasks([...generatedTasks, task]);

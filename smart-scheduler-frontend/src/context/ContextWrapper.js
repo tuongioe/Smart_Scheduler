@@ -62,15 +62,15 @@ export default function ContextWrapper(props) {
       },
       {
           label: "red",
-          color: "#f00"
+          color: "#8e3939"
       },
       {
           label: "blue",
-          color: "#004cff"
+          color: "#004cff8f"
       },
       {
           label: "green",
-          color: "#31ff00"
+          color: "#31ff006b"
       },
       {
           label: "grey",
@@ -78,7 +78,7 @@ export default function ContextWrapper(props) {
       },
       {
           label: "purple",
-          color: "#9300ff"
+          color: "#9300ff9e"
       }
   ])
   const [currentDayFrame, setCurrentDayFrame] = useState(dayjs());

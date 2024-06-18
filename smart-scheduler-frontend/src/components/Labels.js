@@ -48,7 +48,6 @@ export default function Labels() {
                   isShowLabel? labels.map(({ label, checked, color, id}, index) => {
                       return <label key={index} className="items-center mt-3 flex justify-between delete-calendar-label">
                           <div>
-
                               <input
                                   type="checkbox"
                                   checked={checked}
@@ -61,8 +60,6 @@ export default function Labels() {
 
                               <span className={`ml-2 capitalize text-red-50`} style={{color: color}}
                                 onClick={() => {
-                                    alert(label)
-
                                     setLabelSelected({
                                         label, checked, color, id
                                     })

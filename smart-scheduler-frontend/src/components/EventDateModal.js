@@ -110,14 +110,12 @@ export default function EventDateModal() {
       isRecurring: false,
     }
 
-    console.log(JSON.stringify(calendarEventUpload, null, 2))
-
     if(repeatDateType === 'option'){
       const repeat = {
         type: repeatType,
         repeatGap: repeatEveryDay + '',
         dayOfWeek: [],
-        endDate: new Date(endDay.format('YYYY-MM-DD')),
+        endDate: toISOWithoutZ(new Date(endDay.format('YYYY-MM-DD'))),
         hasEndDate: isEndDay === 'at',
       }
 
@@ -128,14 +126,14 @@ export default function EventDateModal() {
     if (selectedEvent && selectedEvent.id) {
       const result = await axiosClient.patch(`/api/task/${calendarEventPayload.id}`, calendarEventUpload);
 
-      console.log(result);
       dispatchCalEvent({ type: "update", payload: calendarEventPayload });
 
       dispatchCalEvent({ type: "push", payload: calendarEventPayload });
     } else {
+      console.log('create: ',calendarEventUpload);
       const result = await axiosClient.post('/api/task', calendarEventUpload);
 
-      console.log(result)
+      console.log(result);
       dispatchCalEvent({ type: "push", payload: calendarEventPayload });
     }
 
@@ -157,7 +155,7 @@ export default function EventDateModal() {
 
   const handleChange = (event) => {
     setSelectedLabel(
-        labels.find((lbl) => lbl.id + "" === event.target.value)
+      labels.find((lbl) => lbl.id + "" === event.target.value)
     )
   };
 

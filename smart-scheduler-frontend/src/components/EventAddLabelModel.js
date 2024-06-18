@@ -25,6 +25,12 @@ export default function EventAddLabelModel() {
             : labelClasses[0]
     );
 
+    const clearForm = () => {
+        setLabelSelected({
+            label:"",
+        })
+        setTitle("");
+    }
     const modalRef = useRef(null);
 
     useEffect(() => {
@@ -43,7 +49,7 @@ export default function EventAddLabelModel() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        if(labelSelected) {
+        if(labelSelected && labelSelected.id) {
             const result = await axiosClient.patch(`/api/calendar/${labelSelected.id}`,{
                 title,
                 color: selectedLabel,
@@ -75,6 +81,7 @@ export default function EventAddLabelModel() {
                 title
             );
         }
+        clearForm();
         setShowEventAddLabelModelModal(false);
     }
     return (
@@ -84,7 +91,10 @@ export default function EventAddLabelModel() {
                   <span className="material-icons-outlined text-gray-400">
                   </span>
                     <div>
-                        <button onClick={() => setShowEventAddLabelModelModal(false)}>
+                        <button onClick={() => {
+                            clearForm();
+                            setShowEventAddLabelModelModal(false);
+                            }}>
                             <svg widht="20" height="20" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg" stroke="#ffff">
                                 <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
