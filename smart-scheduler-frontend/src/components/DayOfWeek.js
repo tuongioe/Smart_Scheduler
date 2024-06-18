@@ -52,7 +52,7 @@ export default function DayOfWeek({ day, rowIdx }) {
     }
 
     return (
-        <div className="border-r border-gray-200 w-[120px]" >
+        <div className="border-r border-gray-200 w-[120px]  font-bold" >
                 {rowIdx === 0? (
                     <header className="flex flex-col items-center">
                             <React.Fragment>

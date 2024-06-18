@@ -51,7 +51,7 @@ export default function DayOfMonth({ day, rowIdx }) {
   }
 
   return (
-    <div className="border-r border-b border-gray flex flex-col w-[101px] h-[126px]">
+    <div className="border-r border-b border-gray flex flex-col w-[101px] h-[126px] font-bold">
       <header className="">
         {rowIdx === 0 && (
           <div className="text-sm mt-1 text-center">

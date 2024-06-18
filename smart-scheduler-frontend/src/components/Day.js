@@ -48,7 +48,7 @@ export default function Day({ day, rowIdx }) {
 
 
     return (
-        <div className="border-t flex flex-col">
+        <div className="border-t flex flex-col  font-bold">
             <div
                 className="flex-1 cursor-pointer min-h-10"
                 onClick={() => {
