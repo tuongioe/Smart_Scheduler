@@ -1,4 +1,4 @@
-# Smart Scheduler Application User Interface
+# Smart Scheduler Application Client
 
 ## Description
 This repository provides the UI of the Smart Scheduler Application, designed using ReactJS.
@@ -25,16 +25,15 @@ This repository provides the UI of the Smart Scheduler Application, designed usi
     ```sh
     npm install
     ```
+4. Install application follow this [link](https://github.com/ntritin62/Smart-Scheduler-BE) 
 
 ## Running the Application
 1. Start the application:
     ```sh
     npm start
     ```
-2. The application will be running at [http://localhost:3000](http://localhost:3000)
+2. Start application server
+3. The application will be running at [http://localhost:3000](http://localhost:3000)
 
 ## Usage
 Once the application is running, open [http://localhost:3000](http://localhost:3000) in your web browser to use the Smart Scheduler UI.
-
-## Additional Information
-For further details on how to use specific features of the Smart Scheduler UI, refer to the documentation available within the application.
