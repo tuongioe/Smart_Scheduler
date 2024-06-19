@@ -65,21 +65,21 @@ export default function DayOfMonth({ day, rowIdx }) {
         </div>
       </header>
 
-      <div
-        className="flex-1 cursor-pointer overflow-scroll no-scrollbar"
-      >
-          {dayEvents.length > 0 ? dayEvents.map((evt, idx) => (
-              <div
-                  key={idx}
-                  onClick={(e) => handleChild(e, evt)}
-                  className={`w-full p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
-                  style={{backgroundColor: labels.find(el => el.label === evt.label).color}}
-              >
-                  {evt.title}
-              </div>
-          )) : <div className="w-full h-full" onClick={handleParent}></div>}
-
-      </div>
+        <div
+            className="flex-1 cursor-pointer overflow-scroll no-scrollbar"
+        >
+            {dayEvents.length > 0 ? dayEvents.map((evt, idx) => (
+                <div
+                    key={idx}
+                    onClick={(e) => handleChild(e, evt)}
+                    className={`w-full p-1 mr-3 text-gray-600 text-sm rounded mb-1 truncate`}
+                    style={{backgroundColor: labels.find(el => el.label === evt.label).color}}
+                >
+                    {evt.title}
+                </div>
+            )) : <div className="w-full h-full" onClick={handleParent}></div>}
+            <div className="w-full h-full" onClick={handleParent}></div>
+        </div>
     </div>
   );
 }

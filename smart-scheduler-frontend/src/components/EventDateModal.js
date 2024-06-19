@@ -126,9 +126,9 @@ export default function EventDateModal() {
     if (selectedEvent && selectedEvent.id) {
       const result = await axiosClient.patch(`/api/task/${calendarEventPayload.id}`, calendarEventUpload);
 
+      console.log("result: ", result);
+      console.log("upload: ",calendarEventUpload)
       dispatchCalEvent({ type: "update", payload: calendarEventPayload });
-
-      dispatchCalEvent({ type: "push", payload: calendarEventPayload });
     } else {
       console.log('create: ',calendarEventUpload);
       const result = await axiosClient.post('/api/task', calendarEventUpload);

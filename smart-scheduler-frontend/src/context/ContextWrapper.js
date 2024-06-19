@@ -17,7 +17,6 @@ function savedEventsReducer(state, { type, payload }) {
     case "update":
         state.map((evt) =>
             {
-                console.log(evt)
                 return evt.id === payload.id ? payload : evt
             }
         )
