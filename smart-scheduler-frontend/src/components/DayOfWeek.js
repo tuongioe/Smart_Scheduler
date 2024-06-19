@@ -73,9 +73,15 @@ export default function DayOfWeek({ day, rowIdx }) {
                 )}
 
             <div
-                className="flex-1 cursor-pointer min-h-10 border-b h-[33px] "
+                className="flex-1 cursor-pointer min-h-10 border-b h-[33px]  overflow-scroll no-scrollbar "
             >
-                {dayEvents.length > 0 ? dayEvents.map((evt, idx) => {
+                {dayEvents.length > 0 ? dayEvents.sort((el, index)=> {
+                    const from = dayjs(el.from).get('hour');
+                    const to = dayjs(el.to).get('hour')
+
+                    return index <= to && index>from || index <= from && index>to
+
+                }).map((evt, idx) => {
                     const from = dayjs(evt.from).get('hour');
                     const to = dayjs(evt.to).get('hour')
 
@@ -97,7 +103,8 @@ export default function DayOfWeek({ day, rowIdx }) {
                                     {evt.title}
                                 </div>
                             )
-                        }else{
+                        }
+                        else{
                             return <div
                             key={idx}
                             onClick={handleParent}

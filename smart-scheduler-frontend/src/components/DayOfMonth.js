@@ -66,7 +66,7 @@ export default function DayOfMonth({ day, rowIdx }) {
       </header>
 
       <div
-        className="flex-1 cursor-pointer"
+        className="flex-1 cursor-pointer overflow-scroll no-scrollbar"
       >
           {dayEvents.length > 0 ? dayEvents.map((evt, idx) => (
               <div
