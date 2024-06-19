@@ -94,7 +94,7 @@ const ProfilePage = () => {
           survey={formIsShow.data}
         />
       )}
-      <div className="w-full grid grid-cols-3 mt-[30px] gap-[30px] ">
+      <div className="w-full grid grid-cols-3 my-8 gap-[30px] ">
         <aside className="col-span-1 rounded-3xl  overflow-hidden w-full shadow-2xl">
           <section className="relative flex flex-col items-center z-0 overflow-hidden  w-full h-[150px]  background pt-[40px] px-[40px] pb-[20px] ">
             <img
@@ -134,7 +134,7 @@ const ProfilePage = () => {
                 Create
               </button>
             </div>
-            <div className="h-[500px] overflow-auto">
+            <div className="h-[640px] overflow-auto">
               {user &&
                 user.surveyTasks.length > 0 &&
                 user.surveyTasks.map((task) => (

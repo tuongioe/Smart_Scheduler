@@ -46,13 +46,8 @@ body {
 .Register__Block {
   min-height: 630px;
   width: 480px;
-  margin-top: 20px;
-  margin-bottom: 100px;
-  margin-left: 50%;
-  translate: -50%;
-  padding: 20px;
   border-radius: 19px;
-  padding: 30px;
+  padding: 0 30px 30px 30px;
 }
 
 .Register__Block h1 {
@@ -240,8 +235,6 @@ body {
 .Survey__Block {
   max-height: 770px;
   width: 800px;
-  margin: 30px auto;
-  /* margin-top: 30px; */
   border-radius: 29px;
   padding: 30px;
 }
@@ -255,9 +248,9 @@ body {
 }
 
 .Survey__Block button {
-  height: 50px;
-  width: 200px;
-  margin-left: 540px;
+  padding: 1rem 2rem;
+  display: block;
+  margin: 0 auto;
   font-size: 20px;
   font-family: 'Poppins', sans-serif;
   border-radius: 9px;
@@ -278,21 +271,14 @@ h1 {
 }
 
 .Activity__Block {
-  margin: 30px auto;
-  height: 80px;
-  width: 700px;
-  padding: 8px;
+  padding: 1rem 10rem;
   display: flex;
-  flex-direction: row;
-  row-gap: 30px;
-  border-radius: 19px;
-  border: 1.5px solid black;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .Activity__Name {
   height: 60px;
-  width: 300px;
-  margin-left: 5px;
   border-radius: 19px;
   padding-left: 25px;
   padding-top: 18px;
@@ -304,21 +290,16 @@ h1 {
 .Activity__Start {
   display: flex;
   align-items: center;
-  height: 60px;
   width: 180px;
-  background-color: #00717f;
-  margin-left: 300px;
-  border-radius: 19px;
 }
 .Activity__Start select {
   border: none;
-  height: 60px;
-  width: 180px;
-  padding: 20px;
-  padding-left: 45px;
+  padding: 0.7rem 1rem;
+  border-radius: 0.6rem;
   font-family: 'Poppins', sans-serif;
   font-size: 18px;
-  font-weight: bolder;
+  font-weight: normal;
+  background-color: #00717f;
 }
 @keyframes backgroundChange {
   0% {

@@ -35,7 +35,6 @@ function LoginPage() {
     formData.append('email', email);
     formData.append('password', password);
     try {
-      console.log(`${process.env.REACT_APP_SERVER_URL}login`);
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}login`,
         formData,
@@ -45,7 +44,7 @@ function LoginPage() {
       );
 
       localStorage.setItem('token', response.data.data.token);
-      navigate('/survey');
+      navigate('/getstarted');
     } catch (e) {
       setError({
         msg: e.response.data.message,

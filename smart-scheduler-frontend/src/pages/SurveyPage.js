@@ -88,10 +88,10 @@ function SurveyPage() {
     const dinner = e.target.elements['dinner-start'].value;
     const shower = e.target.elements['shower-start'].value;
     const data = [
-      { title: 'breakfast', startTime: convertTo12HourFormat(breakfast) },
-      { title: 'lunch', startTime: convertTo12HourFormat(lunch) },
-      { title: 'dinner', startTime: convertTo12HourFormat(dinner) },
-      { title: 'take a shower', startTime: convertTo12HourFormat(shower) },
+      { title: 'Breakfast', startTime: convertTo12HourFormat(breakfast) },
+      { title: 'Do Exercise', startTime: convertTo12HourFormat(lunch) },
+      { title: 'Work', startTime: convertTo12HourFormat(dinner) },
+      { title: 'Taking shower', startTime: convertTo12HourFormat(shower) },
     ];
 
     const token = localStorage.getItem('token');
@@ -113,56 +113,60 @@ function SurveyPage() {
     }
   };
   return (
-    <div
-      className="Survey__Block"
-      style={{ backgroundImage: 'linear-gradient(to right, #146D78, #1F3336)' }}
-    >
-      <div className="survey__block__head">
-        <h1>Survey</h1>
-        <p>Take a survey to help us know more about your daily routine</p>
+    <div className="flex justify-center items-center h-screen">
+      <div
+        className="Survey__Block"
+        style={{
+          backgroundImage: 'linear-gradient(to right, #146D78, #1F3336)',
+        }}
+      >
+        <div className="survey__block__head">
+          <h1>Survey</h1>
+          <p>Take a survey to help us know more about your daily routine</p>
+        </div>
+        <form onSubmit={surveyHandler}>
+          <div className="Activity__Block">
+            <div className="Activity__Name">Breakfast</div>
+            <div className="Activity__Start">
+              <select id="breakfast-start">{timeOptions}</select>
+            </div>
+          </div>
+          <div className="Activity__Block">
+            <div className="Activity__Name">Lunch</div>
+            <div className="Activity__Start">
+              <select id="lunch-start">{timeOptions}</select>
+            </div>
+          </div>
+          <div className="Activity__Block">
+            <div className="Activity__Name">Dinner</div>
+            <div className="Activity__Start">
+              <select id="dinner-start">{timeOptions}</select>
+            </div>
+          </div>
+          {/* <div className="Activity__Block">
+            <div className="Activity__Name">Work/Study</div>
+            <div className="Activity__Start">
+              <select id="work-start">{timeOptions}</select>
+            </div>
+          </div> */}
+          <div className="Activity__Block">
+            <div className="Activity__Name">Take a shower</div>
+            <div className="Activity__Start">
+              <select id="shower-start">{timeOptions}</select>
+            </div>
+          </div>
+          {/* <Link to="/"> */}
+          <button
+            type="submit"
+            style={{
+              backgroundImage: 'linear-gradient(to left, #00717F, #00777F)',
+            }}
+          >
+            Save
+          </button>
+          {/* </Link> */}
+        </form>
       </div>
-      <form onSubmit={surveyHandler}>
-        <div className="Activity__Block">
-          <div className="Activity__Name">Breakfast</div>
-          <div className="Activity__Start">
-            <select id="breakfast-start">{timeOptions}</select>
-          </div>
-        </div>
-        <div className="Activity__Block">
-          <div className="Activity__Name">Lunch</div>
-          <div className="Activity__Start">
-            <select id="lunch-start">{timeOptions}</select>
-          </div>
-        </div>
-        <div className="Activity__Block">
-          <div className="Activity__Name">Dinner</div>
-          <div className="Activity__Start">
-            <select id="dinner-start">{timeOptions}</select>
-          </div>
-        </div>
-        {/* <div className="Activity__Block">
-          <div className="Activity__Name">Work/Study</div>
-          <div className="Activity__Start">
-            <select id="work-start">{timeOptions}</select>
-          </div>
-        </div> */}
-        <div className="Activity__Block">
-          <div className="Activity__Name">Take a shower</div>
-          <div className="Activity__Start">
-            <select id="shower-start">{timeOptions}</select>
-          </div>
-        </div>
-        {/* <Link to="/"> */}
-        <button
-          type="submit"
-          style={{
-            backgroundImage: 'linear-gradient(to left, #00717F, #00777F)',
-          }}
-        >
-          Save
-        </button>
-        {/* </Link> */}
-      </form>
     </div>
   );
 }

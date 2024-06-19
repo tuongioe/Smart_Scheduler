@@ -66,132 +66,140 @@ function RegisterPage() {
   };
 
   return (
-    <form
-      className="Register__Block"
-      onSubmit={signUpHandler}
-      style={{ backgroundImage: 'linear-gradient(to right, #146D78, #1F3336)' }}
-    >
-      <h1>Register</h1>
-      {error && (
-        <p className="error_notification">
-          {error.msg && <p>{error.msg}</p>}
-          {error.email && <p>{error.email}</p>}
-          {error.username && <p>{error.username}</p>}
-          {error.password && <p>{error.password}</p>}
-        </p>
-      )}
-      <div
-        className={`Register__Input ${
-          error && error.email && 'Login__Input__error'
-        }`}
-      >
-        <label htmlFor="email">E-mail</label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          placeholder="Enter your E-mail"
-          onChange={resetError}
-          style={{
-            backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
-          }}
-        ></input>
-      </div>
-      <div
-        className={`Register__Input ${
-          error && error.username && 'Login__Input__error'
-        }`}
-      >
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          placeholder="Enter your username"
-          onChange={resetError}
-          style={{
-            backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
-          }}
-        ></input>
-      </div>
-      <div
-        className={`Register__Input ${
-          error && error.password && 'Login__Input__error'
-        }`}
-      >
-        <label htmlFor="password">Password</label>
-        <input
-          type={showPassword ? 'text' : 'password'}
-          id="password"
-          name="password"
-          placeholder="Enter your password"
-          autoComplete="off"
-          onChange={resetError}
-          style={{
-            backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
-          }}
-        ></input>
-        {showPassword ? (
-          <FiEye
-            size={24}
-            className="Register__Icon1"
-            onClick={togglePasswordVisibility}
-          />
-        ) : (
-          <FiEyeOff
-            size={24}
-            className="Register__Icon1"
-            onClick={togglePasswordVisibility}
-          />
-        )}
-      </div>
-      <div className="Register__Input">
-        <label htmlFor="confirmpassword">Confirm Password</label>
-        <input
-          type={showConfirmPassword ? 'text' : 'password'}
-          id="confirmpassword"
-          placeholder="Enter your password"
-          autoComplete="off"
-          onChange={resetError}
-          style={{
-            backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
-          }}
-        ></input>
-        {showConfirmPassword ? (
-          <FiEye
-            size={24}
-            className="Register__Icon2"
-            onClick={toggleConfirmPasswordVisibility}
-          />
-        ) : (
-          <FiEyeOff
-            size={24}
-            className="Register__Icon2"
-            onClick={toggleConfirmPasswordVisibility}
-          />
-        )}
-      </div>
-      <button
-        className="Register__Button"
-        type="submit"
+    <div className="flex justify-center items-center w-full h-full">
+      <form
+        className="Register__Block"
+        onSubmit={signUpHandler}
         style={{
-          backgroundImage: 'linear-gradient(to left, #00717F, #00777F)',
+          backgroundImage: 'linear-gradient(to right, #146D78, #1F3336)',
         }}
       >
-        Register
-      </button>
-      <p className="Login__Text">
-        Already have account ?
-        <Link
-          to="/"
-          style={{ fontWeight: 'bold', color: 'white', textDecoration: 'none' }}
+        <h1>Register</h1>
+        {error && (
+          <p className="error_notification">
+            {error.msg && <p>{error.msg}</p>}
+            {error.email && <p>{error.email}</p>}
+            {error.username && <p>{error.username}</p>}
+            {error.password && <p>{error.password}</p>}
+          </p>
+        )}
+        <div
+          className={`Register__Input ${
+            error && error.email && 'Login__Input__error'
+          }`}
         >
-          {' '}
-          Login{' '}
-        </Link>
-        here
-      </p>
-    </form>
+          <label htmlFor="email">E-mail</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Enter your E-mail"
+            onChange={resetError}
+            style={{
+              backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
+            }}
+          ></input>
+        </div>
+        <div
+          className={`Register__Input ${
+            error && error.username && 'Login__Input__error'
+          }`}
+        >
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+            onChange={resetError}
+            style={{
+              backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
+            }}
+          ></input>
+        </div>
+        <div
+          className={`Register__Input ${
+            error && error.password && 'Login__Input__error'
+          }`}
+        >
+          <label htmlFor="password">Password</label>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            autoComplete="off"
+            onChange={resetError}
+            style={{
+              backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
+            }}
+          ></input>
+          {showPassword ? (
+            <FiEye
+              size={24}
+              className="Register__Icon1"
+              onClick={togglePasswordVisibility}
+            />
+          ) : (
+            <FiEyeOff
+              size={24}
+              className="Register__Icon1"
+              onClick={togglePasswordVisibility}
+            />
+          )}
+        </div>
+        <div className="Register__Input">
+          <label htmlFor="confirmpassword">Confirm Password</label>
+          <input
+            type={showConfirmPassword ? 'text' : 'password'}
+            id="confirmpassword"
+            placeholder="Enter your password"
+            autoComplete="off"
+            onChange={resetError}
+            style={{
+              backgroundImage: 'linear-gradient(to right, #59898F, #2F4244)',
+            }}
+          ></input>
+          {showConfirmPassword ? (
+            <FiEye
+              size={24}
+              className="Register__Icon2"
+              onClick={toggleConfirmPasswordVisibility}
+            />
+          ) : (
+            <FiEyeOff
+              size={24}
+              className="Register__Icon2"
+              onClick={toggleConfirmPasswordVisibility}
+            />
+          )}
+        </div>
+        <button
+          className="Register__Button"
+          type="submit"
+          style={{
+            backgroundImage: 'linear-gradient(to left, #00717F, #00777F)',
+          }}
+        >
+          Register
+        </button>
+        <p className="Login__Text">
+          Already have account ?
+          <Link
+            to="/"
+            style={{
+              fontWeight: 'bold',
+              color: 'white',
+              textDecoration: 'none',
+            }}
+          >
+            {' '}
+            Login{' '}
+          </Link>
+          here
+        </p>
+      </form>
+    </div>
   );
 }
 
