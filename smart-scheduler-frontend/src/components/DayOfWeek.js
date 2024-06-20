@@ -104,14 +104,15 @@ export default function DayOfWeek({ day, rowIdx }) {
                                 </div>
                             )
                         }
-                        else{
-                            return <div
-                            key={idx}
-                            onClick={handleParent}
-                            className={`w-full h-full`}
-                        >
-                        </div>
-                        }
+                        // else{
+                        //     return <div
+                        //     key={idx}
+                        //     onClick={handleParent}
+                        //     className={`w-full h-full`}
+                        // >
+                        //     {evt.title}
+                        // </div>
+                        // }
 
                     } else {
                         return <div
@@ -127,7 +128,8 @@ export default function DayOfWeek({ day, rowIdx }) {
                     }
 
                 }) : <div className="w-full h-full" onClick={handleParent}></div>}
+                <div className="w-full h-full" onClick={handleParent}></div>
             </div>
         </div>
     );
-}
+};
