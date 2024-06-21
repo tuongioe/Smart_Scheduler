@@ -126,19 +126,19 @@ function SurveyPage() {
         </div>
         <form onSubmit={surveyHandler}>
           <div className="Activity__Block">
-            <div className="Activity__Name">Breakfast</div>
+            <div className="Activity__Name">Do Exercise</div>
             <div className="Activity__Start">
               <select id="breakfast-start">{timeOptions}</select>
             </div>
           </div>
           <div className="Activity__Block">
-            <div className="Activity__Name">Lunch</div>
+            <div className="Activity__Name">Work</div>
             <div className="Activity__Start">
               <select id="lunch-start">{timeOptions}</select>
             </div>
           </div>
           <div className="Activity__Block">
-            <div className="Activity__Name">Dinner</div>
+            <div className="Activity__Name">Taking shower</div>
             <div className="Activity__Start">
               <select id="dinner-start">{timeOptions}</select>
             </div>
@@ -150,7 +150,7 @@ function SurveyPage() {
             </div>
           </div> */}
           <div className="Activity__Block">
-            <div className="Activity__Name">Take a shower</div>
+            <div className="Activity__Name">Breakfast</div>
             <div className="Activity__Start">
               <select id="shower-start">{timeOptions}</select>
             </div>

@@ -100,7 +100,7 @@ export default function AIScheduler() {
         cleanRepeat.endDate = toISOWithoutZ(repeat.endDate);
       request.repeat = cleanRepeat;
     }
-    console.log('request: ',request)
+    console.log('request: ', request);
     const task = await generateTask(request);
     console.log(task);
     setGeneratedTasks([...generatedTasks, task]);
@@ -190,11 +190,17 @@ export default function AIScheduler() {
   };
 
   const fetchCalendars = async () => {
-    const { data } = await getAllCalendars();
-    console.log(data);
-    setCalendars(data);
-    setFormData({ ...formData, calendarId: data[0].id });
-    setIsLoading(false);
+    try {
+      const { data } = await getAllCalendars();
+      console.log(data);
+      setCalendars(data);
+      setFormData({ ...formData, calendarId: data[0].id });
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setCalendars([]);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -207,6 +213,14 @@ export default function AIScheduler() {
         <ReactLoading height={'3%'} width={'3%'} />
       </div>
     );
+
+  if (!calendars.length > 0) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center text-2xl text-white font-bold">
+        Please create some calendar
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1">
