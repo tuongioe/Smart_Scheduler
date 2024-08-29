@@ -40,6 +40,7 @@ Once the application is running, open [http://localhost:3000](http://localhost:3
 
 ## Preview
 <img width="1440" alt="image" src="https://github.com/ntritin62/Smart-Scheduler-BE/assets/104788686/cb2ab404-157d-4942-91a5-819565a803b1">
+<img width="1440" alt="image" src="https://github.com/tuongioe/Smart_Scheduler/blob/main/preview.png?raw=true">
 <img width="1440" alt="image" src="https://github.com/ntritin62/Smart-Scheduler-BE/assets/104788686/3c724148-cf22-414c-b0fe-1c506d4b2ccd">
 <img width="1440" alt="image" src="https://github.com/ntritin62/Smart-Scheduler-BE/assets/104788686/c8661780-7105-49ee-8bf2-0d9847b6c6c7">
 <img width="1440" alt="image" src="https://github.com/tuongioe/Smart-Scheduler-BE/blob/main/img1.png?raw=true">
